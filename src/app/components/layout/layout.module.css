@@ -1,0 +1,15 @@
+@keyframes initialLoad {
+    0% {
+        height: 0vh;
+    }
+    100% {
+        height: 90vh;
+    }
+}
+
+.initialLoad {
+    animation-name: initialLoad;
+    animation-duration: 3s;
+    animation-direction: forward;
+    animation-iteration-count: 1;
+}
