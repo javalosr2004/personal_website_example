@@ -21,7 +21,16 @@ export default function HomePage() {
                     ></Image>
                 </div> */}
                 <div className="relative">
-                    <Carousel images={['/hiking.avif']}></Carousel>
+                    <Carousel
+                        images={[
+                            'discussion.png',
+                            'select.png',
+                            'signup.png',
+                            'complete_signup.png',
+                            'delete_shift.png',
+                        ]}
+                        path="/hospice_of_slo"
+                    ></Carousel>
                 </div>
 
                 <h1 className="mt-5 md:text-xl">Hospice of SLO Website</h1>

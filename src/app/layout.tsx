@@ -9,6 +9,7 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
     title: 'Simple Blog',
     description: 'Literally just a simple blog',
+    viewport: 'width=device-width, initial-scale=1',
 }
 
 export default function RootLayout({
@@ -17,17 +18,15 @@ export default function RootLayout({
     children: React.ReactNode
 }) {
     return (
-        <html lang="en">
+        <html className="" lang="en">
             <body
-                className={`${inter.className} flex content-stretch flex-row`}
+                className={`${inter.className} flex flex-col md:flex-row content-stretch`}
             >
                 <Navbar
                     names={['Home', 'About']}
                     path={['/', '/about']}
                 ></Navbar>
-                <div className="p-12">
-                    <Providers>{children}</Providers>
-                </div>
+                <Providers>{children}</Providers>
             </body>
         </html>
     )

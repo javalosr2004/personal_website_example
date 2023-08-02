@@ -7,8 +7,24 @@
     }
 }
 
+@keyframes initialLoadMobile {
+    0% {
+        width: 0vw;
+    }
+    100% {
+        width: 90vw;
+    }
+}
+
 .initialLoad {
     animation-name: initialLoad;
+    animation-duration: 3s;
+    animation-direction: forward;
+    animation-iteration-count: 1;
+}
+
+.initialLoadMobile {
+    animation-name: initialLoadMobile;
     animation-duration: 3s;
     animation-direction: forward;
     animation-iteration-count: 1;
