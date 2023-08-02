@@ -12,10 +12,8 @@ export default function TransitionNav({
 
     return (
         <div
-            className={`${
-                navOpen
-                    ? 'scale-75 md:scale-100 p-0'
-                    : 'translate-x-[-100px] scale-100 delay-700'
+            className={`md:${
+                !navOpen && 'translate-x-[-100px] scale-100 delay-700'
             } transition-all duration-[500ms] md:p-12 p-8 w-full `}
         >
             {children}

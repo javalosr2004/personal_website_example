@@ -1,28 +1,9 @@
 'use client'
 
-import React, { useState, useEffect, useRef, ReactElement } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 
 export default function HomePage() {
-    // const [windowSize, setWindowSize] = useState({
-    //     width: window.innerWidth,
-    //     height: window.innerHeight,
-    // })
 
-    // const handleResize = () => {
-    //     setWindowSize({
-    //         width: window.innerWidth,
-    //         height: window.innerHeight,
-    //     })
-    // }
-
-    // useEffect(() => {
-    //     window.addEventListener('resize', handleResize)
-
-    //     // Cleanup: remove the listener when the component is unmounted
-    //     return () => {
-    //         window.removeEventListener('resize', handleResize)
-    //     }
-    // }, [])
 
     interface windowType {
         width: number
@@ -43,16 +24,7 @@ export default function HomePage() {
     }, [window.current])
 
     return (
-        // <li
-        //     style={{
-        //         width: `${windowSize.width}px`,
-        //         height: `${windowSize.height}px`,
-        //         overflow: 'hidden',
-        //     }}
-        //     className="relative flex justify-center mt-0 bg-black/20"
-        // >
-        //     {/* Your other code here */}
-        // </li>
+
         <div ref={window}>
             <h1>
                 Width: <b>${windowSize?.width}</b>
@@ -69,3 +41,35 @@ export default function HomePage() {
 //         <h1 className="mt-3 text-2xl lg:text-3xl">About Me</h1>
 //     </div>
 // )
+
+    // const [windowSize, setWindowSize] = useState({
+    //     width: window.innerWidth,
+    //     height: window.innerHeight,
+    // })
+
+    // const handleResize = () => {
+    //     setWindowSize({
+    //         width: window.innerWidth,
+    //         height: window.innerHeight,
+    //     })
+    // }
+
+    // useEffect(() => {
+    //     window.addEventListener('resize', handleResize)
+
+    //     // Cleanup: remove the listener when the component is unmounted
+    //     return () => {
+    //         window.removeEventListener('resize', handleResize)
+    //     }
+    // }, [])
+    
+        // <li
+        //     style={{
+        //         width: `${windowSize.width}px`,
+        //         height: `${windowSize.height}px`,
+        //         overflow: 'hidden',
+        //     }}
+        //     className="relative flex justify-center mt-0 bg-black/20"
+        // >
+        //     {/* Your other code here */}
+        // </li>

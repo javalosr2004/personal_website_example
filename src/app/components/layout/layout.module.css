@@ -23,9 +23,11 @@
     animation-iteration-count: 1;
 }
 
-.initialLoadMobile {
-    animation-name: initialLoadMobile;
-    animation-duration: 3s;
-    animation-direction: forward;
-    animation-iteration-count: 1;
+@media screen and (max-width: 768px) {
+    .initialLoad {
+        animation-name: initialLoadMobile;
+        animation-duration: 3s;
+        animation-direction: forward;
+        animation-iteration-count: 1;
+    }
 }
