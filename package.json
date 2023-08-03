@@ -11,7 +11,6 @@
     "dependencies": {
         "@emotion/react": "^11.11.1",
         "@emotion/styled": "^11.11.0",
-        "@mui/material": "^5.14.3",
         "@reduxjs/toolkit": "^1.9.5",
         "@types/node": "20.4.4",
         "@types/react": "18.2.15",
@@ -19,6 +18,7 @@
         "@typescript-eslint/eslint-plugin": "^6.2.0",
         "@typescript-eslint/parser": "^6.2.0",
         "autoprefixer": "10.4.14",
+        "embla-carousel-react": "^8.0.0-rc11",
         "eslint": "8.45.0",
         "eslint-config-next": "^13.4.12",
         "next": "^13.4.12",
