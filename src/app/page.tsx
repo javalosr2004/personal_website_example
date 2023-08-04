@@ -2,25 +2,13 @@ import Carousel from './components/layout/Carousel'
 
 export default function HomePage() {
     return (
-        <div className={`flex flex-col w-[100vw]`}>
+        <div className={`flex flex-col w-[90vw]`}>
             <h1 className="mt-3 text-2xl md:text-3xl ">
                 Hi, my name is <b>Jesus Avalos.</b>
             </h1>
             <h1 className="mt-10 underline underline-offset-1">Experience:</h1>
             <div className="flex flex-1 flex-col items-center justify-center">
-                {/* <div
-                    className={`${style.fadeIn} drag border-black w-[200px] md:w-[300px] h-[300px] md:h-[400px] border-2 mt-10 relative`}
-                >
-                    <Image
-                        src="/hiking.avif"
-                        fill={true}
-                        style={{ objectFit: 'cover' }}
-                        className=""
-                        alt="Picture of hiking."
-                        draggable={false}
-                    ></Image>
-                </div> */}
-                <div className="relative">
+                <div className="relative mt-8 w-[100%] h-auto md:max-w-[67rem] p-4 ">
                     <Carousel
                         images={[
                             'discussion_1.png',
