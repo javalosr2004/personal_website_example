@@ -28,6 +28,7 @@ export default function Navbar({
     }
 
     useEffect(() => {
+        window.scrollTo(0, 0)
         if (navRef.current) {
             navRef.current.classList.remove('md:translate-x-[-100px]')
             navRef.current.classList.remove('max-md:translate-y-[-40px]')
@@ -49,7 +50,7 @@ export default function Navbar({
             onMouseLeave={handleMouseLeave}
             onMouseOver={() => clearTimeout(timeRef.current)}
             ref={navRef}
-            className={`flex flex-row md:flex-col justify-center max-md:translate-y-[-40px] max-md:hover:translate-y-[0px] max-md:h-[10vh] max-md:w-[100vw] md:w-auto md:h-[100vh] transition-all duration-500 max-md:translate-x-0 md:translate-x-[-100px] md:hover:translate-x-0 hover:delay-[0ms] delay-[700ms]`}
+            className={`top-0 flex flex-row md:flex-col justify-center max-md:translate-y-[-40px] max-md:hover:translate-y-[0px] max-md:h-[10vh] max-md:w-[100vw] md:w-auto md:h-[100vh] transition-all duration-500 max-md:translate-x-0 md:translate-x-[-100px] md:hover:translate-x-0 hover:delay-[0ms] delay-[700ms]`}
         >
             <header
                 className={`${

@@ -7,9 +7,9 @@ import Providers from './Providers'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-    title: 'Simple Blog',
-    description: 'Literally just a simple blog',
-    viewport: 'width=device-width, initial-scale=1',
+    title: 'Simple Website',
+    description: 'Just an personal website.',
+    viewport: { width: 'device-width', initialScale: 1 },
 }
 
 export default function RootLayout({
@@ -18,7 +18,7 @@ export default function RootLayout({
     children: React.ReactNode
 }) {
     return (
-        <html className="" lang="en">
+        <html className="overflow-x-hidden" lang="en">
             <body
                 className={`${inter.className} flex flex-col md:flex-row content-stretch`}
             >

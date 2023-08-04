@@ -8,9 +8,11 @@ import style from './carousel.module.css'
 
 export default function Carousel({
     images,
+    alt,
     path,
 }: {
     images: string[]
+    alt: string[]
     path?: string
 }) {
     const [emblaRef, emblaAPI] = useEmblaCarousel({
@@ -18,6 +20,7 @@ export default function Carousel({
     })
     const [prevBtnDisabled, setPrevBtnDisabled] = useState(true)
     const [nextBtnDisabled, setNextBtnDisabled] = useState(true)
+    const [currentIndex, setCurrentIndex] = useState(0)
 
     // you can use one liners, if you want
     const scrollPrev = useCallback(() => {
@@ -35,8 +38,10 @@ export default function Carousel({
     }, [emblaAPI])
 
     const handleSelect = (emblaAPI: EmblaCarouselType) => {
-        setNextBtnDisabled(!emblaAPI?.canScrollNext())
-        setPrevBtnDisabled(!emblaAPI?.canScrollPrev())
+        if (!emblaAPI) return
+        setNextBtnDisabled(!emblaAPI.canScrollNext())
+        setPrevBtnDisabled(!emblaAPI.canScrollPrev())
+        setCurrentIndex(emblaAPI.selectedScrollSnap())
     }
 
     // const handleImageClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -48,11 +53,11 @@ export default function Carousel({
         if (!emblaAPI) return
         handleSelect(emblaAPI)
         emblaAPI?.on('select', handleSelect)
-    }, [emblaAPI, handleSelect])
+    }, [emblaAPI])
 
     return (
         <>
-            <div className={style.embla}>
+            <div className={style.embla} autoFocus={false}>
                 <div className={style.embla__viewport} ref={emblaRef}>
                     <div className={style.embla__container}>
                         {images.map((image_url) => {
@@ -63,7 +68,7 @@ export default function Carousel({
                                 <div
                                     // onClick={handleImageClick}
                                     key={image_url}
-                                    className={`${style.embla__slide}`}
+                                    className={`${style.embla__slide} z-10`}
                                 >
                                     <Image
                                         src={complete_path}
@@ -71,22 +76,25 @@ export default function Carousel({
                                         fill={true}
                                         sizes="100vw"
                                         style={{ objectFit: 'scale-down' }}
+                                        quality={100}
                                     ></Image>
                                 </div>
                             )
                         })}
                     </div>
                 </div>
-                <div className={style.embla__buttons}>
-                    <PrevButton
-                        onClick={scrollPrev}
-                        disabled={prevBtnDisabled}
-                    ></PrevButton>
-                    <NextButton
-                        onClick={scrollNext}
-                        disabled={nextBtnDisabled}
-                    ></NextButton>
-                </div>
+                {/* <div className={style.embla__buttons}> */}
+                <PrevButton
+                    className={`${style.embla__button} absolute top-[50%] left-0`}
+                    onClick={scrollPrev}
+                    disabled={prevBtnDisabled}
+                ></PrevButton>
+                <NextButton
+                    className={`${style.embla__button} absolute top-[50%] right-0`}
+                    onClick={scrollNext}
+                    disabled={nextBtnDisabled}
+                ></NextButton>
+                <h1>{alt[currentIndex] || ''}</h1>
             </div>
         </>
     )

@@ -2,6 +2,8 @@
     --slide-spacing: 1rem;
     --slide-size: 100%;
     --slide-height: 20rem;
+
+    text-align: center;
 }
 .embla__viewport {
     overflow: hidden;
@@ -49,10 +51,11 @@
     transform: translateY(-50%);
     justify-content: space-between;
     width: 100%;
+    z-index: 2;
 }
 
 @media screen and (max-width: 768px) {
-    .embla__buttons {
+    .embla__button {
         visibility: hidden;
     }
 }
