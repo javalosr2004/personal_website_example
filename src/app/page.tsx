@@ -23,6 +23,9 @@ export default function HomePage() {
             </div>
             <h1 className="mt-10 underline underline-offset-1">Experience:</h1>
             <div className="flex flex-1 flex-col items-center justify-center">
+                <h1 className="mt-5 md:text-xl font-bold">
+                    Hospice of SLO Website
+                </h1>
                 <div className="relative mt-8 w-full h-auto md:max-w-[67rem] p-4 ">
                     <Carousel
                         images={[
@@ -42,8 +45,6 @@ export default function HomePage() {
                         path="/hospice_of_slo"
                     ></Carousel>
                 </div>
-
-                <h1 className="mt-5 md:text-xl">Hospice of SLO Website</h1>
             </div>
         </div>
     )

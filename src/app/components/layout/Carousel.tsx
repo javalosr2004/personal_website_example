@@ -94,7 +94,7 @@ export default function Carousel({
                     onClick={scrollNext}
                     disabled={nextBtnDisabled}
                 ></NextButton>
-                <h1>{alt[currentIndex] || ''}</h1>
+                <h1 className="underline">{alt[currentIndex] || ''}</h1>
             </div>
         </>
     )
