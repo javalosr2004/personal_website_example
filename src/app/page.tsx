@@ -1,4 +1,4 @@
-import { Suspense } from 'react'
+import React, { Suspense } from 'react'
 import Carousel from './components/layout/Carousel'
 import Image from 'next/image'
 
@@ -20,9 +20,7 @@ export default function HomePage() {
                         ></Image>
                     </Suspense>
                 </div>
-                <div className="pt-4">
-                    <h1>hello</h1>
-                </div>
+                <div className="pt-4"></div>
             </div>
             <h1 className="mt-10 underline underline-offset-1">Past Work:</h1>
             <div className="flex flex-1 flex-col items-center justify-center">
