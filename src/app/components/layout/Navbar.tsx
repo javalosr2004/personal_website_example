@@ -34,7 +34,10 @@ export default function Navbar({
     }
 
     useEffect(() => {
-        window.addEventListener('scroll', reportWindowPos)
+        if (window.outerWidth > 768) {
+            window.addEventListener('scroll', reportWindowPos)
+        }
+
         if (navRef.current) {
             navRef.current.classList.remove('md:translate-x-[-100px]')
             navRef.current.classList.remove('max-md:translate-y-[-40px]')

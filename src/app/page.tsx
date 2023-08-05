@@ -5,23 +5,36 @@ import Image from 'next/image'
 export default function HomePage() {
     return (
         <div className={`flex flex-col w-[90vw] xl:w-[100vw]`}>
-            <h1 className="mt-3 text-2xl md:text-3xl ">
-                Hi, I am <b>Jesus Avalos.</b>
-            </h1>
-            <div className="w-full flex flex-row">
-                <div className="relative overflow-hidden border-black border-2 w-[200px] h-[200px] rounded-[50%] my-4">
-                    <Suspense fallback={'Loading...'}>
-                        <Image
-                            src={'/avatar.jpg'}
-                            alt="Picture of Jesus Avalos"
-                            fill={true}
-                            style={{ objectFit: 'cover' }}
-                            draggable={false}
-                        ></Image>
-                    </Suspense>
+            <div className="xl:max-w-5xl lg:max-w-4xl  mb-10 flex flex-row self-center">
+                <div className="mr-10 flex flex-col justify-around my-10">
+                    <h1 className="mt-4 text-2xl md:text-4xl">
+                        <b>
+                            Developer.
+                            <br /> Student. Genius.
+                        </b>
+                    </h1>
+                    <h2 className="mt-8 lg:mt-0 md:text-xl">
+                        Hi, I'm <b>Jesus Avalos</b>, I am sophmore studying
+                        Computer Science at Cal Poly : San Luis Obispo
+                        <span className="text-xl"> 🐎</span>
+                    </h2>
                 </div>
-                <div className="pt-4"></div>
+                <div className="flex flex-row md:ml-24">
+                    <div className="relative overflow-hidden border-black border-2 w-[200px] h-[200px] md:w-[300px] md:h-[300px] rounded-[50%] my-4">
+                        <Suspense fallback={'Loading...'}>
+                            <Image
+                                src={'/avatar.jpg'}
+                                alt="Picture of Jesus Avalos"
+                                fill={true}
+                                style={{ objectFit: 'cover' }}
+                                draggable={false}
+                            ></Image>
+                        </Suspense>
+                    </div>
+                    <div className="pt-4"></div>
+                </div>
             </div>
+
             <h1 className="mt-10 underline underline-offset-1">Past Work:</h1>
             <div className="flex flex-1 flex-col items-center justify-center">
                 <h1 className="mt-5 md:text-xl font-bold">
