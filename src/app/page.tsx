@@ -3,6 +3,7 @@ import Carousel from './components/layout/Carousel'
 import Image from 'next/image'
 
 export default function HomePage() {
+    window.scrollTo(0, 0)
     return (
         <div className={`flex flex-col w-[90vw] xl:w-[100vw]`}>
             <div className="xl:max-w-5xl lg:max-w-4xl  mb-10 flex flex-row self-center">
