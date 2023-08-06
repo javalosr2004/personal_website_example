@@ -10,7 +10,7 @@ export default function HomePage() {
                     <h1 className="mt-4 text-2xl md:text-4xl">
                         <b>
                             Developer.
-                            <br /> Student. Genius.
+                            <br /> Student. Husband.
                         </b>
                     </h1>
                     <h2 className="mt-8 lg:mt-0 md:text-xl">
@@ -21,15 +21,13 @@ export default function HomePage() {
                 </div>
                 <div className="flex flex-row md:ml-24">
                     <div className="relative overflow-hidden border-black border-2 w-[200px] h-[200px] md:w-[300px] md:h-[300px] rounded-[50%] my-4">
-                        <Suspense fallback={'Loading...'}>
-                            <Image
-                                src={'/avatar.jpg'}
-                                alt="Picture of Jesus Avalos"
-                                fill={true}
-                                style={{ objectFit: 'cover' }}
-                                draggable={false}
-                            ></Image>
-                        </Suspense>
+                        <Image
+                            src={'/avatar.jpg'}
+                            alt="Picture of Jesus Avalos"
+                            fill={true}
+                            style={{ objectFit: 'cover' }}
+                            draggable={false}
+                        ></Image>
                     </div>
                     <div className="pt-4"></div>
                 </div>
