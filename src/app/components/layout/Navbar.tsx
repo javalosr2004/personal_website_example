@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { signIn, signOut, useSession } from 'next-auth/react'
 import { usePathname } from 'next/navigation'
 import style from './layout.module.css'
 import { useEffect, useRef, useState } from 'react'
@@ -18,6 +19,7 @@ export default function Navbar({
     const navRef = useRef<HTMLDivElement>(null)
     const timeRef = useRef<NodeJS.Timeout>()
     const [stickyPos, setStickyPos] = useState<string>('')
+    const { status } = useSession()
 
     const [start, setStart] = useState(true)
 
@@ -64,9 +66,18 @@ export default function Navbar({
             <header
                 className={`${
                     start && style.initialLoad
-                } transition-all max-md:h-[60px] max-md:pt-4 overflow-auto duration-500 flex px-4 max-md:w-[90vw] md:w-auto md:h-[90vh] border-neutral-300 max-md:border-b-2 md:border-r-2 flex-row md:flex-col justify-around`}
+                } transition-all max-md:h-[60px] text-center max-md:pt-4 overflow-auto duration-500 flex px-4 max-md:w-[90vw] md:w-auto md:h-[90vh] border-neutral-300 max-md:border-b-2 md:border-r-2 flex-row md:flex-col justify-around`}
                 style={{ transform: `translateY(${stickyPos})` }}
             >
+                {status === 'authenticated' ? (
+                    <a onClick={() => signOut()}>
+                        <b>Sign Out</b>
+                    </a>
+                ) : (
+                    <a onClick={() => signIn('github')}>
+                        <b>Sign In</b>
+                    </a>
+                )}
                 {names.map((item, idx) => {
                     if (pathname == path[idx]) {
                         return (

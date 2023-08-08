@@ -1,8 +1,12 @@
 import React, { Suspense } from 'react'
 import Carousel from './components/layout/Carousel'
+import { getServerSession } from 'next-auth'
 import Image from 'next/image'
 
-export default function HomePage() {
+export default async function HomePage() {
+    const serverSession = (await getServerSession()) || {}
+    const signedIn = Object.keys(serverSession).length !== 0
+
     return (
         <div className={`flex flex-col w-[90vw] xl:w-[100vw]`}>
             <div className="xl:max-w-5xl lg:max-w-4xl  mb-10 flex flex-row self-center">
@@ -10,12 +14,13 @@ export default function HomePage() {
                     <h1 className="mt-4 text-2xl md:text-4xl">
                         <b>
                             Developer.
-                            <br /> Student. Husband.
+                            <br /> Student. Husband. <br />
+                            {signedIn && <b>Now Signed In.</b>}
                         </b>
                     </h1>
                     <h2 className="mt-8 lg:mt-0 md:text-xl">
                         Hi, I'm <b>Jesus Avalos</b>, I am sophmore studying
-                        Computer Science at Cal Poly : San Luis Obispo
+                        Computer Science at Cal Poly - San Luis Obispo
                         <span className="text-xl"> 🐎</span>
                     </h2>
                 </div>
