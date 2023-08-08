@@ -1,19 +1,8 @@
 import React, { Suspense } from 'react'
 import Carousel from './components/layout/Carousel'
-import { getSession, signIn, signOut } from 'next-auth/react'
-import Image from 'next/image'
+import ImageSignIn from './components/signin/ImageSignIn'
 
 export default async function HomePage() {
-    const session = getSession()
-
-    const handleClick = () => {
-        if (Object.keys(session).length !== 0) {
-            signIn('github')
-        } else {
-            signOut()
-        }
-    }
-
     return (
         <div className={`flex flex-col w-[90vw] xl:w-[100vw]`}>
             <div className="xl:max-w-5xl lg:max-w-4xl  mb-10 flex flex-row self-center">
@@ -22,9 +11,9 @@ export default async function HomePage() {
                         <b>
                             Developer.
                             <br /> Student. Husband. <br />
-                            {Object.keys(session).length !== 0 && (
+                            {/* {Object.keys(session).length !== 0 && (
                                 <b>Now Signed In.</b>
-                            )}
+                            )} */}
                         </b>
                     </h1>
                     <h2 className="mt-8 lg:mt-0 md:text-xl">
@@ -34,22 +23,7 @@ export default async function HomePage() {
                     </h2>
                 </div>
                 <div className="flex flex-row md:ml-24">
-                    <div
-                        onClick={handleClick}
-                        className={`${
-                            Object.keys(session).length !== 0
-                                ? 'border-green-300'
-                                : 'border-black'
-                        } relative overflow-hiddenborder-2 w-[200px] h-[200px] md:w-[300px] md:h-[300px] rounded-[50%] my-4`}
-                    >
-                        <Image
-                            src={'/avatar.jpg'}
-                            alt="Picture of Jesus Avalos"
-                            fill={true}
-                            style={{ objectFit: 'cover' }}
-                            draggable={false}
-                        ></Image>
-                    </div>
+                    <ImageSignIn></ImageSignIn>
                     <div className="pt-4"></div>
                 </div>
             </div>
