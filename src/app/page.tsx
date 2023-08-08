@@ -1,11 +1,17 @@
 import React, { Suspense } from 'react'
 import Carousel from './components/layout/Carousel'
-import { getServerSession } from 'next-auth'
+import { useSession, signIn, signOut } from 'next-auth/react'
 import Image from 'next/image'
 
 export default async function HomePage() {
-    const serverSession = (await getServerSession()) || {}
-    const signedIn = Object.keys(serverSession).length !== 0
+    const { status } = useSession()
+    const handleClick = () => {
+        if (status === 'authenticated') {
+            signIn('github')
+        } else {
+            signOut()
+        }
+    }
 
     return (
         <div className={`flex flex-col w-[90vw] xl:w-[100vw]`}>
@@ -15,7 +21,9 @@ export default async function HomePage() {
                         <b>
                             Developer.
                             <br /> Student. Husband. <br />
-                            {signedIn && <b>Now Signed In.</b>}
+                            {status === 'authenticated' && (
+                                <b>Now Signed In.</b>
+                            )}
                         </b>
                     </h1>
                     <h2 className="mt-8 lg:mt-0 md:text-xl">
@@ -25,7 +33,14 @@ export default async function HomePage() {
                     </h2>
                 </div>
                 <div className="flex flex-row md:ml-24">
-                    <div className="relative overflow-hidden border-black border-2 w-[200px] h-[200px] md:w-[300px] md:h-[300px] rounded-[50%] my-4">
+                    <div
+                        onClick={handleClick}
+                        className={`${
+                            status === 'authenticated'
+                                ? 'border-green-300'
+                                : 'border-black'
+                        } relative overflow-hiddenborder-2 w-[200px] h-[200px] md:w-[300px] md:h-[300px] rounded-[50%] my-4`}
+                    >
                         <Image
                             src={'/avatar.jpg'}
                             alt="Picture of Jesus Avalos"

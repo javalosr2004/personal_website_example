@@ -20,15 +20,15 @@ export default function RootLayout({
 }) {
     return (
         <html className="overflow-x-hidden" lang="en">
-            <body className={`${inter.className} `}>
+            <body
+                className={`${inter.className} flex flex-col md:flex-row content-stretch`}
+            >
+                <Navbar
+                    names={['Home', 'About']}
+                    path={['/', '/about']}
+                ></Navbar>
                 <Providers>
-                    <div className="flex flex-col md:flex-row content-stretch">
-                        <Navbar
-                            names={['Home', 'About']}
-                            path={['/', '/about']}
-                        ></Navbar>
-                        <TransitionNav>{children}</TransitionNav>
-                    </div>
+                    <TransitionNav>{children}</TransitionNav>
                 </Providers>
             </body>
         </html>
