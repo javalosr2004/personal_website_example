@@ -19,7 +19,7 @@ export default function ImageSignIn() {
             onClick={handleClick}
             className={`${
                 status === 'authenticated' ? 'border-green-300' : 'border-black'
-            } relative overflow-hiddenborder-2 w-[200px] h-[200px] md:w-[300px] md:h-[300px] rounded-[50%] my-4`}
+            } relative overflow-hidden border-2 w-[200px] h-[200px] md:w-[300px] md:h-[300px] rounded-[50%] my-4`}
         >
             <Image
                 src={'/avatar.jpg'}
