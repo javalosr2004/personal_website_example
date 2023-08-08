@@ -7,7 +7,7 @@ export default function ImageSignIn() {
     const { status } = useSession()
 
     const handleClick = () => {
-        if (status === 'authenticated') {
+        if (status !== 'authenticated') {
             signIn('github')
         } else {
             signOut()
@@ -18,8 +18,8 @@ export default function ImageSignIn() {
         <div
             onClick={handleClick}
             className={`${
-                status === 'authenticated' ? 'border-green-300' : 'border-black'
-            } relative overflow-hidden border-2 w-[200px] h-[200px] md:w-[300px] md:h-[300px] rounded-[50%] my-4`}
+                status === 'authenticated' ? 'border-green-600' : 'border-black'
+            } relative overflow-hidden border-4 w-[200px] h-[200px] md:w-[300px] md:h-[300px] rounded-[50%] my-4`}
         >
             <Image
                 src={'/avatar.jpg'}
