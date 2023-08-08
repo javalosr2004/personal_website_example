@@ -8,7 +8,7 @@ import TransitionNav from '@/app/components/layout/TransitionNav'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-    title: 'Simple Website',
+    title: "Jesus' Website",
     description: 'Just an personal website.',
     viewport: { width: 'device-width', initialScale: 1 },
 }

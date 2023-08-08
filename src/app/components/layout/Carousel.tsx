@@ -57,7 +57,7 @@ export default function Carousel({
 
     return (
         <>
-            <div className={style.embla} autoFocus={false}>
+            <div className={style.embla}>
                 <div className={style.embla__viewport} ref={emblaRef}>
                     <div className={style.embla__container}>
                         {images.map((image_url) => {

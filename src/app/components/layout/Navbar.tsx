@@ -34,6 +34,7 @@ export default function Navbar({
     }
 
     useEffect(() => {
+        window.scrollTo(0, 0)
         if (window.outerWidth > 768) {
             window.addEventListener('scroll', reportWindowPos)
         }
