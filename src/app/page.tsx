@@ -1,12 +1,13 @@
 import React, { Suspense } from 'react'
 import Carousel from './components/layout/Carousel'
-import { useSession, signIn, signOut } from 'next-auth/react'
+import { getSession, signIn, signOut } from 'next-auth/react'
 import Image from 'next/image'
 
 export default async function HomePage() {
-    const { status } = useSession()
+    const session = getSession()
+
     const handleClick = () => {
-        if (status === 'authenticated') {
+        if (Object.keys(session).length !== 0) {
             signIn('github')
         } else {
             signOut()
@@ -21,7 +22,7 @@ export default async function HomePage() {
                         <b>
                             Developer.
                             <br /> Student. Husband. <br />
-                            {status === 'authenticated' && (
+                            {Object.keys(session).length !== 0 && (
                                 <b>Now Signed In.</b>
                             )}
                         </b>
@@ -36,7 +37,7 @@ export default async function HomePage() {
                     <div
                         onClick={handleClick}
                         className={`${
-                            status === 'authenticated'
+                            Object.keys(session).length !== 0
                                 ? 'border-green-300'
                                 : 'border-black'
                         } relative overflow-hiddenborder-2 w-[200px] h-[200px] md:w-[300px] md:h-[300px] rounded-[50%] my-4`}
