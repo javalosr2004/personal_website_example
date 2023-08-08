@@ -6,7 +6,7 @@ import ImageSignIn from './components/signin/ImageSignIn'
 
 export default async function HomePage() {
     const session = await getServerSession()
-    console.log(session)
+    console.log('sesh ', Object.keys(session?.user || {}))
 
     return (
         <div className={`flex flex-col w-[90vw] xl:w-[100vw]`}>
@@ -34,7 +34,9 @@ export default async function HomePage() {
                     </h2>
                 </div>
                 <div className="flex flex-row md:ml-24">
-                    <ImageSignIn></ImageSignIn>
+                    <ImageSignIn
+                        authenticated={Object.keys(session || {}).length !== 0}
+                    ></ImageSignIn>
                     <div className="pt-4"></div>
                 </div>
             </div>

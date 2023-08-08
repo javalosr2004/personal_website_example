@@ -1,13 +1,16 @@
 'use client'
-import { useSession, signIn, signOut } from 'next-auth/react'
+
+import { signIn, signOut } from 'next-auth/react'
 import Image from 'next/image'
 import React from 'react'
 
-export default function ImageSignIn() {
-    const { status } = useSession()
-
+export default async function ImageSignIn({
+    authenticated,
+}: {
+    authenticated: boolean
+}) {
     const handleClick = () => {
-        if (status !== 'authenticated') {
+        if (!authenticated) {
             signIn('github')
         } else {
             signOut()
@@ -18,8 +21,8 @@ export default function ImageSignIn() {
         <div
             onClick={handleClick}
             className={`${
-                status === 'authenticated' ? 'border-green-600' : 'border-black'
-            } relative overflow-hidden border-4 w-[200px] h-[200px] md:w-[300px] md:h-[300px] rounded-[50%] my-4`}
+                authenticated ? 'border-green-600' : 'border-black'
+            } hover:cursor-pointer relative overflow-hidden border-4 w-[200px] h-[200px] md:w-[300px] md:h-[300px] rounded-[50%] my-4`}
         >
             <Image
                 src={'/avatar.jpg'}
