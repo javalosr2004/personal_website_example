@@ -1,8 +1,13 @@
 import React, { Suspense } from 'react'
+import { getServerSession } from 'next-auth'
+
 import Carousel from './components/layout/Carousel'
 import ImageSignIn from './components/signin/ImageSignIn'
 
 export default async function HomePage() {
+    const session = await getServerSession()
+    console.log(session)
+
     return (
         <div className={`flex flex-col w-[90vw] xl:w-[100vw]`}>
             <div className="xl:max-w-5xl lg:max-w-4xl  mb-10 flex flex-row self-center">
@@ -20,6 +25,12 @@ export default async function HomePage() {
                         Hi, I'm <b>Jesus Avalos</b>, I am sophmore studying
                         Computer Science at Cal Poly - San Luis Obispo
                         <span className="text-xl"> 🐎</span>
+                        {session && (
+                            <div>
+                                <br />
+                                <b>Welcome, {session.user?.name}</b>
+                            </div>
+                        )}
                     </h2>
                 </div>
                 <div className="flex flex-row md:ml-24">

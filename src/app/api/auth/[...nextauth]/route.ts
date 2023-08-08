@@ -8,6 +8,15 @@ const handler = NextAuth({
             clientSecret: process.env.GITHUB_SECRET as string,
         }),
     ],
+    callbacks: {
+        jwt: async ({ token, user, trigger }) => {
+            if (user && trigger == 'signUp') {
+                const admins = ['jesusavalosr2004@gmail.com']
+                token.isAdmin = admins.includes(user?.email || '')
+            }
+            return token
+        },
+    },
 })
 
 export { handler as GET, handler as POST }
