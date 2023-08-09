@@ -23,11 +23,15 @@ export default async function ExperiencePage({
     console.log('hello')
     const DB_URL: string = (process.env.DB_API || '') + '/experiences'
     console.log('slug ', params.slug)
-    const res = await fetch(`${DB_URL}/${params.slug}`)
-    if (!res.ok) {
-        throw new Error('Failed to load.')
-    }
-    const experience = (await res.json()) as experienceType
+    const experience = (await fetch(`${DB_URL}/${params.slug}`)
+        .then((res) => res.json())
+        .catch((err) => {
+            throw new Error(err)
+        })) as experienceType
+    // if (!res.ok) {
+    //     throw new Error('Failed to load.')
+    // }
+    // const experience = (await res.json()) as experienceType
 
     return (
         <div className="flex flex-1 flex-col items-center justify-center self-center w-full">
