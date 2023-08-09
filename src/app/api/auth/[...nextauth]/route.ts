@@ -10,8 +10,8 @@ const handler = NextAuth({
     ],
     callbacks: {
         jwt: async ({ token, user, trigger }) => {
-            if (user && trigger == 'signUp') {
-                const admins = ['jesusavalosr2004@gmail.com']
+            if (user && trigger == 'signIn') {
+                const admins = process.env.ADMINS as string
                 token.isAdmin = admins.includes(user?.email || '')
             }
             return token

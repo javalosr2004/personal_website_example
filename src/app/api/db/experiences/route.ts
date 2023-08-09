@@ -9,16 +9,24 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
-    const { title, description, date, images } = await req.json()
+    const { slug, title, description, date, preview_image, detailed } =
+        await req.json()
 
     await startDB()
 
     // attempt to create add to db
-    if (images) {
-        experienceSchema.create({ title, description, date, images })
-    } else {
-        experienceSchema.create({ title, description, date })
-    }
+    try {
+        experienceSchema.create({
+            slug,
+            title,
+            description,
+            date,
+            preview_image,
+            detailed,
+        })
 
-    return NextResponse.json('Added new experience!')
+        return NextResponse.json('Added new experience!')
+    } catch (err) {
+        return NextResponse.json(JSON.stringify(err), { status: 401 })
+    }
 }
