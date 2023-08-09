@@ -1,12 +1,26 @@
-import React, { Suspense } from 'react'
+import React from 'react'
 import { getServerSession } from 'next-auth'
 
-import Carousel from './components/layout/Carousel'
 import ImageSignIn from './components/signin/ImageSignIn'
+import SimpleBlock from './components/experiences/SimpleBlock'
+import { experienceType } from '@/typings/modelTypes'
+
+async function getExperiences() {
+    const res = await fetch('http://localhost:3000/api/db/experiences', {
+        method: 'GET',
+    })
+    const experiences = await res.json()
+
+    if (experiences) {
+        return experiences
+    }
+    return {}
+}
 
 export default async function HomePage() {
+    const experiences: experienceType[] = await getExperiences()
+    console.log(experiences)
     const session = await getServerSession()
-    console.log('sesh ', Object.keys(session?.user || {}))
 
     return (
         <div className={`flex flex-col w-[90vw] xl:w-[100vw]`}>
@@ -42,12 +56,21 @@ export default async function HomePage() {
             </div>
 
             <h1 className="mt-10 underline underline-offset-1">Past Work:</h1>
+            {experiences.map((experience) => SimpleBlock(experience))}
             <div className="flex flex-1 flex-col items-center justify-center">
                 <h1 className="mt-5 md:text-xl font-bold">
                     Hospice of SLO Website
                 </h1>
-                <div className="relative mt-8 w-full h-auto md:max-w-[67rem] p-4 ">
-                    <Suspense fallback={'loading...'}>
+                <div className="relative mt-8 w-full h-auto md:max-w-[67rem] p-4 "></div>
+            </div>
+        </div>
+    )
+}
+
+// example carousel code
+
+{
+    /* <Suspense fallback={'loading...'}>
                         <Carousel
                             images={[
                                 'discussion_1.png',
@@ -65,9 +88,5 @@ export default async function HomePage() {
                             ]}
                             path="/hospice_of_slo"
                         ></Carousel>
-                    </Suspense>
-                </div>
-            </div>
-        </div>
-    )
+                    </Suspense> */
 }
