@@ -14,7 +14,13 @@ async function getExperiences() {
         return {}
     }
     const experiences = await res.json()
-    return experiences
+    if (typeof experiences == 'string') {
+        return JSON.parse(experiences)
+    } else if (typeof experiences == 'object') {
+        return experiences
+    } else {
+        return {}
+    }
 }
 
 export default async function HomePage() {
