@@ -10,12 +10,11 @@ async function getExperiences() {
     const res = await fetch(DB_URL, {
         method: 'GET',
     })
-    const experiences = await res.json()
-
-    if (experiences) {
-        return experiences
+    if (!res.ok) {
+        return {}
     }
-    return {}
+    const experiences = await res.json()
+    return experiences
 }
 
 export default async function HomePage() {
