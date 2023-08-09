@@ -6,7 +6,8 @@ import SimpleBlock from './components/experiences/SimpleBlock'
 import { experienceType } from '@/typings/modelTypes'
 
 async function getExperiences() {
-    const res = await fetch('http://localhost:3000/api/db/experiences', {
+    const DB_URL: string = (process.env.DB_API || '') + '/experiences'
+    const res = await fetch(DB_URL, {
         method: 'GET',
     })
     const experiences = await res.json()
