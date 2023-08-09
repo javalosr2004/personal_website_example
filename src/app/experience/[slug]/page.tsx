@@ -26,7 +26,7 @@ export default async function ExperiencePage({
     const experience = (await fetch(`${DB_URL}/${params.slug}`)
         .then((res) => res.json())
         .catch((err) => {
-            throw new Error(err)
+            throw new Error('ERROR FOUND: ', err)
         })) as experienceType
     // if (!res.ok) {
     //     throw new Error('Failed to load.')
