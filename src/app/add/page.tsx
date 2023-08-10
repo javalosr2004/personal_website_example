@@ -1,5 +1,6 @@
 'use client'
 import React, { useEffect, useReducer } from 'react'
+import style from './experience.module.css'
 import reducer from './sessionReducer/reducer'
 import {
     Dialog,
@@ -51,7 +52,7 @@ export default function AddExperience() {
                     </DialogHeader>
                     {state.step == 0 ? (
                         <div className="grid gap-4 py-4">
-                            <div className="grid grid-cols-4 items-center gap-4">
+                            <div className={style.form_group}>
                                 <Label htmlFor="title" className="text-right">
                                     Title
                                 </Label>
@@ -65,10 +66,9 @@ export default function AddExperience() {
                                         })
                                     }
                                     placeholder="Google"
-                                    className="col-span-3"
                                 />
                             </div>
-                            <div className="grid grid-flow-col gap-4 items-center mt-4 ">
+                            <div className={style.form_group}>
                                 <Label htmlFor="date" className="text-right">
                                     Date
                                 </Label>
@@ -86,7 +86,7 @@ export default function AddExperience() {
                                     ></Calendar>
                                 </div>
                             </div>
-                            <div className="grid grid-cols-4 items-center gap-4 mt-4">
+                            <div className={style.form_group}>
                                 <Label
                                     htmlFor="simple_description"
                                     className="text-right"
@@ -103,13 +103,12 @@ export default function AddExperience() {
                                         })
                                     }
                                     placeholder="Optimized code."
-                                    className="col-span-3"
                                 />
                             </div>
                         </div>
                     ) : (
                         <div className="grid gap-4 py-4">
-                            <div className="grid grid-cols-4 items-center gap-4">
+                            <div className={style.form_group_larger}>
                                 <Label
                                     htmlFor="description"
                                     className="text-right"
@@ -126,10 +125,9 @@ export default function AddExperience() {
                                         })
                                     }
                                     placeholder="Google"
-                                    className="col-span-3"
                                 />
                             </div>
-                            <div className="grid grid-flow-col gap-4 items-center mt-4 ">
+                            <div className={style.form_group_larger}>
                                 <Label
                                     htmlFor="root_folder"
                                     className="text-right"
@@ -146,10 +144,9 @@ export default function AddExperience() {
                                         })
                                     }
                                     placeholder="/rose_pictures"
-                                    className="col-span-3"
                                 />
                             </div>
-                            <div className="grid grid-flow-col gap-4 items-center mt-4 ">
+                            <div className={style.form_group_larger}>
                                 <Label htmlFor="images" className="text-right">
                                     Slideshow Images
                                 </Label>
@@ -163,10 +160,9 @@ export default function AddExperience() {
                                         })
                                     }
                                     placeholder="['rose_1.png', 'rose_2.png']"
-                                    className="col-span-3"
                                 />
                             </div>
-                            <div className="grid grid-cols-4 items-center gap-4 mt-4">
+                            <div className={style.form_group_larger}>
                                 <Label htmlFor="alt" className="text-right">
                                     Alt Captions
                                 </Label>
@@ -180,7 +176,6 @@ export default function AddExperience() {
                                         })
                                     }
                                     placeholder="['Cool picture', 'Nice dog']"
-                                    className="col-span-3"
                                 />
                             </div>
                         </div>

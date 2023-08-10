@@ -1,0 +1,15 @@
+.form_group {
+    display: grid;
+    grid-template-columns: 0.5fr 2fr; /* This creates a grid with two columns, where the first column takes up one portion of the space, and the second column takes up two portions. */
+    gap: 20px; /* Adds spacing between the grid items */
+    margin-bottom: 15px;
+    align-items: center;
+}
+
+.form_group_larger {
+    display: grid;
+    grid-template-columns: 0.7fr 2fr; /* This creates a grid with two columns, where the first column takes up one portion of the space, and the second column takes up two portions. */
+    gap: 20px; /* Adds spacing between the grid items */
+    margin-bottom: 15px;
+    align-items: center;
+}
