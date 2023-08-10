@@ -9,12 +9,16 @@ const handler = NextAuth({
         }),
     ],
     callbacks: {
-        jwt: async ({ token, user, trigger }) => {
-            if (user && trigger == 'signIn') {
+        jwt: async ({ token, user }) => {
+            if (user) {
                 const admins = process.env.ADMINS as string
                 token.isAdmin = admins.includes(user?.email || '')
             }
             return token
+        },
+        session: async ({ session, token }) => {
+            session.user.isAdmin = token.isAdmin as boolean
+            return session
         },
     },
 })

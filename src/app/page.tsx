@@ -1,8 +1,8 @@
 import React from 'react'
-import { getServerSession } from 'next-auth'
 
 import ImageSignIn from './components/signin/ImageSignIn'
 import SimpleBlock from './components/experience/SimpleBlock'
+import { getServerSession } from 'next-auth'
 import { experienceType } from '@/typings/modelTypes'
 
 async function getExperiences() {
