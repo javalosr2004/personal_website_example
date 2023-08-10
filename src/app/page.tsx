@@ -4,6 +4,7 @@ import ImageSignIn from './components/signin/ImageSignIn'
 import SimpleBlock from './components/experience/SimpleBlock'
 import { getServerSession } from 'next-auth'
 import { experienceType } from '@/typings/modelTypes'
+import AddExperience from './add/page'
 
 async function getExperiences() {
     const DB_URL: string = (process.env.DB_API || '') + '/experiences'
@@ -48,6 +49,10 @@ export default async function HomePage() {
                             <div>
                                 <br />
                                 <b>Welcome, {session.user?.name}</b>
+                                <br />
+                                {Object.keys(session || {}).length !== 0 && (
+                                    <AddExperience></AddExperience>
+                                )}
                             </div>
                         )}
                     </h2>
