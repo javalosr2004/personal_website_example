@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useReducer } from 'react'
+import React, { useEffect, useReducer, useRef, useState } from 'react'
 import style from './experience.module.css'
 import reducer from './sessionReducer/reducer'
 import {
@@ -18,6 +18,22 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
 import { State, Action } from './sessionReducer/typings'
+import slugify from 'slugify'
+
+/** TODO:
+ *
+ *      Add form validation using Zod and React-hook-form || implement custom validation???
+ */
+
+// const formSchema = z.object({
+//     title: z.string(),
+//     date: z.date(),
+//     preview_image: z.string(),
+//     detailed_description: z.string(),
+//     carousel_images: z.string().regex(RegExp('"([^"]*)"')),
+//     alt: z.string({}).regex(RegExp('"([^"]*)"')).optional().or(z.literal('')),
+//     root_folder: z.string({}).optional().or(z.literal('')),
+// })
 
 const FirstDialog = ({
     state,
@@ -61,6 +77,22 @@ const FirstDialog = ({
                         }
                     ></Calendar>
                 </div>
+            </div>
+            <div className={style.form_group}>
+                <Label htmlFor="preview_image" className="text-right">
+                    Preview Image
+                </Label>
+                <Input
+                    id="preview_image"
+                    value={state.preview_image}
+                    onChange={(event) =>
+                        dispatch({
+                            type: 'set-preview-image',
+                            payload: event.currentTarget.value,
+                        })
+                    }
+                    placeholder="Optimized code."
+                />
             </div>
             <div className={style.form_group}>
                 <Label htmlFor="simple_description" className="text-right">
@@ -192,12 +224,46 @@ export default function AddExperience() {
     }
 
     const [state, dispatch] = useReducer(reducer, initialState)
+    const [disabled, setDisabled] = useState(false)
+    const closeButton = useRef(null)
+
+    // TODO: Add Authorization using Bearer Token
+
+    const handleSubmit = async () => {
+        console.log('submit')
+        if (window) {
+            const sessionForm = window.sessionStorage.getItem('form')
+            if (sessionForm) {
+                const formData: State = JSON.parse(sessionForm)
+                const slug: string = slugify(formData.title, {
+                    replacement: '_',
+                    lower: true,
+                })
+
+                const POST_REQUEST = '/api/db/experiences' + `/${slug}`
+                setDisabled(true)
+                const res = await fetch(POST_REQUEST, {
+                    method: 'POST',
+                    body: sessionForm,
+                })
+                if (!res.ok) {
+                    console.log('error')
+                }
+            }
+        }
+        setDisabled(false)
+        if (closeButton.current) {
+            closeButton.current.click()
+        }
+    }
 
     useEffect(() => {
         window.sessionStorage.setItem('form', JSON.stringify(state))
     }, [state])
+
     return (
         <div className="w-200px mt-5">
+            <button></button>
             <Dialog>
                 <DialogTrigger asChild>
                     <Button variant={'outline'}>Add Experience</Button>
@@ -236,12 +302,17 @@ export default function AddExperience() {
                                 Continue
                             </Button>
                         )}
-
                         {state.step == 1 && (
-                            <DialogTrigger>
-                                <Button>Submit</Button>
-                            </DialogTrigger>
+                            <Button disabled={disabled} onClick={handleSubmit}>
+                                Submit
+                            </Button>
                         )}
+                        <DialogTrigger>
+                            <Button
+                                ref={closeButton}
+                                className="hidden"
+                            ></Button>
+                        </DialogTrigger>
                     </DialogFooter>
                 </DialogContent>
             </Dialog>

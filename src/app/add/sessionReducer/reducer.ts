@@ -28,6 +28,8 @@ const reducer = (state: State, action: Action) => {
             return { ...state, carousel_images: action.payload }
         case 'set-alt':
             return { ...state, alt: action.payload }
+        case 'set-root-folder':
+            return { ...state, root_folder: action.payload }
 
         default:
             return state
