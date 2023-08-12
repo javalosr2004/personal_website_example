@@ -10,9 +10,6 @@ async function getExperiences() {
     const DB_URL: string = (process.env.DB_API || '') + '/experiences'
     const res = await fetch(DB_URL, {
         method: 'GET',
-        next: {
-            revalidate: 0,
-        },
     })
     if (!res.ok) {
         return {}
