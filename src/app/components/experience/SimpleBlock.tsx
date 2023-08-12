@@ -20,15 +20,15 @@ export default function SimpleBlock(experience: experienceType) {
     const link = (process.env.HOST_URL || '') + '/experience/' + experience.slug
 
     return (
-        <div className="flex flex-1 flex-col items-center justify-center">
-            <h1 className="md:text-xl font-bold">{experience.title}</h1>
-            <h3>{experience.date}</h3>
-            <div className="relative w-[300px] h-[300px]">
-                <Link href={link}>
+        <Link href={link}>
+            <div className="flex flex-1 flex-col items-center justify-center border-slate-200 border-2 rounded-xl p-4">
+                <h1 className="md:text-xl font-bold">{experience.title}</h1>
+                <h3>{experience.date}</h3>
+                <div className="relative w-[300px] h-[300px]">
                     {previewImage(experience.preview_image)}
-                </Link>
+                </div>
+                <p>{experience.description}</p>
             </div>
-            <p>{experience.description}</p>
-        </div>
+        </Link>
     )
 }

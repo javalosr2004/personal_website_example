@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import experienceSchema from '@/models/experienceSchema'
 import startDB from '@/lib/db'
 import { State } from '@/app/add/sessionReducer/typings'
+import { parse_string_to_arr } from '../helpers/parse_arr'
 // import { experienceType } from '@/typings/modelTypes'
 
 export async function GET(
@@ -70,17 +71,19 @@ export async function POST(
 
     await startDB()
 
+    // parsing data
+
     try {
         await experienceSchema.create({
             slug,
             title,
             description: simple_description,
-            date: String(date),
-            preview_image,
+            date,
+            preview_image: preview_image,
             detailed: {
                 description: detailed_description,
-                images: carousel_images,
-                alt: alt || [],
+                images: parse_string_to_arr(carousel_images),
+                alt: parse_string_to_arr(alt),
                 rootFolder: root_folder || '',
             },
         })
@@ -113,5 +116,21 @@ export async function PUT(
         return NextResponse.json('Edited experience!')
     } catch (err) {
         return NextResponse.json(JSON.stringify(err), { status: 401 })
+    }
+}
+
+export async function DELETE(
+    req: NextRequest,
+    { params }: { params: { slug: string } }
+) {
+    const slug = params.slug
+
+    await startDB()
+
+    try {
+        await experienceSchema.deleteOne({ slug }).orFail()
+        return NextResponse.json('Succesfully deleted experience.')
+    } catch (err) {
+        return NextResponse.json(err, { status: 400 })
     }
 }

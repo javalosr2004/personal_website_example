@@ -10,6 +10,9 @@ async function getExperiences() {
     const DB_URL: string = (process.env.DB_API || '') + '/experiences'
     const res = await fetch(DB_URL, {
         method: 'GET',
+        next: {
+            revalidate: 0,
+        },
     })
     if (!res.ok) {
         return {}
@@ -65,32 +68,12 @@ export default async function HomePage() {
                 </div>
             </div>
 
-            <h1 className="mt-10 underline underline-offset-1">Past Work:</h1>
-            {experiences.map((experience) => SimpleBlock(experience))}
+            <h1 className="mt-10 underline underline-offset-1 mb-[50px]">
+                Past Work:
+            </h1>
+            <div className="grid lg:grid-cols-2 gap-10 ">
+                {experiences.map((experience) => SimpleBlock(experience))}
+            </div>
         </div>
     )
-}
-
-// example carousel code
-
-{
-    /* <Suspense fallback={'loading...'}>
-                        <Carousel
-                            images={[
-                                'discussion_1.png',
-                                'select_2.png',
-                                'signup_1.png',
-                                'complete_signup_1.png',
-                                'delete_shift_1.png',
-                            ]}
-                            alt={[
-                                'Discussion',
-                                'Selection',
-                                'Signup Form',
-                                'Completed Signup',
-                                'Delete Shift',
-                            ]}
-                            path="/hospice_of_slo"
-                        ></Carousel>
-                    </Suspense> */
 }

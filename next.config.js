@@ -7,10 +7,12 @@ const nextConfig = {
                 hostname: 'images.unsplash.com',
                 port: '',
             },
+
             {
                 protocol: 'https',
-                hostname: 'hospiceslo.org',
+                hostname: '**',
                 port: '',
+                pathname: '**',
             },
         ],
     },

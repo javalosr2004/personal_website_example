@@ -214,7 +214,7 @@ export default function AddExperience() {
     const initialState = {
         step: 0,
         title: '',
-        date: undefined,
+        date: { from: undefined, to: undefined },
         simple_description: '',
         preview_image: '',
         detailed_description: '',
@@ -225,7 +225,7 @@ export default function AddExperience() {
 
     const [state, dispatch] = useReducer(reducer, initialState)
     const [disabled, setDisabled] = useState(false)
-    const closeButton = useRef(null)
+    const closeButton = useRef<HTMLButtonElement>(null)
 
     // TODO: Add Authorization using Bearer Token
 
@@ -240,11 +240,29 @@ export default function AddExperience() {
                     lower: true,
                 })
 
+                const date = `${new Date(
+                    formData.date?.from || new Date()
+                ).toLocaleDateString('en-us', {
+                    year: 'numeric',
+                    month: 'short',
+                })} - ${new Date(
+                    formData.date?.to || new Date()
+                ).toLocaleDateString('en-us', {
+                    year: 'numeric',
+                    month: 'short',
+                })}`
+
+                const preview = formData.preview_image
+
                 const POST_REQUEST = '/api/db/experiences' + `/${slug}`
                 setDisabled(true)
                 const res = await fetch(POST_REQUEST, {
                     method: 'POST',
-                    body: sessionForm,
+                    body: JSON.stringify({
+                        ...formData,
+                        preview_image: preview,
+                        date,
+                    }),
                 })
                 if (!res.ok) {
                     console.log('error')
