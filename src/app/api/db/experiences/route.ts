@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import experienceSchema from '@/models/experienceSchema'
 import startDB from '@/lib/db'
 
+export const dynamic = 'force-dynamic'
 export async function GET() {
     await startDB()
     const all_experiences = await experienceSchema.find()

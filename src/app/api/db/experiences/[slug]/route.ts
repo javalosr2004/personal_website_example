@@ -5,6 +5,7 @@ import { State } from '@/app/add/sessionReducer/typings'
 import { parse_string_to_arr } from '../helpers/parse_arr'
 // import { experienceType } from '@/typings/modelTypes'
 
+export const dynamic = 'force-dynamic'
 export async function GET(
     req: NextRequest,
     { params }: { params: { slug: string } }
