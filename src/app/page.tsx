@@ -71,7 +71,7 @@ export default async function HomePage() {
             <h1 className="mt-10 underline underline-offset-1 mb-[50px]">
                 Past Work:
             </h1>
-            <div className="grid lg:grid-cols-2 gap-10 ">
+            <div className="grid lg:grid-cols-2 gap-10 mr-10">
                 {experiences.map((experience) => SimpleBlock(experience))}
             </div>
         </div>
