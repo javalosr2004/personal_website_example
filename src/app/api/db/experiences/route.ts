@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import experienceSchema from '@/models/experienceSchema'
 import startDB from '@/lib/db'
+import { experienceType } from '@/typings/modelTypes'
 
 export const dynamic = 'force-dynamic'
 export async function GET() {
     await startDB()
-    const all_experiences = await experienceSchema.find()
+    const all_experiences: experienceType[] = await experienceSchema.find()
     return NextResponse.json(all_experiences)
 }
 
