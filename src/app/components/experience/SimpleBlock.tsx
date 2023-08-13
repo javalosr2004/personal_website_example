@@ -4,7 +4,7 @@ import React from 'react'
 import Link from 'next/link'
 import DeleteExperience from './DeleteExperience'
 
-export default function SimpleBlock(experience: experienceType) {
+export default async function SimpleBlock(experience: experienceType) {
     function previewImage(image: string | undefined) {
         if (image) {
             return (
@@ -25,7 +25,7 @@ export default function SimpleBlock(experience: experienceType) {
         <div className="relative">
             <DeleteExperience slug={experience.slug} />
             <Link draggable={false} href={link} className="z-0">
-                <div className="relative flex flex-1 flex-col items-center justify-center border-slate-200 border-2 rounded-xl p-4">
+                <div className="relative flex flex-1 flex-col items-center justify-center border-slate-200 border-2 rounded-xl p-4 h-[400px]">
                     <h1 className="md:text-xl font-bold">{experience.title}</h1>
                     <h3>{experience.date}</h3>
                     <div className="relative p-10">

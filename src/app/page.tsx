@@ -1,34 +1,13 @@
-import React, { Suspense } from 'react'
+import React from 'react'
 
 import ImageSignIn from './components/signin/ImageSignIn'
-import SimpleBlock from './components/experience/SimpleBlock'
 import { getServerSession } from 'next-auth'
-import { experienceType } from '@/typings/modelTypes'
+// import { experienceType } from '@/typings/modelTypes'
 import AddExperience from './add/page'
-
-async function getExperiences() {
-    const DB_URL: string = (process.env.DB_API || '') + '/experiences'
-    const res = await fetch(DB_URL, {
-        method: 'GET',
-        next: {
-            revalidate: 0,
-        },
-    })
-    if (!res.ok) {
-        return {}
-    }
-    const experiences = await res.json()
-    if (typeof experiences == 'string') {
-        return JSON.parse(experiences)
-    } else if (typeof experiences == 'object') {
-        return experiences
-    } else {
-        return {}
-    }
-}
+import { SimpleBlockLoader } from './components/experience/SimpleBlockLoader'
+import { Suspense } from 'react'
 
 export default async function HomePage() {
-    const experiences: experienceType[] = await getExperiences()
     const session = await getServerSession()
 
     return (
@@ -72,15 +51,15 @@ export default async function HomePage() {
                 Past Work:
             </h1>
 
-            <div className="grid lg:grid-cols-2 gap-10 mr-10">
+            <div className="w[100vw]">
                 <Suspense
                     fallback={
-                        <div className="w-[400px] h-[400px] bg-blue-300">
-                            <h1 className="text-white">Loading...</h1>
+                        <div className="w-[100%] text-center">
+                            <h1>Loading...</h1>
                         </div>
                     }
                 >
-                    {experiences.map((experience) => SimpleBlock(experience))}
+                    <SimpleBlockLoader></SimpleBlockLoader>
                 </Suspense>
             </div>
         </div>
