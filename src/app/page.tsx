@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 
 import ImageSignIn from './components/signin/ImageSignIn'
 import SimpleBlock from './components/experience/SimpleBlock'
@@ -71,8 +71,17 @@ export default async function HomePage() {
             <h1 className="mt-10 underline underline-offset-1 mb-[50px]">
                 Past Work:
             </h1>
+
             <div className="grid lg:grid-cols-2 gap-10 mr-10">
-                {experiences.map((experience) => SimpleBlock(experience))}
+                <Suspense
+                    fallback={
+                        <div className="w-[400px] h-[400px] bg-blue-300">
+                            <h1 className="text-white">Loading...</h1>
+                        </div>
+                    }
+                >
+                    {experiences.map((experience) => SimpleBlock(experience))}
+                </Suspense>
             </div>
         </div>
     )
