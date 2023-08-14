@@ -46,7 +46,9 @@ export default async function ExperiencePage({
                         path={experience.detailed.rootFolder}
                     ></Carousel>
                 </div>
-                <p>{experience.detailed.description}</p>
+                <div className="w-[50%] text-center mt-10">
+                    <p>{experience.detailed.description}</p>
+                </div>
             </div>
         )
     }
