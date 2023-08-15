@@ -12,13 +12,14 @@ import {
     DialogFooter,
 } from '@/components/ui/dialog'
 
-import { Calendar } from '@/components/ui/calendar'
+import { DatePicker } from '@mui/x-date-pickers'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
 import { State, Action } from './sessionReducer/typings'
 import slugify from 'slugify'
+import dayjs from 'dayjs'
 
 /** TODO:
  *
@@ -61,22 +62,17 @@ const FirstDialog = ({
                 />
             </div>
             <div className={style.form_group}>
-                <Label htmlFor="date" className="text-right">
-                    Date
-                </Label>
-                <div className="h-[350px] w-[280px]">
-                    <Calendar
-                        id="date"
-                        mode="range"
-                        selected={state.date}
-                        onSelect={(selected) =>
-                            dispatch({
-                                type: 'set-date',
-                                payload: selected,
-                            })
-                        }
-                    ></Calendar>
-                </div>
+                <DatePicker
+                    className=" w-[280px]"
+                    label="Calendar"
+                    value={state.date}
+                    onChange={(value) =>
+                        dispatch({
+                            type: 'set-date',
+                            payload: value,
+                        })
+                    }
+                ></DatePicker>
             </div>
             <div className={style.form_group}>
                 <Label htmlFor="preview_image" className="text-right">
@@ -214,7 +210,7 @@ export default function AddExperience() {
     const initialState = {
         step: 0,
         title: '',
-        date: { from: undefined, to: undefined },
+        date: dayjs('2023-08-14'),
         simple_description: '',
         preview_image: '',
         detailed_description: '',
@@ -240,17 +236,17 @@ export default function AddExperience() {
                     lower: true,
                 })
 
-                const date = `${new Date(
-                    formData.date?.from || new Date()
-                ).toLocaleDateString('en-us', {
-                    year: 'numeric',
-                    month: 'short',
-                })} - ${new Date(
-                    formData.date?.to || new Date()
-                ).toLocaleDateString('en-us', {
-                    year: 'numeric',
-                    month: 'short',
-                })}`
+                // const date = `${new Date(
+                //     formData.date?.from || new Date()
+                // ).toLocaleDateString('en-us', {
+                //     year: 'numeric',
+                //     month: 'short',
+                // })} - ${new Date(
+                //     formData.date?.to || new Date()
+                // ).toLocaleDateString('en-us', {
+                //     year: 'numeric',
+                //     month: 'short',
+                // })}`
 
                 const preview = formData.preview_image
 
@@ -261,7 +257,7 @@ export default function AddExperience() {
                     body: JSON.stringify({
                         ...formData,
                         preview_image: preview,
-                        date,
+                        // date,
                     }),
                 })
                 if (!res.ok) {

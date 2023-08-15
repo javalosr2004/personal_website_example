@@ -1,3 +1,4 @@
+import EditExperience from '@/app/components/experience/EditExperience'
 import Carousel from '@/app/components/layout/Carousel'
 import { experienceType } from '@/typings/modelTypes'
 import React from 'react'
@@ -35,6 +36,7 @@ export default async function ExperiencePage({
         const experience = (await res.json()) as experienceType
         return (
             <div className="flex flex-1 flex-col items-center justify-center self-center w-full">
+                <EditExperience slug={params.slug}></EditExperience>
                 <h1 className="mt-5 md:text-xl font-bold">
                     {experience.title}
                 </h1>
@@ -52,17 +54,4 @@ export default async function ExperiencePage({
             </div>
         )
     }
-}
-
-{
-    /* <div className="flex flex-col justify-center w-[500px] h-[800px]">
-<h1>{experience.title}</h1>
-<h3>{experience.date}</h3>
-<Carousel
-    images={experience.detailed.images}
-    alt={experience.detailed.alt || []}
-    path={experience.detailed.rootFolder}
-></Carousel>
-<p>{experience.detailed.description}</p>
-</div> */
 }

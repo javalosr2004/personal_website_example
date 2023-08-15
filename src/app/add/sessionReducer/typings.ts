@@ -1,9 +1,9 @@
-import { DateRange } from 'react-day-picker'
+import { Dayjs } from 'dayjs'
 
 type State = {
     step: number
     title: string
-    date: DateRange | undefined
+    date: Dayjs | null
     preview_image: string
     simple_description: string
     detailed_description: string
@@ -16,7 +16,7 @@ type Action =
     | { type: 'continue-step' }
     | { type: 'previous-step' }
     | { type: 'set-title'; payload: string }
-    | { type: 'set-date'; payload: DateRange | undefined }
+    | { type: 'set-date'; payload: Dayjs | null }
     | { type: 'set-preview-image'; payload: string }
     | { type: 'set-simple-description'; payload: string }
     | { type: 'set-detailed-description'; payload: string }
