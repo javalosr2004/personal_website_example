@@ -23,11 +23,11 @@ export default function EditExperience({ slug }: Props) {
 
     if (session.data?.user.isAdmin) {
         return (
-            <div className="group absolute z-10 top-4 right-5 border-slate-300  hover:border-slate-500 hover:cursor-pointer border-2 p-2 rounded-full ">
-                <Pencil
-                    onClick={handleClick}
-                    className="opacity-50 group-hover:opacity-100 w-[20px] h-[20px]"
-                ></Pencil>
+            <div
+                onClick={handleClick}
+                className="group absolute z-10 top-4 right-5 border-slate-300  hover:border-slate-500 hover:cursor-pointer border-2 p-2 rounded-full "
+            >
+                <Pencil className="opacity-50 group-hover:opacity-100 w-[20px] h-[20px]"></Pencil>
             </div>
         )
     }

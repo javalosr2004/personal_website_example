@@ -30,6 +30,8 @@ const reducer = (state: State, action: Action) => {
             return { ...state, alt: action.payload }
         case 'set-root-folder':
             return { ...state, root_folder: action.payload }
+        case 'set-all':
+            return { ...state, ...action.payload }
 
         default:
             return state

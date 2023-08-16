@@ -5,7 +5,6 @@ import { getServerSession } from 'next-auth'
 // import { experienceType } from '@/typings/modelTypes'
 import AddExperience from './add/page'
 import { SimpleBlockLoader } from './components/experience/SimpleBlockLoader'
-import { Suspense } from 'react'
 
 export default async function HomePage() {
     const session = await getServerSession()
@@ -52,15 +51,7 @@ export default async function HomePage() {
             </h1>
 
             <div className="w[100vw]">
-                <Suspense
-                    fallback={
-                        <div className="w-[100%] text-center">
-                            <h1>Loading...</h1>
-                        </div>
-                    }
-                >
-                    <SimpleBlockLoader></SimpleBlockLoader>
-                </Suspense>
+                <SimpleBlockLoader></SimpleBlockLoader>
             </div>
         </div>
     )

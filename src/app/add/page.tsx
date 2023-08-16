@@ -1,7 +1,6 @@
 'use client'
-import React, { useEffect, useReducer, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import style from './experience.module.css'
-import reducer from './experience_reducers/reducer'
 import {
     Dialog,
     DialogContent,
@@ -17,9 +16,24 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
-import { State, Action } from './experience_reducers/typings'
+import { RootState, store } from '@/store'
+// import all dispath actions from store for experience, setDate, setExperience
+import {
+    setSlug,
+    setTitle,
+    setDate,
+    setDescription,
+    setPreviewImage,
+    setDetailedDescription,
+    setDetailedRootFolder,
+    setDetailedImages,
+    setDetailedAlt,
+    ExperienceState,
+} from '@/store/experienceState'
+
 import slugify from 'slugify'
 import dayjs from 'dayjs'
+import { useSelector } from 'react-redux'
 
 /** TODO:
  *
@@ -36,13 +50,21 @@ import dayjs from 'dayjs'
 //     root_folder: z.string({}).optional().or(z.literal('')),
 // })
 
-const FirstDialog = ({
-    state,
-    dispatch,
-}: {
-    state: State
-    dispatch: React.Dispatch<Action>
-}) => {
+export const previousStep = (
+    step: number,
+    setStep: React.Dispatch<React.SetStateAction<number>>
+) => {
+    if (step - 1 >= 0) {
+        setStep((step) => step - 1)
+    }
+}
+export const nextStep = (
+    setStep: React.Dispatch<React.SetStateAction<number>>
+) => {
+    setStep((step) => step + 1)
+}
+
+const FirstDialog = ({ experience }: { experience: ExperienceState }) => {
     return (
         <div className="grid gap-4 py-4">
             <div className={style.form_group}>
@@ -51,12 +73,9 @@ const FirstDialog = ({
                 </Label>
                 <Input
                     id="title"
-                    value={state.title}
+                    value={experience.title}
                     onChange={(event) =>
-                        dispatch({
-                            type: 'set-title',
-                            payload: event.currentTarget.value,
-                        })
+                        store.dispatch(setTitle(event.currentTarget.value))
                     }
                     placeholder="Google"
                 />
@@ -65,12 +84,9 @@ const FirstDialog = ({
                 <DatePicker
                     className=" w-[280px]"
                     label="Calendar"
-                    value={state.date}
+                    value={experience.date}
                     onChange={(value) =>
-                        dispatch({
-                            type: 'set-date',
-                            payload: value,
-                        })
+                        store.dispatch(setDate(value as dayjs.Dayjs))
                     }
                 ></DatePicker>
             </div>
@@ -80,12 +96,11 @@ const FirstDialog = ({
                 </Label>
                 <Input
                     id="preview_image"
-                    value={state.preview_image}
+                    value={experience.preview_image}
                     onChange={(event) =>
-                        dispatch({
-                            type: 'set-preview-image',
-                            payload: event.currentTarget.value,
-                        })
+                        store.dispatch(
+                            setPreviewImage(event.currentTarget.value)
+                        )
                     }
                     placeholder="Optimized code."
                 />
@@ -96,12 +111,11 @@ const FirstDialog = ({
                 </Label>
                 <Input
                     id="description"
-                    value={state.simple_description}
+                    value={experience.description}
                     onChange={(event) =>
-                        dispatch({
-                            type: 'set-simple-description',
-                            payload: event.currentTarget.value,
-                        })
+                        store.dispatch(
+                            setDescription(event.currentTarget.value)
+                        )
                     }
                     placeholder="Optimized code."
                 />
@@ -110,13 +124,7 @@ const FirstDialog = ({
     )
 }
 
-const SecondDialog = ({
-    state,
-    dispatch,
-}: {
-    state: State
-    dispatch: React.Dispatch<Action>
-}) => {
+const SecondDialog = ({ experience }: { experience: ExperienceState }) => {
     return (
         <div className="grid gap-4 py-4">
             <div className={style.form_group_larger}>
@@ -125,12 +133,11 @@ const SecondDialog = ({
                 </Label>
                 <Input
                     id="description"
-                    value={state.detailed_description}
+                    value={experience.detailed.description}
                     onChange={(event) =>
-                        dispatch({
-                            type: 'set-detailed-description',
-                            payload: event.currentTarget.value,
-                        })
+                        store.dispatch(
+                            setDetailedDescription(event.currentTarget.value)
+                        )
                     }
                     placeholder="Google"
                 />
@@ -141,12 +148,9 @@ const SecondDialog = ({
                 </Label>
                 <Input
                     id="root_folder"
-                    value={state.root_folder}
+                    value={experience.detailed.rootFolder}
                     onChange={(event) =>
-                        dispatch({
-                            type: 'set-root-folder',
-                            payload: event.currentTarget.value,
-                        })
+                        setDetailedRootFolder(event.currentTarget.value)
                     }
                     placeholder="/rose_pictures"
                 />
@@ -157,12 +161,11 @@ const SecondDialog = ({
                 </Label>
                 <Input
                     id="images"
-                    value={state.carousel_images}
+                    value={experience.detailed.images}
                     onChange={(event) =>
-                        dispatch({
-                            type: 'set-carousel-images',
-                            payload: event.currentTarget.value,
-                        })
+                        store.dispatch(
+                            setDetailedImages(event.currentTarget.value)
+                        )
                     }
                     placeholder="['rose_1.png', 'rose_2.png']"
                 />
@@ -173,12 +176,11 @@ const SecondDialog = ({
                 </Label>
                 <Input
                     id="alt"
-                    value={state.alt}
+                    value={experience.detailed.alt}
                     onChange={(event) =>
-                        dispatch({
-                            type: 'set-alt',
-                            payload: event.currentTarget.value,
-                        })
+                        store.dispatch(
+                            setDetailedAlt(event.currentTarget.value)
+                        )
                     }
                     placeholder="['Cool picture', 'Nice dog']"
                 />
@@ -189,38 +191,28 @@ const SecondDialog = ({
 
 const MultipleStepForm = ({
     step,
-    state,
-    dispatch,
+    experience,
 }: {
     step: number
-    state: State
-    dispatch: React.Dispatch<Action>
+    experience: ExperienceState
 }) => {
     switch (step) {
         case 0:
-            return <FirstDialog state={state} dispatch={dispatch} />
+            return <FirstDialog experience={experience} />
         case 1:
-            return <SecondDialog state={state} dispatch={dispatch} />
+            return <SecondDialog experience={experience} />
         default:
-            return <FirstDialog state={state} dispatch={dispatch} />
+            return <FirstDialog experience={experience} />
     }
 }
 
 export default function AddExperience() {
-    const initialState = {
-        step: 0,
-        title: '',
-        date: dayjs('2023-08-14'),
-        simple_description: '',
-        preview_image: '',
-        detailed_description: '',
-        carousel_images: '',
-        alt: '',
-        root_folder: '',
-    }
+    const experience: ExperienceState = useSelector<RootState, ExperienceState>(
+        (state) => state.experience
+    )
 
-    const [state, dispatch] = useReducer(reducer, initialState)
     const [disabled, setDisabled] = useState(false)
+    const [step, setStep] = useState(1)
     const closeButton = useRef<HTMLButtonElement>(null)
 
     // TODO: Add Authorization using Bearer Token
@@ -228,13 +220,13 @@ export default function AddExperience() {
     const handleSubmit = async () => {
         console.log('submit')
         if (window) {
-            const sessionForm = window.sessionStorage.getItem('form')
-            if (sessionForm) {
-                const formData: State = JSON.parse(sessionForm)
-                const slug: string = slugify(formData.title, {
+            // const sessionForm = window.sessionStorage.getItem('form')
+            if (experience) {
+                const slug: string = slugify(experience.title, {
                     replacement: '_',
                     lower: true,
                 })
+                store.dispatch(setSlug(slug))
 
                 // const date = `${new Date(
                 //     formData.date?.from || new Date()
@@ -248,15 +240,15 @@ export default function AddExperience() {
                 //     month: 'short',
                 // })}`
 
-                const preview = formData.preview_image
+                // const preview = experience.preview_image
 
                 const POST_REQUEST = '/api/db/experiences' + `/${slug}`
                 setDisabled(true)
                 const res = await fetch(POST_REQUEST, {
                     method: 'POST',
                     body: JSON.stringify({
-                        ...formData,
-                        preview_image: preview,
+                        ...experience,
+                        // preview_image: preview,
                         // date,
                     }),
                 })
@@ -271,9 +263,10 @@ export default function AddExperience() {
         }
     }
 
+    // TODO: Remove this session storage and use primarily redux store instead
     useEffect(() => {
-        window.sessionStorage.setItem('form', JSON.stringify(state))
-    }, [state])
+        window.sessionStorage.setItem('form', JSON.stringify(experience))
+    }, [experience])
 
     return (
         <div className="w-200px mt-5">
@@ -290,33 +283,25 @@ export default function AddExperience() {
                             be detailed.
                         </DialogDescription>
                     </DialogHeader>
-                    <MultipleStepForm
-                        step={state.step}
-                        state={state}
-                        dispatch={dispatch}
-                    />
+                    <MultipleStepForm step={step} experience={experience} />
                     <DialogFooter>
-                        {state.step - 1 >= 0 && (
+                        {step - 1 >= 0 && (
                             <Button
-                                onClick={() =>
-                                    dispatch({ type: 'previous-step' })
-                                }
+                                onClick={() => previousStep(step, setStep)}
                                 variant={'secondary'}
                             >
                                 Previous
                             </Button>
                         )}
-                        {state.step >= 0 && state.step + 1 < 2 && (
+                        {step >= 0 && step + 1 < 2 && (
                             <Button
-                                onClick={() =>
-                                    dispatch({ type: 'continue-step' })
-                                }
+                                onClick={() => nextStep(setStep)}
                                 variant={'secondary'}
                             >
                                 Continue
                             </Button>
                         )}
-                        {state.step == 1 && (
+                        {step == 1 && (
                             <Button disabled={disabled} onClick={handleSubmit}>
                                 Submit
                             </Button>
