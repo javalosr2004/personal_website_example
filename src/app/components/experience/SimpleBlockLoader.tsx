@@ -24,7 +24,7 @@ export async function SimpleBlockLoader() {
     const experiences: experienceType[] = await getExperiences()
 
     return (
-        <div className="grid lg:grid-cols-2 gap-10 ">
+        <div className="grid lg:grid-cols-2 gap-10 mr-10">
             {experiences.map((experience) => SimpleBlock(experience))}
         </div>
     )

@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import experienceSchema from '@/models/experienceSchema'
 import startDB from '@/lib/db'
-import { State } from '@/app/add/sessionReducer/typings'
+import { State } from '@/app/add/experience_reducers/typings'
 import { parse_string_to_arr } from '../helpers/parse_arr'
 // import { experienceType } from '@/typings/modelTypes'
-
 
 export async function GET(
     req: NextRequest,

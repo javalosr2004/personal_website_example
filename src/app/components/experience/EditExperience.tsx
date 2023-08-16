@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 
 type Props = {
     slug: string
+    edit: boolean
 }
 
 // TODO: Add popup for confirmation

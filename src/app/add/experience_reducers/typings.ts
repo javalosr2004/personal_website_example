@@ -23,5 +23,6 @@ type Action =
     | { type: 'set-carousel-images'; payload: string }
     | { type: 'set-alt'; payload: string }
     | { type: 'set-root-folder'; payload: string }
+    | { type: 'set-all'; payload: State }
 
 export type { State, Action }

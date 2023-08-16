@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect, useReducer, useRef, useState } from 'react'
 import style from './experience.module.css'
-import reducer from './sessionReducer/reducer'
+import reducer from './experience_reducers/reducer'
 import {
     Dialog,
     DialogContent,
@@ -17,7 +17,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
-import { State, Action } from './sessionReducer/typings'
+import { State, Action } from './experience_reducers/typings'
 import slugify from 'slugify'
 import dayjs from 'dayjs'
 

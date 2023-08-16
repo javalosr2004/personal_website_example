@@ -4,6 +4,8 @@
 
 import { experienceType } from '@/typings/modelTypes'
 import { useState, useEffect } from 'react'
+import Carousel from '@/app/components/layout/Carousel'
+import { Input } from '@/components/ui/input'
 
 type ParamProps = {
     slug: string
@@ -12,7 +14,7 @@ type ParamProps = {
 export default function EditPage({ params }: { params: ParamProps }) {
     // fetch data from api using client component
 
-    const [data, setData] = useState<experienceType>()
+    const [experience, setExperience] = useState<experienceType>()
     const [loading, setLoading] = useState(true)
 
     const DB_URL: string = (process.env.DB_API || '/api/db') + '/experiences'
@@ -22,7 +24,7 @@ export default function EditPage({ params }: { params: ParamProps }) {
         fetch(DB_URL + '/' + params.slug)
             .then((res) => res.json())
             .then((data) => {
-                setData(data)
+                setExperience(data)
                 setLoading(false)
             })
     })
@@ -31,9 +33,22 @@ export default function EditPage({ params }: { params: ParamProps }) {
         return <div>Loading...</div>
     } else {
         return (
-            <div className="w-[100vw] flex flex-col">
-                <h1 className="text-center font-bold">Edit Page</h1>
-                <h1>{data?.title}</h1>
+            <div className="flex flex-1 flex-col items-center justify-center self-center w-full">
+                <Input
+                    className="mt-5 md:text-xl font-bold"
+                    value={experience?.title}
+                ></Input>
+                <h3 className="mt-3">{experience?.date}</h3>
+                <div className="relative mt-8 w-full h-auto md:max-w-[67rem] p-4 ">
+                    <Carousel
+                        images={experience?.detailed.images || []}
+                        alt={experience?.detailed.alt || []}
+                        path={experience?.detailed.rootFolder}
+                    ></Carousel>
+                </div>
+                <div className="w-[50%] text-center mt-10">
+                    <Input value={experience?.detailed.description}></Input>
+                </div>
             </div>
         )
     }
