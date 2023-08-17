@@ -6,7 +6,7 @@ export interface ExperienceState {
     slug: string
     title: string
     description: string
-    date: dayjs.Dayjs
+    date: dayjs.Dayjs | string
     preview_image: string
     detailed: {
         description: string
@@ -45,7 +45,7 @@ export const experienceSlice = createSlice({
         setTitle: (state, action: PayloadAction<string>) => {
             state.title = action.payload
         },
-        setDate: (state, action: PayloadAction<dayjs.Dayjs>) => {
+        setDate: (state, action: PayloadAction<dayjs.Dayjs | string>) => {
             state.date = action.payload
         },
         setDescription: (state, action: PayloadAction<string>) => {
