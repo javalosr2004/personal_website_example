@@ -1,7 +1,7 @@
 import React from 'react'
 
 import ImageSignIn from './components/signin/ImageSignIn'
-import { getServerSession } from 'next-auth'
+// import { getServerSession } from 'next-auth'
 // import { experienceType } from '@/typings/modelTypes'
 import AddExperience from './add/page'
 import SimpleBlock from './components/experience/SimpleBlock'
@@ -27,7 +27,8 @@ async function getExperiences() {
 }
 
 export default async function HomePage() {
-    const session = await getServerSession()
+    // const session = await getServerSession()
+    const session = { user: { name: 'Jesus' } }
     const experiences = await getExperiences()
 
     return (
