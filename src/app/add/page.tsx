@@ -11,7 +11,6 @@ import {
     DialogFooter,
 } from '@/components/ui/dialog'
 
-import { DatePicker } from '@mui/x-date-pickers'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -21,7 +20,6 @@ import { RootState, store } from '@/store'
 import {
     setSlug,
     setTitle,
-    setDate,
     setDescription,
     setPreviewImage,
     setDetailedDescription,
@@ -32,7 +30,7 @@ import {
 } from '@/store/experienceState'
 
 import slugify from 'slugify'
-import dayjs from 'dayjs'
+// import dayjs from 'dayjs'
 import { useSelector } from 'react-redux'
 
 /** TODO:
@@ -81,14 +79,14 @@ const FirstDialog = ({ experience }: { experience: ExperienceState }) => {
                 />
             </div>
             <div className={style.form_group}>
-                <DatePicker
+                {/* <DatePicker
                     className=" w-[280px]"
                     label="Calendar"
                     value={experience.date}
                     onChange={(value) =>
                         store.dispatch(setDate(value as dayjs.Dayjs))
                     }
-                ></DatePicker>
+                ></DatePicker> */}
             </div>
             <div className={style.form_group}>
                 <Label htmlFor="preview_image" className="text-right">
@@ -212,7 +210,7 @@ export default function AddExperience() {
     )
 
     const [disabled, setDisabled] = useState(false)
-    const [step, setStep] = useState(1)
+    const [step, setStep] = useState(0)
     const closeButton = useRef<HTMLButtonElement>(null)
 
     // TODO: Add Authorization using Bearer Token

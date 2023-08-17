@@ -36,7 +36,10 @@ export default async function ExperiencePage({
         const experience = (await res.json()) as experienceType
         return (
             <div className="flex flex-1 flex-col items-center justify-center self-center w-full">
-                <EditExperience slug={params.slug} edit={true}></EditExperience>
+                <EditExperience
+                    slug={params.slug}
+                    experience={experience}
+                ></EditExperience>
                 <h1 className="mt-5 md:text-xl font-bold">
                     {experience.title}
                 </h1>

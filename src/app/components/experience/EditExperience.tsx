@@ -3,21 +3,23 @@ import React from 'react'
 import { Pencil } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
+import { store } from '@/store'
+import { ExperienceState, setExperience } from '@/store/experienceState'
 
 type Props = {
     slug: string
-    edit: boolean
+    experience: ExperienceState
 }
 
 // TODO: Add popup for confirmation
 // TODO: Check if user is admin to show delete experience.
-export default function EditExperience({ slug }: Props) {
+export default function EditExperience({ slug, experience }: Props) {
     const router = useRouter()
-
     const session = useSession()
 
     // TODO: Add modal to edit experience via experience/[slug]/edit
     const handleClick = () => {
+        store.dispatch(setExperience(experience))
         router.push(`/experience/${slug}/edit`)
     }
 
