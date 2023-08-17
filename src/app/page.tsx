@@ -4,10 +4,31 @@ import ImageSignIn from './components/signin/ImageSignIn'
 import { getServerSession } from 'next-auth'
 // import { experienceType } from '@/typings/modelTypes'
 import AddExperience from './add/page'
-import { SimpleBlockLoader } from './components/experience/SimpleBlockLoader'
+import SimpleBlock from './components/experience/SimpleBlock'
+// import { SimpleBlockLoader } from './components/experience/SimpleBlockLoader'
+import type { ExperienceState } from '@/store/experienceState'
+
+async function getExperiences() {
+    const DB_URL: string = (process.env.DB_API || '') + '/experiences'
+    const res = await fetch(DB_URL, {
+        method: 'GET',
+    })
+    if (!res.ok) {
+        return {}
+    }
+    const experiences = await res.json()
+    if (typeof experiences == 'string') {
+        return JSON.parse(experiences)
+    } else if (typeof experiences == 'object') {
+        return experiences
+    } else {
+        return {}
+    }
+}
 
 export default async function HomePage() {
     const session = await getServerSession()
+    const experiences = await getExperiences()
 
     return (
         <div className={`flex flex-col w-[90vw]`}>
@@ -51,7 +72,11 @@ export default async function HomePage() {
             </h1>
 
             <div className="w[100vw]">
-                <SimpleBlockLoader></SimpleBlockLoader>
+                <div className="grid lg:grid-cols-2 gap-10 mr-10">
+                    {experiences.map((experience: ExperienceState) =>
+                        SimpleBlock(experience)
+                    )}
+                </div>
             </div>
         </div>
     )

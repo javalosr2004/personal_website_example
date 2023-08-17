@@ -7,7 +7,10 @@ import Carousel from '@/app/components/layout/Carousel'
 import { Input } from '@/components/ui/input'
 import { RootState, store } from '@/store'
 import { useSelector } from 'react-redux'
-import { ExperienceState } from '@/store/experienceState'
+import {
+    ExperienceState,
+    setDetailedDescription,
+} from '@/store/experienceState'
 import { setTitle } from '@/store/experienceState'
 
 type ParamProps = {
@@ -27,6 +30,7 @@ export default function EditPage({ params }: { params: ParamProps }) {
         if (experience.slug !== params.slug) {
             setValid(false)
         }
+
         setLoading(false)
     })
 
@@ -62,7 +66,15 @@ export default function EditPage({ params }: { params: ParamProps }) {
                     ></Carousel>
                 </div>
                 <div className="w-[50%] text-center mt-10">
-                    <Input value={experience?.detailed.description}></Input>
+                    <Input
+                        className="block"
+                        value={experience?.detailed.description}
+                        onChange={(e) => {
+                            store.dispatch(
+                                setDetailedDescription(e.currentTarget.value)
+                            )
+                        }}
+                    ></Input>
                 </div>
             </div>
         )
