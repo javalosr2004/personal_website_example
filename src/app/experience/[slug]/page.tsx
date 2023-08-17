@@ -16,25 +16,27 @@ export async function generateStaticParams() {
 
     return experiences.map((experience) => ({
         slug: experience.slug,
-        experience: experience,
     }))
 }
 
 export default async function ExperiencePage({
     params,
 }: {
-    params: { slug: string; experience: ExperienceState }
+    params: { slug: string }
 }) {
     const DB_URL: string = (process.env.DB_API || '') + '/experiences'
-    const experiences: ExperienceState[] = await fetch(DB_URL, {
+    const res = await fetch(`${DB_URL}/${params.slug}`, {
         method: 'GET',
-    }).then((data) => data.json())
+    })
 
-    const experience = experiences.find(
-        (experience) => experience.slug === params.slug
-    )
-
-    if (experience) {
+    if (!res.ok) {
+        return (
+            <div className="w-[90vw] text-center">
+                <h1>Blank page. lol.</h1>
+            </div>
+        )
+    } else {
+        const experience: ExperienceState = await res.json()
         return (
             <div className="flex flex-1 flex-col items-center justify-center self-center w-full">
                 <EditExperience
@@ -55,12 +57,6 @@ export default async function ExperiencePage({
                 <div className="w-[50%] text-center mt-10">
                     <p>{experience.detailed.description}</p>
                 </div>
-            </div>
-        )
-    } else {
-        return (
-            <div className="w-[90vw] text-center">
-                <h1>Blank page. lol.</h1>
             </div>
         )
     }
