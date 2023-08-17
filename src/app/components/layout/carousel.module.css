@@ -1,92 +1,21 @@
-.embla {
-    --slide-spacing: 1rem;
-    --slide-size: 100%;
-    --slide-height: 20rem;
+.swiper {
+    width: 100vw;
+    height: 400px;
+}
 
+.swiper-slide {
     text-align: center;
-}
-.embla__viewport {
-    overflow: hidden;
-}
-.embla__container {
-    backface-visibility: hidden;
+    font-size: 18px;
+    background: #fff;
+
+    /* Center slide text vertically */
     display: flex;
-    touch-action: pan-y;
-    margin-left: calc(var(--slide-spacing) * -1);
-}
-.embla__slide {
-    flex: 0 0 var(--slide-size);
-    height: var(--slide-height);
-    min-width: 100px;
-    padding-left: var(--slide-spacing);
-    position: relative;
-    transition: all;
-    transition-duration: 100ms;
+    justify-content: center;
+    align-items: center;
+    height: 400px;
+    width: 400px;
 }
 
-.embla__slide__img {
+.swiper-slide img {
     display: block;
-    height: var(--slide-height);
-    width: 100%;
-    object-fit: scale-down;
-}
-
-.embla__button {
-    -webkit-appearance: none;
-    background-color: transparent;
-    touch-action: manipulation;
-    display: inline-flex;
-    text-decoration: none;
-    cursor: pointer;
-    border: 0;
-    padding: 0;
-    margin: 0;
-}
-
-.embla__buttons {
-    display: flex;
-    align-items: center;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    justify-content: space-between;
-    width: 100%;
-    z-index: 2;
-}
-
-@media screen and (max-width: 768px) {
-    .embla__button {
-        visibility: hidden;
-    }
-}
-.embla__button {
-    z-index: 1;
-    color: var(--background-site);
-    display: flex;
-
-    align-items: center;
-
-    cursor: pointer;
-    width: 4rem;
-    height: 4rem;
-}
-.embla__button:disabled {
-    opacity: 0.3;
-}
-.embla__button__svg {
-    width: 65%;
-    height: 65%;
-}
-
-@media screen and (max-width: 768px) {
-    .embla__button {
-        z-index: 1;
-        color: var(--background-site);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        width: 2rem;
-        height: 2rem;
-    }
 }
