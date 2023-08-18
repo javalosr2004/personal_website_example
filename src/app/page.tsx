@@ -1,36 +1,38 @@
 import React from 'react'
 
 import ImageSignIn from './components/signin/ImageSignIn'
-import { getServerSession } from 'next-auth'
-import { authOptions } from './api/auth/[...nextauth]/options'
+// import { getServerSession } from 'next-auth'
+// import { authOptions } from './api/auth/[...nextauth]/options'
 // import { experienceType } from '@/typings/modelTypes'
-import SimpleBlock from './components/experience/SimpleBlock'
+// import SimpleBlock from './components/experience/SimpleBlock'
 // import { SimpleBlockLoader } from './components/experience/SimpleBlockLoader'
-import type { ExperienceState } from '@/store/experienceState'
+// import type { ExperienceState } from '@/store/experienceState'
 import AddExperienceLoader from './components/experience/AddExperienceLoader'
+import { SimpleBlockLoader } from './components/experience/SimpleBlockLoader'
 
-async function getExperiences() {
-    const DB_URL: string = (process.env.DB_API || '') + '/experiences'
-    const res = await fetch(DB_URL, {
-        method: 'GET',
-    })
-    if (!res.ok) {
-        return {}
-    }
-    const experiences = await res.json()
-    if (typeof experiences == 'string') {
-        return JSON.parse(experiences)
-    } else if (typeof experiences == 'object') {
-        return experiences
-    } else {
-        return {}
-    }
-}
+// async function getExperiences() {
+//     const DB_URL: string = (process.env.DB_API || '') + '/experiences'
+//     const res = await fetch(DB_URL, {
+//         method: 'GET',
+//         cache: 'force-cache',
+//     })
+//     if (!res.ok) {
+//         return {}
+//     }
+//     const experiences = await res.json()
+//     if (typeof experiences == 'string') {
+//         return JSON.parse(experiences)
+//     } else if (typeof experiences == 'object') {
+//         return experiences
+//     } else {
+//         return {}
+//     }
+// }
 
 export default async function HomePage() {
-    const session = await getServerSession(authOptions)
-    // const session = { user: { name: 'Jesus' } }
-    const experiences = await getExperiences()
+    // const session = await getServerSession(authOptions)
+    // // const session = { user: { name: 'Jesus' } }
+    // const experiences = await getExperiences()
 
     return (
         <div className={`flex flex-col w-[90vw]`}>
@@ -49,18 +51,18 @@ export default async function HomePage() {
                         Hi, I'm <b>Jesus Avalos</b>, I am sophmore studying
                         Computer Science at Cal Poly - San Luis Obispo
                         <span className="text-xl"> 🐎</span>
-                        {session && (
-                            <div>
-                                <br />
-                                <b>Welcome, {session.user?.name}</b>
-                                <br />
-                                <AddExperienceLoader />
-                            </div>
-                        )}
+                        {/* {session && ( */}
+                        <div>
+                            <br />
+                            {/* <b>Welcome, {session.user?.name}</b>
+                                <br /> */}
+                            <AddExperienceLoader />
+                        </div>
+                        {/* )} */}
                     </h2>
                 </div>
                 <div className="flex flex-row md:ml-24">
-                    <ImageSignIn authenticated={!!session}></ImageSignIn>
+                    <ImageSignIn></ImageSignIn>
                     <div className="pt-4"></div>
                 </div>
             </div>
@@ -70,11 +72,7 @@ export default async function HomePage() {
             </h1>
 
             <div className="w[100vw]">
-                <div className="grid lg:grid-cols-2 gap-10 mr-10">
-                    {experiences.map((experience: ExperienceState) =>
-                        SimpleBlock(experience)
-                    )}
-                </div>
+                <SimpleBlockLoader></SimpleBlockLoader>
             </div>
         </div>
     )

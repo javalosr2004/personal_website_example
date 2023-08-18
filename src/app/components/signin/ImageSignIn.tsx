@@ -3,14 +3,13 @@
 import { signIn, signOut } from 'next-auth/react'
 import Image from 'next/image'
 import React from 'react'
+import { useSession } from 'next-auth/react'
 
-export default function ImageSignIn({
-    authenticated,
-}: {
-    authenticated: boolean
-}) {
+export default function ImageSignIn() {
+    const session = useSession()
+
     const handleClick = () => {
-        if (!authenticated) {
+        if (session.status != 'authenticated') {
             signIn('github')
         } else {
             signOut()
@@ -21,7 +20,9 @@ export default function ImageSignIn({
         <div
             onClick={handleClick}
             className={`${
-                authenticated ? 'border-green-600' : 'border-black'
+                session.status == 'authenticated'
+                    ? 'border-green-600'
+                    : 'border-black'
             } hover:cursor-pointer relative overflow-hidden border-4 w-[200px] h-[200px] md:w-[300px] md:h-[300px] rounded-[50%] my-4`}
         >
             <Image
