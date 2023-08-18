@@ -1,0 +1,10 @@
+/* disable swiper buttons when width is 768px or below */
+@media (max-width: 768px) {
+    .swiper-button-next {
+        display: none;
+    }
+
+    .swiper-button-prev {
+        display: none;
+    }
+}

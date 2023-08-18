@@ -47,7 +47,7 @@ export default async function ExperiencePage({
                     {experience.title}
                 </h1>
                 <h3 className="mt-3">{experience.date as string}</h3>
-                <div className="relative mt-8 w-full h-auto md:max-w-[67rem] p-4 ">
+                <div className="relative mt-8 w-full h-auto p-4 ">
                     <Carousel
                         images={experience.detailed.images as string[]}
                         alt={(experience.detailed.alt as string[]) || []}
