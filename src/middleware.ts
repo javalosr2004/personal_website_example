@@ -9,4 +9,4 @@ export default withAuth({
     },
 })
 
-export const config = { matcher: ['/add', '/edit'] }
+export const config = { matcher: ['/experience/[slug]/edit'] }

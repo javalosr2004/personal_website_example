@@ -4,7 +4,7 @@ import Link from 'next/link'
 import DeleteExperience from './DeleteExperience'
 import { ExperienceState } from '@/store/experienceState'
 
-export default async function SimpleBlock(experience: ExperienceState) {
+export default function SimpleBlock(experience: ExperienceState) {
     function previewImage(image: string | undefined) {
         if (image) {
             return (

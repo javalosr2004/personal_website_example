@@ -4,7 +4,7 @@ import { signIn, signOut } from 'next-auth/react'
 import Image from 'next/image'
 import React from 'react'
 
-export default async function ImageSignIn({
+export default function ImageSignIn({
     authenticated,
 }: {
     authenticated: boolean
