@@ -6,6 +6,7 @@ async function getExperiences() {
     const DB_URL: string = (process.env.DB_API || '') + '/experiences'
     const res = await fetch(DB_URL, {
         method: 'GET',
+        cache: 'no-store',
     })
     if (!res.ok) {
         return {}
@@ -22,7 +23,6 @@ async function getExperiences() {
 
 export async function SimpleBlockLoader() {
     const experiences: experienceType[] = await getExperiences()
-    console.log('experiences: ', experiences)
 
     return (
         <div className="grid lg:grid-cols-2 gap-10 mr-10">
