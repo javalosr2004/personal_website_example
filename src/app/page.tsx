@@ -1,12 +1,12 @@
 import React from 'react'
 
 import ImageSignIn from './components/signin/ImageSignIn'
-// import { getServerSession } from 'next-auth'
+import { getServerSession } from 'next-auth'
 // import { experienceType } from '@/typings/modelTypes'
-import AddExperience from './add/page'
 import SimpleBlock from './components/experience/SimpleBlock'
 // import { SimpleBlockLoader } from './components/experience/SimpleBlockLoader'
 import type { ExperienceState } from '@/store/experienceState'
+import AddExperienceLoader from './components/experience/AddExperienceLoader'
 
 async function getExperiences() {
     const DB_URL: string = (process.env.DB_API || '') + '/experiences'
@@ -27,8 +27,8 @@ async function getExperiences() {
 }
 
 export default async function HomePage() {
-    // const session = await getServerSession()
-    const session = { user: { name: 'Jesus' } }
+    const session = await getServerSession()
+    // const session = { user: { name: 'Jesus' } }
     const experiences = await getExperiences()
 
     return (
@@ -53,17 +53,13 @@ export default async function HomePage() {
                                 <br />
                                 <b>Welcome, {session.user?.name}</b>
                                 <br />
-                                {Object.keys(session || {}).length !== 0 && (
-                                    <AddExperience></AddExperience>
-                                )}
+                                <AddExperienceLoader />
                             </div>
                         )}
                     </h2>
                 </div>
                 <div className="flex flex-row md:ml-24">
-                    <ImageSignIn
-                        authenticated={Object.keys(session || {}).length !== 0}
-                    ></ImageSignIn>
+                    <ImageSignIn authenticated={!!session}></ImageSignIn>
                     <div className="pt-4"></div>
                 </div>
             </div>
