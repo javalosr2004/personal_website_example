@@ -6,6 +6,8 @@ import Image from 'next/image'
 import style from './carousel.module.css'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation } from 'swiper/modules'
+import 'swiper/css'
+import 'swiper/css/navigation'
 
 export default function Carousel({
     images,
@@ -20,7 +22,7 @@ export default function Carousel({
         <Swiper
             navigation={true}
             modules={[Navigation]}
-            className={style.mySwiper}
+            className={`${style.swiper} mySwiper`}
         >
             {images.map((image_url, idx) => {
                 const complete_path: string = path
@@ -28,15 +30,16 @@ export default function Carousel({
                     : image_url
                 return (
                     <SwiperSlide
-                        className="w-[400px] h-[500px]"
+                        className={`${style.swiper_slide}`}
                         key={image_url}
                     >
                         <Image
                             src={complete_path}
                             alt={alt[idx] || ''}
-                            fill={true}
+                            width={500}
+                            height={500}
                             sizes="100vw"
-                            style={{ objectFit: 'scale-down' }}
+                            // style={{ objectFit: 'scale-down' }}
                             quality={100}
                         ></Image>
                     </SwiperSlide>
