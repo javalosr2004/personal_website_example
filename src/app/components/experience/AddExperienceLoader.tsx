@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { useSession } from 'next-auth/react'
-import AddExperience from '@/app/add/page'
+import AddExperience from '@/app/components/experience/AddExperience'
 
 export default function AddExperienceLoader() {
     const { data: session, status } = useSession({ required: true })

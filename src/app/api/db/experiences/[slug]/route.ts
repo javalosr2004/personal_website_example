@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import experienceSchema from '@/models/experienceSchema'
 import startDB from '@/lib/db'
-import { State } from '@/app/add/experience_reducers/typings'
+import { ExperienceState } from '@/store/experienceState'
 import { parse_string_to_arr } from '../helpers/parse_arr'
 // import { experienceType } from '@/typings/modelTypes'
 
@@ -60,12 +60,9 @@ export async function POST(
         title,
         date,
         preview_image,
-        simple_description,
-        detailed_description,
-        carousel_images,
-        alt,
-        root_folder,
-    }: State = await req.json()
+        description,
+        detailed,
+    }: ExperienceState = await req.json()
 
     const slug = params.slug
 
@@ -77,14 +74,14 @@ export async function POST(
         await experienceSchema.create({
             slug,
             title,
-            description: simple_description,
+            description,
             date,
             preview_image: preview_image,
             detailed: {
-                description: detailed_description,
-                images: parse_string_to_arr(carousel_images),
-                alt: parse_string_to_arr(alt),
-                rootFolder: root_folder || '',
+                description: detailed.description,
+                images: parse_string_to_arr(detailed.images as string),
+                alt: parse_string_to_arr(detailed.alt as string),
+                rootFolder: detailed.rootFolder || '',
             },
         })
 
@@ -106,10 +103,8 @@ export async function PUT(
 
     // replace with findOneAndUpdate ()
     try {
-        await experienceSchema.findOneAndReplace(
-            {
-                slug: slug,
-            },
+        await experienceSchema.findOneAndUpdate(
+            { slug: slug },
             { slug, title, description, date, preview_image, detailed }
         )
 
