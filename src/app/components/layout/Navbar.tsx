@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import style from './layout.module.css'
+import style from './css/layout.module.css'
 import { useEffect, useRef, useState } from 'react'
 import { store } from '@/store'
 import { setNavOpen } from '@/store/navState'

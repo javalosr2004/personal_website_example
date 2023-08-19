@@ -21,7 +21,6 @@ import {
     setSlug,
     setTitle,
     setDescription,
-    setPreviewImage,
     setDetailedDescription,
     setDetailedRootFolder,
     setDetailedImages,
@@ -63,6 +62,11 @@ export const nextStep = (
 }
 
 const FirstDialog = ({ experience }: { experience: ExperienceState }) => {
+    const [files, setFiles] = useState<FileList | null>(null)
+    useEffect(() => {
+        console.log(files)
+    }, [files])
+
     return (
         <div className="grid gap-4 py-4">
             <div className={style.form_group}>
@@ -92,7 +96,7 @@ const FirstDialog = ({ experience }: { experience: ExperienceState }) => {
                 <Label htmlFor="preview_image" className="text-right">
                     Preview Image
                 </Label>
-                <Input
+                {/* <Input
                     id="preview_image"
                     value={experience.preview_image}
                     onChange={(event) =>
@@ -101,7 +105,15 @@ const FirstDialog = ({ experience }: { experience: ExperienceState }) => {
                         )
                     }
                     placeholder="Optimized code."
-                />
+                /> */}
+                <Input
+                    multiple={true}
+                    onChange={(event) => {
+                        setFiles(event.currentTarget.files)
+                    }}
+                    type="file"
+                    placeholder="Upload file."
+                ></Input>
             </div>
             <div className={style.form_group}>
                 <Label htmlFor="simple_description" className="text-right">

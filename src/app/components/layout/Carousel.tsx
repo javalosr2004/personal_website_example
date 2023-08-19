@@ -3,12 +3,12 @@
 import React from 'react'
 import Image from 'next/image'
 
-import style from './carousel.module.css'
+import style from './css/carousel.module.css'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/navigation'
-import './carousel_buttons.css'
+import './css/carousel_buttons.css'
 
 export default function Carousel({
     images,
