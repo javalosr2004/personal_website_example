@@ -10,7 +10,7 @@ export interface ExperienceState {
     preview_image: string
     detailed: {
         description: string
-        images: string[] | string
+        images: string[]
         rootFolder?: string
         alt?: string[] | string
     }
@@ -24,7 +24,7 @@ const initialState: ExperienceState = {
     preview_image: '',
     detailed: {
         description: '',
-        images: '',
+        images: [],
         rootFolder: '',
         alt: '',
     },
@@ -57,11 +57,11 @@ export const experienceSlice = createSlice({
         setDetailedDescription: (state, action: PayloadAction<string>) => {
             state.detailed.description = action.payload
         },
-        setDetailedImages: (
-            state,
-            action: PayloadAction<string[] | string>
-        ) => {
+        setDetailedImages: (state, action: PayloadAction<string[]>) => {
             state.detailed.images = action.payload
+        },
+        addDetailedImages: (state, action: PayloadAction<string>) => {
+            state.detailed.images.push(action.payload)
         },
         setDetailedRootFolder: (state, action: PayloadAction<string>) => {
             state.detailed.rootFolder = action.payload
@@ -82,6 +82,7 @@ export const {
     setDate,
     setDescription,
     setPreviewImage,
+    addDetailedImages,
     setDetailedDescription,
     setDetailedImages,
     setDetailedRootFolder,

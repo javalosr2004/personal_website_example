@@ -23,14 +23,16 @@ import {
     setDescription,
     setDetailedDescription,
     setDetailedRootFolder,
-    setDetailedImages,
+    addDetailedImages,
     setDetailedAlt,
     ExperienceState,
+    setExperience,
 } from '@/store/experienceState'
 
 import slugify from 'slugify'
 // import dayjs from 'dayjs'
 import { useSelector } from 'react-redux'
+import ImageUpload from '../cloudinary/ImageUpload'
 
 /** TODO:
  *
@@ -62,11 +64,6 @@ export const nextStep = (
 }
 
 const FirstDialog = ({ experience }: { experience: ExperienceState }) => {
-    const [files, setFiles] = useState<FileList | null>(null)
-    useEffect(() => {
-        console.log(files)
-    }, [files])
-
     return (
         <div className="grid gap-4 py-4">
             <div className={style.form_group}>
@@ -106,14 +103,15 @@ const FirstDialog = ({ experience }: { experience: ExperienceState }) => {
                     }
                     placeholder="Optimized code."
                 /> */}
-                <Input
+                {/* <Input
                     multiple={true}
                     onChange={(event) => {
                         setFiles(event.currentTarget.files)
                     }}
                     type="file"
                     placeholder="Upload file."
-                ></Input>
+                ></Input> */}
+                <ImageUpload></ImageUpload>
             </div>
             <div className={style.form_group}>
                 <Label htmlFor="simple_description" className="text-right">
@@ -174,7 +172,7 @@ const SecondDialog = ({ experience }: { experience: ExperienceState }) => {
                     value={experience.detailed.images}
                     onChange={(event) =>
                         store.dispatch(
-                            setDetailedImages(event.currentTarget.value)
+                            addDetailedImages(event.currentTarget.value)
                         )
                     }
                     placeholder="['rose_1.png', 'rose_2.png']"
@@ -216,10 +214,33 @@ const MultipleStepForm = ({
     }
 }
 
+const initialState: ExperienceState = {
+    slug: '',
+    title: '',
+    date: '',
+    description: '',
+    preview_image: '',
+    detailed: {
+        description: '',
+        rootFolder: '',
+        images: [],
+        alt: '',
+    },
+}
+
 export default function AddExperience() {
     const experience: ExperienceState = useSelector<RootState, ExperienceState>(
         (state) => state.experience
     )
+
+    useEffect(() => {
+        store.dispatch(setExperience(initialState))
+    }, [])
+
+    // TODO: Remove this session storage and use primarily redux store instead
+    useEffect(() => {
+        window.sessionStorage.setItem('form', JSON.stringify(experience))
+    }, [experience])
 
     const [disabled, setDisabled] = useState(false)
     const [step, setStep] = useState(0)
@@ -272,11 +293,6 @@ export default function AddExperience() {
             closeButton.current.click()
         }
     }
-
-    // TODO: Remove this session storage and use primarily redux store instead
-    useEffect(() => {
-        window.sessionStorage.setItem('form', JSON.stringify(experience))
-    }, [experience])
 
     return (
         <div className="w-200px mt-5">
