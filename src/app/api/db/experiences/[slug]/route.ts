@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server'
 import experienceSchema from '@/models/experienceSchema'
 import startDB from '@/lib/db'
 import { ExperienceState } from '@/store/experienceState'
-import { parse_string_to_arr } from '../helpers/parse_arr'
 // import { experienceType } from '@/typings/modelTypes'
 
 export async function GET(
@@ -79,8 +78,8 @@ export async function POST(
             preview_image: preview_image,
             detailed: {
                 description: detailed.description,
-                images: parse_string_to_arr(detailed.images as string),
-                alt: parse_string_to_arr(detailed.alt as string),
+                images: detailed.images,
+                alt: detailed.alt,
                 rootFolder: detailed.rootFolder || '',
             },
         })

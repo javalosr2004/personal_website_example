@@ -1,6 +1,6 @@
 import React from 'react'
-import { experienceType } from '@/typings/modelTypes'
 import SimpleBlock from './SimpleBlock'
+import { ExperienceState } from '@/store/experienceState'
 
 async function getExperiences() {
     const DB_URL: string = (process.env.DB_API || '') + '/experiences'
@@ -22,7 +22,7 @@ async function getExperiences() {
 }
 
 export async function SimpleBlockLoader() {
-    const experiences: experienceType[] = await getExperiences()
+    const experiences: ExperienceState[] = await getExperiences()
 
     return (
         <div className="grid lg:grid-cols-2 gap-10 mr-10">

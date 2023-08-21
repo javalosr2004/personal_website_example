@@ -11,8 +11,8 @@ export interface ExperienceState {
     detailed: {
         description: string
         images: string[]
-        rootFolder?: string
-        alt?: string[] | string
+        rootFolder: string
+        alt: string[]
     }
 }
 
@@ -26,7 +26,7 @@ const initialState: ExperienceState = {
         description: '',
         images: [],
         rootFolder: '',
-        alt: '',
+        alt: [],
     },
 }
 
@@ -66,7 +66,10 @@ export const experienceSlice = createSlice({
         setDetailedRootFolder: (state, action: PayloadAction<string>) => {
             state.detailed.rootFolder = action.payload
         },
-        setDetailedAlt: (state, action: PayloadAction<string[] | string>) => {
+        addDetailedAlt: (state, action: PayloadAction<string>) => {
+            state.detailed.alt.push(action.payload)
+        },
+        setDetailedAlt: (state, action: PayloadAction<string[]>) => {
             state.detailed.alt = action.payload
         },
         setSlug: (state, action: PayloadAction<string>) => {
@@ -86,6 +89,7 @@ export const {
     setDetailedDescription,
     setDetailedImages,
     setDetailedRootFolder,
+    addDetailedAlt,
     setDetailedAlt,
 } = experienceSlice.actions
 

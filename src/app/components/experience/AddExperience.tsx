@@ -24,7 +24,7 @@ import {
     setDetailedDescription,
     setDetailedRootFolder,
     addDetailedImages,
-    setDetailedAlt,
+    addDetailedAlt,
     ExperienceState,
     setExperience,
 } from '@/store/experienceState'
@@ -187,7 +187,7 @@ const SecondDialog = ({ experience }: { experience: ExperienceState }) => {
                     value={experience.detailed.alt}
                     onChange={(event) =>
                         store.dispatch(
-                            setDetailedAlt(event.currentTarget.value)
+                            addDetailedAlt(event.currentTarget.value)
                         )
                     }
                     placeholder="['Cool picture', 'Nice dog']"
@@ -224,7 +224,7 @@ const initialState: ExperienceState = {
         description: '',
         rootFolder: '',
         images: [],
-        alt: '',
+        alt: [],
     },
 }
 
