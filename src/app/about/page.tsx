@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 
 export default function HomePage() {
     interface windowType {
@@ -9,19 +9,20 @@ export default function HomePage() {
     }
 
     const [windowSize, setWindowSize] = useState<windowType>()
+    const window = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
         console.log('update')
-        if (window) {
+        if (window.current) {
             setWindowSize({
-                width: window.outerWidth,
-                height: window.outerHeight,
+                width: window.current.clientWidth,
+                height: window.current.clientHeight,
             })
         }
-    }, [window.outerHeight, window.outerWidth])
+    }, [window.current])
 
     return (
-        <div>
+        <div ref={window}>
             <h1>
                 Width: <b>${windowSize?.width}</b>
             </h1>
