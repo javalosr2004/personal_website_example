@@ -16,10 +16,10 @@ type Props = {
 // TODO: use redux inside of here???, pass ACTION to this component
 
 export default function ImageUpload({ multiple = false }: Props) {
-    const [images, setImages] = useState<FileList | null>()
     // const [stored, setStored] = useState<string[]>([])
     const [value, setValue] = useState('')
 
+    // find a way to cache images, possibly use server component, pass as props
     const displayStoredImages = () => {
         if (multiple) {
             const storedImages = useSelector<RootState, string[]>(
@@ -55,18 +55,15 @@ export default function ImageUpload({ multiple = false }: Props) {
         setValue(e.currentTarget.value)
         const files = e.currentTarget.files
         if (!files) return
-        setImages(files)
 
-        if (images) {
-            if (multiple) {
-                for (const idx in images) {
-                    const url = await toCloudinary(images[idx])
-                    store.dispatch(addDetailedImages(url))
-                }
-            } else {
-                const url = await toCloudinary(images[0])
-                store.dispatch(setPreviewImage(url))
+        if (multiple) {
+            for (let i = 0; i < files.length; i++) {
+                const url = await toCloudinary(files[i])
+                store.dispatch(addDetailedImages(url))
             }
+        } else {
+            const url = await toCloudinary(files[0])
+            store.dispatch(setPreviewImage(url))
         }
     }
 
