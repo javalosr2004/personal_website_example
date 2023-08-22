@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import Image from 'next/image'
+// import Image from 'next/image'
 
 import style from './css/carousel.module.css'
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -9,6 +9,7 @@ import { Navigation } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import './css/carousel_buttons.css'
+import SkeletonImage from './SkeletonImage'
 
 export default function Carousel({
     images,
@@ -34,7 +35,7 @@ export default function Carousel({
                         className={`${style.swiper_slide}`}
                         key={image_url}
                     >
-                        <Image
+                        {/* <Image
                             src={complete_path}
                             alt={alt[idx] || ''}
                             width={500}
@@ -42,7 +43,13 @@ export default function Carousel({
                             sizes="100vw"
                             // style={{ objectFit: 'scale-down' }}
                             quality={100}
-                        ></Image>
+                        ></Image> */}
+                        <SkeletonImage
+                            src={complete_path}
+                            alt={alt[idx] || ''}
+                            width={500}
+                            height={500}
+                        ></SkeletonImage>
                     </SwiperSlide>
                 )
             })}
