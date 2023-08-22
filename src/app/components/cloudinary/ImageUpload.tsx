@@ -66,7 +66,7 @@ export default function ImageUpload({ multiple = false }: Props) {
         setValue(e.currentTarget.value)
         const files = e.currentTarget.files
         if (!files) return
-
+        setUploading(true)
         if (multiple) {
             for (let i = 0; i < files.length; i++) {
                 const url = await toCloudinary(files[i])
