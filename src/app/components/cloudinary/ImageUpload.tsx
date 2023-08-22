@@ -38,12 +38,14 @@ export default function ImageUpload({ multiple = false }: Props) {
             )
             if (storedImage) {
                 return (
-                    <Image
-                        src={storedImage}
-                        width={200}
-                        height={200}
-                        alt="preview"
-                    />
+                    <div className="absolute rounded-md overflow-hidden right-[50px] w-[50px]">
+                        <Image
+                            src={storedImage}
+                            width={200}
+                            height={200}
+                            alt="preview"
+                        />
+                    </div>
                 )
             }
         }
@@ -90,7 +92,7 @@ export default function ImageUpload({ multiple = false }: Props) {
             ></Input>
             <label
                 htmlFor="input"
-                className="border-black border-2 p-3 rounded-md"
+                className="flex text-sm h-20 items-center w-full rounded-md border border-input bg-background px-3 py-2 ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
             >
                 {uploading ? 'Uploading...' : 'Upload Image'}
                 {displayStoredImages()}

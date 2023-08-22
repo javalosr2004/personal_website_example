@@ -20,9 +20,9 @@ import { RootState, store } from '@/store'
 import {
     setSlug,
     setTitle,
+    setDate,
     setDescription,
     setDetailedDescription,
-    setDetailedRootFolder,
     addDetailedImages,
     addDetailedAlt,
     ExperienceState,
@@ -33,6 +33,7 @@ import slugify from 'slugify'
 // import dayjs from 'dayjs'
 import { useSelector } from 'react-redux'
 import ImageUpload from '../cloudinary/ImageUpload'
+import dayjs from 'dayjs'
 
 /** TODO:
  *
@@ -88,6 +89,20 @@ const FirstDialog = ({ experience }: { experience: ExperienceState }) => {
                         store.dispatch(setDate(value as dayjs.Dayjs))
                     }
                 ></DatePicker> */}
+                <Label htmlFor="date" className="text-right">
+                    Date
+                </Label>
+                <Input
+                    id="date"
+                    className=""
+                    type="date"
+                    value={experience.date as string}
+                    onChange={(e) =>
+                        store.dispatch(setDate(e.currentTarget.value))
+                    }
+                    min={'2000-01-01'}
+                    max={dayjs().format('YYYY-MM-DD')}
+                ></Input>
             </div>
             <div className={style.form_group}>
                 <Label htmlFor="preview_image" className="text-right">
@@ -135,7 +150,7 @@ const FirstDialog = ({ experience }: { experience: ExperienceState }) => {
 const SecondDialog = ({ experience }: { experience: ExperienceState }) => {
     return (
         <div className="grid gap-4 py-4">
-            <div className={style.form_group_larger}>
+            <div className={style.form_group}>
                 <Label htmlFor="description" className="text-right">
                     Description
                 </Label>
@@ -150,20 +165,7 @@ const SecondDialog = ({ experience }: { experience: ExperienceState }) => {
                     placeholder="Google"
                 />
             </div>
-            <div className={style.form_group_larger}>
-                <Label htmlFor="root_folder" className="text-right">
-                    Root Folder (optional)
-                </Label>
-                <Input
-                    id="root_folder"
-                    value={experience.detailed.rootFolder}
-                    onChange={(event) =>
-                        setDetailedRootFolder(event.currentTarget.value)
-                    }
-                    placeholder="/rose_pictures"
-                />
-            </div>
-            <div className={style.form_group_larger}>
+            <div className={style.form_group}>
                 <Label htmlFor="images" className="text-right">
                     Slideshow Images
                 </Label>
@@ -178,7 +180,7 @@ const SecondDialog = ({ experience }: { experience: ExperienceState }) => {
                     placeholder="['rose_1.png', 'rose_2.png']"
                 />
             </div>
-            <div className={style.form_group_larger}>
+            <div className={style.form_group}>
                 <Label htmlFor="alt" className="text-right">
                     Alt Captions
                 </Label>
