@@ -47,12 +47,12 @@ export default function Navbar({
             onMouseLeave={handleMouseLeave}
             onMouseOver={() => clearTimeout(timeRef.current)}
             ref={navRef}
-            className={`sticky top-0 flex flex-row md:flex-col justify-center max-md:translate-y-[-40px] max-md:hover:translate-y-[0px] max-md:h-[10vh] max-md:w-[100vw] md:w-auto md:h-[100vh] transition-all duration-500 max-md:translate-x-0 md:translate-x-[-100px] md:hover:translate-x-0 hover:delay-[0ms] delay-[700ms] `}
+            className={`sticky top-0 z-[1000] flex flex-row md:flex-col justify-center max-md:translate-y-[-40px] max-md:hover:translate-y-[0px] max-md:h-[10vh] max-md:w-[100vw] md:w-auto md:h-[100vh] transition-all duration-500 max-md:translate-x-0 md:translate-x-[-100px] md:hover:translate-x-0 hover:delay-[0ms] delay-[700ms] `}
         >
             <header
                 className={`${
                     start && style.initialLoad
-                } transition-all max-md:h-[60px] text-center max-md:pt-4 overflow-auto duration-500 flex px-4 max-md:w-[90vw] md:w-auto md:h-[90vh] border-neutral-300 max-md:border-b-2 md:border-r-2 flex-row md:flex-col justify-around`}
+                } transition-all max-md:h-[60px] bg-white text-center max-md:pt-4 overflow-auto duration-500 flex px-4 max-md:w-[90vw] md:w-auto md:h-[90vh] border-neutral-300 max-md:border-b-2 md:border-r-2 flex-row md:flex-col justify-around`}
             >
                 {names.map((item, idx) => {
                     if (pathname == path[idx]) {
