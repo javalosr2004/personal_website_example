@@ -29,6 +29,7 @@ export default function RootLayout({
                 ></Navbar>
                 <Providers>
                     <TransitionNav>{children}</TransitionNav>
+                    {/* {children} */}
                 </Providers>
             </body>
         </html>

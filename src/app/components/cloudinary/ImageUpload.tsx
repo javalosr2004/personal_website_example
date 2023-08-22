@@ -19,10 +19,11 @@ type Props = {
 // TODO: use redux inside of here???, pass ACTION to this component
 
 export default function ImageUpload({ multiple = false }: Props) {
-    // const [stored, setStored] = useState<string[]>([])
     const [value, setValue] = useState('')
+    // different states for uploading and image loading
     const [uploading, setUploading] = useState(false)
     const [imageLoading, setImageLoading] = useState(false)
+
     const preview_image = useSelector<RootState, string>(
         (state) => state.experience.preview_image
     )

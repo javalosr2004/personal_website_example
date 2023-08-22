@@ -25,8 +25,13 @@ export async function SimpleBlockLoader() {
     const experiences: ExperienceState[] = await getExperiences()
 
     return (
-        <div className="grid lg:grid-cols-2 gap-10 mr-10">
-            {experiences.map((experience) => SimpleBlock(experience))}
+        <div>
+            <h1 className="mt-10 underline underline-offset-1 mb-[50px]">
+                Past Work:
+            </h1>
+            <div className="grid lg:grid-cols-2 gap-10 ">
+                {experiences.map((experience) => SimpleBlock(experience))}
+            </div>
         </div>
     )
 }

@@ -35,7 +35,7 @@ export default async function HomePage() {
     // const experiences = await getExperiences()
 
     return (
-        <div className={`flex flex-col w-[90vw]`}>
+        <div className={`flex flex-col w-[100vw] p-[30px] lg:px-[150px]`}>
             <div className="xl:max-w-5xl lg:max-w-4xl  mb-10 flex flex-row self-center">
                 <div className="mr-10 flex flex-col justify-around my-10">
                     <h1 className="mt-4 text-2xl md:text-4xl">
@@ -67,13 +67,7 @@ export default async function HomePage() {
                 </div>
             </div>
 
-            <h1 className="mt-10 underline underline-offset-1 mb-[50px]">
-                Past Work:
-            </h1>
-
-            <div className="w[100vw]">
-                <SimpleBlockLoader></SimpleBlockLoader>
-            </div>
+            <SimpleBlockLoader></SimpleBlockLoader>
         </div>
     )
 }
