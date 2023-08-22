@@ -7,6 +7,8 @@ import { RootState, store } from '@/store'
 import { setPreviewImage, addDetailedImages } from '@/store/experienceState'
 import { useSelector } from 'react-redux'
 import Image from 'next/image'
+import { Skeleton } from '@/components/ui/skeleton'
+import Link from 'next/link'
 
 type Props = {
     multiple?: boolean
@@ -20,31 +22,40 @@ export default function ImageUpload({ multiple = false }: Props) {
     // const [stored, setStored] = useState<string[]>([])
     const [value, setValue] = useState('')
     const [uploading, setUploading] = useState(false)
+    const [imageLoading, setImageLoading] = useState(false)
+    const preview_image = useSelector<RootState, string>(
+        (state) => state.experience.preview_image
+    )
+    const detailed_images = useSelector<RootState, string[]>(
+        (state) => state.experience.detailed.images
+    )
 
     // find a way to cache images, possibly use server component, pass as props
     const displayStoredImages = () => {
         if (multiple) {
-            const storedImages = useSelector<RootState, string[]>(
-                (state) => state.experience.detailed.images
-            )
-            if (storedImages.length > 0) {
-                return storedImages.map((image, idx) => {
+            if (detailed_images.length > 0) {
+                return detailed_images.map((image, idx) => {
                     return <img key={idx} src={image} alt="preview" />
                 })
             }
         } else {
-            const storedImage = useSelector<RootState, string>(
-                (state) => state.experience.preview_image
-            )
-            if (storedImage) {
+            if (preview_image) {
                 return (
-                    <div className="absolute rounded-md overflow-hidden right-[50px] w-[50px]">
-                        <Image
-                            src={storedImage}
-                            width={200}
-                            height={200}
-                            alt="preview"
-                        />
+                    <div className="absolute hover:cursor-pointer rounded-md overflow-hidden right-[50px] w-[50px]">
+                        <Link href={preview_image} target="__blank">
+                            <Image
+                                src={preview_image}
+                                className={`${
+                                    imageLoading
+                                        ? 'animate-pulse bg-slate-300'
+                                        : ''
+                                }`}
+                                width={200}
+                                height={200}
+                                alt="preview"
+                                onLoadingComplete={() => setImageLoading(false)}
+                            />
+                        </Link>
                     </div>
                 )
             }
@@ -77,6 +88,7 @@ export default function ImageUpload({ multiple = false }: Props) {
             store.dispatch(setPreviewImage(url))
         }
         setUploading(false)
+        setImageLoading(true)
     }
 
     return (
@@ -94,8 +106,13 @@ export default function ImageUpload({ multiple = false }: Props) {
                 htmlFor="input"
                 className="flex text-sm h-20 items-center w-full rounded-md border border-input bg-background px-3 py-2 ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
             >
-                {uploading ? 'Uploading...' : 'Upload Image'}
-                {displayStoredImages()}
+                {uploading || imageLoading ? 'Uploading...' : 'Upload Image'}
+                {uploading && (
+                    <div className="absolute rounded-md overflow-hidden right-[50px] ">
+                        <Skeleton className="bg-slate-300 w-[50px] h-[50px]"></Skeleton>
+                    </div>
+                )}
+                {!uploading && displayStoredImages()}
             </label>
         </>
     )
