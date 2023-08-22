@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input'
 import { RootState, store } from '@/store'
 import { setPreviewImage, addDetailedImages } from '@/store/experienceState'
 import { useSelector } from 'react-redux'
+import Image from 'next/image'
 
 type Props = {
     multiple?: boolean
@@ -18,6 +19,7 @@ type Props = {
 export default function ImageUpload({ multiple = false }: Props) {
     // const [stored, setStored] = useState<string[]>([])
     const [value, setValue] = useState('')
+    const [uploading, setUploading] = useState(false)
 
     // find a way to cache images, possibly use server component, pass as props
     const displayStoredImages = () => {
@@ -35,7 +37,14 @@ export default function ImageUpload({ multiple = false }: Props) {
                 (state) => state.experience.preview_image
             )
             if (storedImage) {
-                return <img src={storedImage} alt="preview" />
+                return (
+                    <Image
+                        src={storedImage}
+                        width={200}
+                        height={200}
+                        alt="preview"
+                    />
+                )
             }
         }
     }
@@ -65,6 +74,7 @@ export default function ImageUpload({ multiple = false }: Props) {
             const url = await toCloudinary(files[0])
             store.dispatch(setPreviewImage(url))
         }
+        setUploading(false)
     }
 
     return (
@@ -82,7 +92,7 @@ export default function ImageUpload({ multiple = false }: Props) {
                 htmlFor="input"
                 className="border-black border-2 p-3 rounded-md"
             >
-                {multiple ? 'Upload Images' : 'Upload Image'}
+                {uploading ? 'Uploading...' : 'Upload Image'}
                 {displayStoredImages()}
             </label>
         </>
