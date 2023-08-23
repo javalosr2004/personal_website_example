@@ -8,6 +8,9 @@ export async function generateStaticParams() {
     const DB_URL: string = (process.env.DB_API || '') + '/experiences'
     const experiences: ExperienceState[] = await fetch(DB_URL, {
         method: 'GET',
+        next: {
+            tags: ['experiences'],
+        },
     })
         .then((data) => data.json())
         .catch((err) => {

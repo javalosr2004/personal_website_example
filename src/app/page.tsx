@@ -9,6 +9,7 @@ import ImageSignIn from './components/signin/ImageSignIn'
 // import type { ExperienceState } from '@/store/experienceState'
 import AddExperienceLoader from './components/experience/AddExperienceLoader'
 import { SimpleBlockLoader } from './components/experience/SimpleBlockLoader'
+import RevalidateCache from './components/experience/RevalidateCache'
 
 // async function getExperiences() {
 //     const DB_URL: string = (process.env.DB_API || '') + '/experiences'
@@ -42,9 +43,6 @@ export default async function HomePage() {
                         <b>
                             Developer.
                             <br /> Student. Husband. <br />
-                            {/* {Object.keys(session).length !== 0 && (
-                                <b>Now Signed In.</b>
-                            )} */}
                         </b>
                     </h1>
                     <h2 className="mt-8 lg:mt-0 md:text-xl">
@@ -63,7 +61,7 @@ export default async function HomePage() {
                 </div>
                 <div className="flex flex-row md:ml-24">
                     <ImageSignIn></ImageSignIn>
-                    <div className="pt-4"></div>
+                    <RevalidateCache></RevalidateCache>
                 </div>
             </div>
 
