@@ -10,5 +10,5 @@ const revalidateExperience = () => {
 
 export const RevalidateCache = async (router: AppRouterInstance) => {
     await revalidateExperience()
-    router.refresh()
+    router.push('/')
 }
