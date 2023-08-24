@@ -57,7 +57,8 @@ export async function POST(
 ) {
     const {
         title,
-        date,
+        start_date,
+        end_date,
         preview_image,
         description,
         detailed,
@@ -74,13 +75,13 @@ export async function POST(
             slug,
             title,
             description,
-            date,
+            start_date,
+            end_date,
             preview_image: preview_image,
             detailed: {
                 description: detailed.description,
                 images: detailed.images,
                 alt: detailed.alt,
-                rootFolder: detailed.rootFolder || '',
             },
         })
 

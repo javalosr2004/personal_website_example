@@ -1,5 +1,7 @@
 import { withAuth } from 'next-auth/middleware'
 
+// TOOD: add mongoose middleware
+
 export default withAuth({
     callbacks: {
         authorized: ({ token }) => {

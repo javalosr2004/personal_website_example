@@ -2,6 +2,8 @@
 import React from 'react'
 import { Trash2 } from 'lucide-react'
 import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
+import { RevalidateCache } from './RevalidateCache'
 
 type Props = {
     slug: string
@@ -11,9 +13,11 @@ type Props = {
 // TODO: Check if user is admin to show delete experience.
 export default function DeleteExperience({ slug }: Props) {
     const session = useSession()
+    const router = useRouter()
 
     const handleClick = async () => {
         await fetch(`/api/db/experiences/${slug}`, { method: 'DELETE' })
+        await RevalidateCache(router)
     }
 
     if (session.data?.user.isAdmin) {

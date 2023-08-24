@@ -1,4 +1,5 @@
 import EditExperience from '@/app/components/experience/EditExperience'
+import { formatDate } from '@/app/components/helpers/formatDate'
 import Carousel from '@/app/components/layout/Carousel'
 import { ExperienceState } from '@/store/experienceState'
 
@@ -49,12 +50,13 @@ export default async function ExperiencePage({
                 <h1 className="mt-5 md:text-xl font-bold">
                     {experience.title}
                 </h1>
-                <h3 className="mt-3">{experience.date as string}</h3>
+                <h3 className="mt-3">
+                    {formatDate(experience.start_date, experience.end_date)}
+                </h3>
                 <div className="relative mt-8 w-full h-auto p-4 ">
                     <Carousel
                         images={experience.detailed.images as string[]}
                         alt={(experience.detailed.alt as string[]) || []}
-                        path={experience.detailed.rootFolder}
                     ></Carousel>
                 </div>
                 <div className="w-[50%] text-center mt-10">

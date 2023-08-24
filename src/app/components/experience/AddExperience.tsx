@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect, useRef, useState } from 'react'
-import style from './experience.module.css'
+import { useForm } from 'react-hook-form'
 import {
     Dialog,
     DialogContent,
@@ -13,220 +13,312 @@ import {
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from '@/components/ui/form'
 
 import { RootState, store } from '@/store'
+import { zodResolver } from '@hookform/resolvers/zod'
+import * as z from 'zod'
+
 // import all dispath actions from store for experience, setDate, setExperience
 import {
     setSlug,
     setTitle,
-    setDate,
+    setStartDate,
+    setEndDate,
     setDescription,
     setDetailedDescription,
-    addDetailedImages,
-    addDetailedAlt,
     ExperienceState,
     setExperience,
+    setDetailedAlt,
 } from '@/store/experienceState'
 
 import slugify from 'slugify'
-// import dayjs from 'dayjs'
 import { useSelector } from 'react-redux'
 import ImageUpload from '../cloudinary/ImageUpload'
-import dayjs from 'dayjs'
+import { RevalidateCache } from './RevalidateCache'
+import { useRouter } from 'next/navigation'
 
 /** TODO:
  *
  *      Add form validation using Zod and React-hook-form || implement custom validation???
  */
 
-// const formSchema = z.object({
-//     title: z.string(),
-//     date: z.date(),
-//     preview_image: z.string(),
-//     detailed_description: z.string(),
-//     carousel_images: z.string().regex(RegExp('"([^"]*)"')),
-//     alt: z.string({}).regex(RegExp('"([^"]*)"')).optional().or(z.literal('')),
-//     root_folder: z.string({}).optional().or(z.literal('')),
-// })
+const firstStepSchema = z.object({
+    title: z.string().min(2, 'Too Short!'),
+    start_date: z.string().min(7, 'Date missing.'),
+    end_date: z.string().optional(),
+    preview_image: z.any(),
+    description: z.string().min(3, 'Too Short!'),
+})
+
+const secondStepSchema = z.object({
+    description: z.string(),
+    images: z.array(z.string()),
+    alt: z.string(),
+})
 
 export const previousStep = (
-    step: number,
     setStep: React.Dispatch<React.SetStateAction<number>>
 ) => {
-    if (step - 1 >= 0) {
-        setStep((step) => step - 1)
-    }
+    setStep((step) => step - 1)
 }
+
 export const nextStep = (
     setStep: React.Dispatch<React.SetStateAction<number>>
 ) => {
     setStep((step) => step + 1)
 }
 
-const FirstDialog = ({ experience }: { experience: ExperienceState }) => {
+/** TODO:
+ *
+ *      Maintain state when close button is clicked
+ */
+
+const FirstDialog = ({
+    experience,
+    setStep,
+}: {
+    experience: ExperienceState
+    setStep: React.Dispatch<React.SetStateAction<number>>
+}) => {
+    const form = useForm<z.infer<typeof firstStepSchema>>({
+        resolver: zodResolver(firstStepSchema),
+        defaultValues: {
+            title: experience.title,
+            start_date: experience.start_date,
+            end_date: experience.end_date,
+            preview_image: experience.preview_image,
+            description: experience.description,
+        },
+    })
+
+    function onSubmit(values: z.infer<typeof firstStepSchema>) {
+        store.dispatch(setTitle(values.title))
+
+        store.dispatch(setStartDate(values.start_date))
+        if (values.end_date) {
+            store.dispatch(setEndDate(values.end_date))
+        }
+
+        store.dispatch(setDescription(values.description))
+        nextStep(setStep)
+    }
+
     return (
-        <div className="grid gap-4 py-4">
-            <div className={style.form_group}>
-                <Label htmlFor="title" className="text-right">
-                    Title
-                </Label>
-                <Input
-                    id="title"
-                    value={experience.title}
-                    onChange={(event) =>
-                        store.dispatch(setTitle(event.currentTarget.value))
-                    }
-                    placeholder="Google"
+        <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5 ">
+                <FormField
+                    control={form.control}
+                    name="title"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Title</FormLabel>
+                            <FormControl>
+                                <Input placeholder="Google" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
                 />
-            </div>
-            <div className={style.form_group}>
-                {/* <DatePicker
-                    className=" w-[280px]"
-                    label="Calendar"
-                    value={experience.date}
-                    onChange={(value) =>
-                        store.dispatch(setDate(value as dayjs.Dayjs))
-                    }
-                ></DatePicker> */}
-                <Label htmlFor="date" className="text-right">
-                    Date
-                </Label>
-                <Input
-                    id="date"
-                    className=""
-                    type="date"
-                    value={experience.date as string}
-                    onChange={(e) =>
-                        store.dispatch(setDate(e.currentTarget.value))
-                    }
-                    min={'2000-01-01'}
-                    max={dayjs().format('YYYY-MM-DD')}
-                ></Input>
-            </div>
-            <div className={style.form_group}>
-                <Label htmlFor="preview_image" className="text-right">
-                    Preview Image
-                </Label>
-                {/* <Input
-                    id="preview_image"
-                    value={experience.preview_image}
-                    onChange={(event) =>
-                        store.dispatch(
-                            setPreviewImage(event.currentTarget.value)
-                        )
-                    }
-                    placeholder="Optimized code."
-                /> */}
-                {/* <Input
-                    multiple={true}
-                    onChange={(event) => {
-                        setFiles(event.currentTarget.files)
-                    }}
-                    type="file"
-                    placeholder="Upload file."
-                ></Input> */}
-                <ImageUpload></ImageUpload>
-            </div>
-            <div className={style.form_group}>
-                <Label htmlFor="simple_description" className="text-right">
-                    Simple Description
-                </Label>
-                <Input
-                    id="description"
-                    value={experience.description}
-                    onChange={(event) =>
-                        store.dispatch(
-                            setDescription(event.currentTarget.value)
-                        )
-                    }
-                    placeholder="Optimized code."
+                <FormField
+                    control={form.control}
+                    name="start_date"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Start Date</FormLabel>
+                            <FormControl>
+                                <Input type="date" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
                 />
-            </div>
-        </div>
+                <FormField
+                    control={form.control}
+                    name="end_date"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>End Date</FormLabel>
+                            <FormControl>
+                                <Input type="date" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="preview_image"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Preview Image</FormLabel>
+                            <FormControl>
+                                <ImageUpload {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="description"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Description</FormLabel>
+                            <FormControl>
+                                <Input
+                                    placeholder="Optimized code."
+                                    {...field}
+                                />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <Button type="submit">Continue</Button>
+            </form>
+        </Form>
     )
 }
 
-const SecondDialog = ({ experience }: { experience: ExperienceState }) => {
+const SecondDialog = ({
+    experience,
+    setStep,
+    handleSubmit,
+}: {
+    experience: ExperienceState
+    setStep: React.Dispatch<React.SetStateAction<number>>
+    handleSubmit: () => void
+}) => {
+    const form = useForm<z.infer<typeof secondStepSchema>>({
+        resolver: zodResolver(secondStepSchema),
+        defaultValues: {
+            description: experience.detailed.description,
+            images: experience.detailed.images,
+            alt: experience.detailed.alt as string,
+        },
+    })
+
+    function onSubmit(values: z.infer<typeof secondStepSchema>) {
+        store.dispatch(setDetailedDescription(values.description))
+        store.dispatch(setDetailedAlt(values.alt))
+        handleSubmit()
+    }
+
+    const handlePrev = () => {
+        const { description, alt } = form.getValues()
+        store.dispatch(setDetailedDescription(description))
+        store.dispatch(setDetailedAlt(alt))
+        previousStep(setStep)
+    }
+
     return (
-        <div className="grid gap-4 py-4">
-            <div className={style.form_group}>
-                <Label htmlFor="description" className="text-right">
-                    Description
-                </Label>
-                <Input
-                    id="description"
-                    value={experience.detailed.description}
-                    onChange={(event) =>
-                        store.dispatch(
-                            setDetailedDescription(event.currentTarget.value)
-                        )
-                    }
-                    placeholder="Google"
+        <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5 ">
+                <FormField
+                    control={form.control}
+                    name="description"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Description</FormLabel>
+                            <FormControl>
+                                <Input
+                                    placeholder="I worked with ..."
+                                    {...field}
+                                />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
                 />
-            </div>
-            <div className={style.form_group}>
-                <Label htmlFor="images" className="text-right">
-                    Slideshow Images
-                </Label>
-                <Input
-                    id="images"
-                    value={experience.detailed.images}
-                    onChange={(event) =>
-                        store.dispatch(
-                            addDetailedImages(event.currentTarget.value)
-                        )
-                    }
-                    placeholder="['rose_1.png', 'rose_2.png']"
+                <FormField
+                    control={form.control}
+                    name="images"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Slideshow Images</FormLabel>
+                            <FormControl>
+                                <ImageUpload multiple={true} {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
                 />
-            </div>
-            <div className={style.form_group}>
-                <Label htmlFor="alt" className="text-right">
-                    Alt Captions
-                </Label>
-                <Input
-                    id="alt"
-                    value={experience.detailed.alt}
-                    onChange={(event) =>
-                        store.dispatch(
-                            addDetailedAlt(event.currentTarget.value)
-                        )
-                    }
-                    placeholder="['Cool picture', 'Nice dog']"
+                <FormField
+                    control={form.control}
+                    name="alt"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Alt Captions</FormLabel>
+                            <FormControl>
+                                <Input {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
                 />
-            </div>
-        </div>
+                <div className="flex flex-row text-center w-full justify-around">
+                    <Button
+                        className="w-[150px]"
+                        type="button"
+                        onClick={handlePrev}
+                    >
+                        Prev
+                    </Button>
+                    <Button className="w-[150px]" type="submit">
+                        Submit
+                    </Button>
+                </div>
+            </form>
+        </Form>
     )
 }
 
 const MultipleStepForm = ({
-    step,
     experience,
+    handleSubmit,
+    step,
+    setStep,
 }: {
-    step: number
     experience: ExperienceState
+    handleSubmit: () => void
+    step: number
+    setStep: React.Dispatch<React.SetStateAction<number>>
 }) => {
     switch (step) {
         case 0:
-            return <FirstDialog experience={experience} />
+            return <FirstDialog experience={experience} setStep={setStep} />
         case 1:
-            return <SecondDialog experience={experience} />
+            return (
+                <SecondDialog
+                    experience={experience}
+                    setStep={setStep}
+                    handleSubmit={handleSubmit}
+                />
+            )
         default:
-            return <FirstDialog experience={experience} />
+            return <FirstDialog experience={experience} setStep={setStep} />
     }
 }
 
 const initialState: ExperienceState = {
     slug: '',
     title: '',
-    date: '',
+    start_date: '',
+    end_date: '',
     description: '',
     preview_image: '',
     detailed: {
         description: '',
-        rootFolder: '',
         images: [],
-        alt: [],
+        alt: '',
     },
 }
 
@@ -234,18 +326,14 @@ export default function AddExperience() {
     const experience: ExperienceState = useSelector<RootState, ExperienceState>(
         (state) => state.experience
     )
+    const [step, setStep] = useState(0)
+
+    const router = useRouter()
 
     useEffect(() => {
         store.dispatch(setExperience(initialState))
     }, [])
 
-    // TODO: Remove this session storage and use primarily redux store instead
-    useEffect(() => {
-        window.sessionStorage.setItem('form', JSON.stringify(experience))
-    }, [experience])
-
-    const [disabled, setDisabled] = useState(false)
-    const [step, setStep] = useState(0)
     const closeButton = useRef<HTMLButtonElement>(null)
 
     // TODO: Add Authorization using Bearer Token
@@ -253,7 +341,6 @@ export default function AddExperience() {
     const handleSubmit = async () => {
         console.log('submit')
         if (window) {
-            // const sessionForm = window.sessionStorage.getItem('form')
             if (experience) {
                 const slug: string = slugify(experience.title, {
                     replacement: '_',
@@ -261,28 +348,11 @@ export default function AddExperience() {
                 })
                 store.dispatch(setSlug(slug))
 
-                // const date = `${new Date(
-                //     formData.date?.from || new Date()
-                // ).toLocaleDateString('en-us', {
-                //     year: 'numeric',
-                //     month: 'short',
-                // })} - ${new Date(
-                //     formData.date?.to || new Date()
-                // ).toLocaleDateString('en-us', {
-                //     year: 'numeric',
-                //     month: 'short',
-                // })}`
-
-                // const preview = experience.preview_image
-
                 const POST_REQUEST = '/api/db/experiences' + `/${slug}`
-                setDisabled(true)
                 const res = await fetch(POST_REQUEST, {
                     method: 'POST',
                     body: JSON.stringify({
                         ...experience,
-                        // preview_image: preview,
-                        // date,
                     }),
                 })
                 if (!res.ok) {
@@ -290,7 +360,8 @@ export default function AddExperience() {
                 }
             }
         }
-        setDisabled(false)
+
+        await RevalidateCache(router)
         if (closeButton.current) {
             closeButton.current.click()
         }
@@ -303,6 +374,7 @@ export default function AddExperience() {
                 <DialogTrigger asChild>
                     <Button variant={'outline'}>Add Experience</Button>
                 </DialogTrigger>
+
                 <DialogContent className="sm:max-w-[500px]">
                     <DialogHeader>
                         <DialogTitle>Add Experience</DialogTitle>
@@ -311,35 +383,17 @@ export default function AddExperience() {
                             be detailed.
                         </DialogDescription>
                     </DialogHeader>
-                    <MultipleStepForm step={step} experience={experience} />
+                    <MultipleStepForm
+                        experience={experience}
+                        handleSubmit={handleSubmit}
+                        step={step}
+                        setStep={setStep}
+                    />
                     <DialogFooter>
-                        {step - 1 >= 0 && (
-                            <Button
-                                onClick={() => previousStep(step, setStep)}
-                                variant={'secondary'}
-                            >
-                                Previous
-                            </Button>
-                        )}
-                        {step >= 0 && step + 1 < 2 && (
-                            <Button
-                                onClick={() => nextStep(setStep)}
-                                variant={'secondary'}
-                            >
-                                Continue
-                            </Button>
-                        )}
-                        {step == 1 && (
-                            <Button disabled={disabled} onClick={handleSubmit}>
-                                Submit
-                            </Button>
-                        )}
-                        <DialogTrigger>
-                            <Button
-                                ref={closeButton}
-                                className="hidden"
-                            ></Button>
-                        </DialogTrigger>
+                        <DialogTrigger
+                            ref={closeButton}
+                            className="hidden"
+                        ></DialogTrigger>
                     </DialogFooter>
                 </DialogContent>
             </Dialog>

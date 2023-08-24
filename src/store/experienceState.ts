@@ -6,27 +6,27 @@ export interface ExperienceState {
     slug: string
     title: string
     description: string
-    date: dayjs.Dayjs | string
+    start_date: string
+    end_date: string
     preview_image: string
     detailed: {
         description: string
         images: string[]
-        rootFolder: string
-        alt: string[]
+        alt: string | string[]
     }
 }
 
 const initialState: ExperienceState = {
     slug: '',
     title: '',
-    date: dayjs('2023-08-14'),
+    start_date: dayjs().format('YYYY-MM-DD'),
+    end_date: '',
     description: '',
     preview_image: '',
     detailed: {
         description: '',
         images: [],
-        rootFolder: '',
-        alt: [],
+        alt: '',
     },
 }
 
@@ -37,16 +37,27 @@ export const experienceSlice = createSlice({
         setExperience: (state, action: PayloadAction<ExperienceState>) => {
             state.slug = action.payload.slug
             state.title = action.payload.title
-            state.date = action.payload.date
+            state.start_date = action.payload.start_date
+            state.end_date = action.payload.end_date
             state.description = action.payload.description
             state.preview_image = action.payload.preview_image
             state.detailed = action.payload.detailed
         },
+        setFirstStep: (state, action: PayloadAction<ExperienceState>) => {
+            state.title = action.payload.title
+            state.start_date = action.payload.start_date
+            state.end_date = action.payload.end_date
+            state.description = action.payload.description
+            state.preview_image = action.payload.preview_image
+        },
         setTitle: (state, action: PayloadAction<string>) => {
             state.title = action.payload
         },
-        setDate: (state, action: PayloadAction<dayjs.Dayjs | string>) => {
-            state.date = action.payload
+        setStartDate: (state, action: PayloadAction<string>) => {
+            state.start_date = action.payload
+        },
+        setEndDate: (state, action: PayloadAction<string>) => {
+            state.start_date = action.payload
         },
         setDescription: (state, action: PayloadAction<string>) => {
             state.description = action.payload
@@ -63,13 +74,11 @@ export const experienceSlice = createSlice({
         addDetailedImages: (state, action: PayloadAction<string>) => {
             state.detailed.images.push(action.payload)
         },
-        setDetailedRootFolder: (state, action: PayloadAction<string>) => {
-            state.detailed.rootFolder = action.payload
-        },
         addDetailedAlt: (state, action: PayloadAction<string>) => {
-            state.detailed.alt.push(action.payload)
+            // TODO: add alt to detailed images with array
+            state.detailed.alt = action.payload
         },
-        setDetailedAlt: (state, action: PayloadAction<string[]>) => {
+        setDetailedAlt: (state, action: PayloadAction<string>) => {
             state.detailed.alt = action.payload
         },
         setSlug: (state, action: PayloadAction<string>) => {
@@ -81,14 +90,15 @@ export const experienceSlice = createSlice({
 export const {
     setSlug,
     setExperience,
+    setFirstStep,
     setTitle,
-    setDate,
+    setStartDate,
+    setEndDate,
     setDescription,
     setPreviewImage,
     addDetailedImages,
     setDetailedDescription,
     setDetailedImages,
-    setDetailedRootFolder,
     addDetailedAlt,
     setDetailedAlt,
 } = experienceSlice.actions

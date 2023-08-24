@@ -12,6 +12,7 @@ import {
     setDetailedDescription,
 } from '@/store/experienceState'
 import { setTitle } from '@/store/experienceState'
+import { formatDate } from '@/app/components/helpers/formatDate'
 
 type ParamProps = {
     slug: string
@@ -57,12 +58,13 @@ export default function EditPage({ params }: { params: ParamProps }) {
                         store.dispatch(setTitle(e.currentTarget.value))
                     }}
                 ></Input>
-                <h3 className="mt-3">{experience?.date as string}</h3>
+                <h3 className="mt-3">
+                    {formatDate(experience.start_date, experience.end_date)}
+                </h3>
                 <div className="relative mt-8 w-full h-auto md:max-w-[67rem] p-4 ">
                     <Carousel
-                        images={experience?.detailed.images as string[]}
-                        alt={experience?.detailed.alt as string[]}
-                        path={experience?.detailed.rootFolder}
+                        images={experience.detailed.images as string[]}
+                        alt={experience.detailed.alt as string[]}
                     ></Carousel>
                 </div>
                 <div className="w-[50%] text-center mt-10">

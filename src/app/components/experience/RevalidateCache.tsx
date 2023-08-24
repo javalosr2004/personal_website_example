@@ -1,21 +1,14 @@
 'use client'
-import { Button } from '@/components/ui/button'
-import { useRouter } from 'next/navigation'
-import React from 'react'
 
-export default function RevalidateCache() {
-    const router = useRouter()
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context'
 
-    const revalidateExperience = () => {
-        fetch('/api/db/experiences/revalidate', {
-            method: 'POST',
-        })
-        router.refresh()
-    }
+const revalidateExperience = () => {
+    fetch('/api/db/experiences/revalidate', {
+        method: 'POST',
+    })
+}
 
-    return (
-        <Button onClick={revalidateExperience} className="w-[200px] h-[100px]">
-            Click to revalidate.
-        </Button>
-    )
+export const RevalidateCache = async (router: AppRouterInstance) => {
+    await revalidateExperience()
+    router.refresh()
 }

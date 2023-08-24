@@ -9,7 +9,6 @@ import ImageSignIn from './components/signin/ImageSignIn'
 // import type { ExperienceState } from '@/store/experienceState'
 import AddExperienceLoader from './components/experience/AddExperienceLoader'
 import { SimpleBlockLoader } from './components/experience/SimpleBlockLoader'
-import RevalidateCache from './components/experience/RevalidateCache'
 
 // async function getExperiences() {
 //     const DB_URL: string = (process.env.DB_API || '') + '/experiences'
@@ -61,7 +60,6 @@ export default async function HomePage() {
                 </div>
                 <div className="flex flex-row md:ml-24">
                     <ImageSignIn></ImageSignIn>
-                    {/* <RevalidateCache></RevalidateCache> */}
                 </div>
             </div>
 

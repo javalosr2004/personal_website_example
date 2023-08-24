@@ -3,6 +3,7 @@ import React from 'react'
 import Link from 'next/link'
 import DeleteExperience from './DeleteExperience'
 import { ExperienceState } from '@/store/experienceState'
+import { formatDate } from '../helpers/formatDate'
 
 export default function SimpleBlock(experience: ExperienceState) {
     function previewImage(image: string | undefined) {
@@ -27,7 +28,9 @@ export default function SimpleBlock(experience: ExperienceState) {
             <Link draggable={false} href={link} className="z-0">
                 <div className="relative flex flex-1 flex-col items-center justify-center border-slate-200 border-2 rounded-xl p-4 h-[400px]">
                     <h1 className="md:text-xl font-bold">{experience.title}</h1>
-                    <h3>{experience.date as string}</h3>
+                    <h3>
+                        {formatDate(experience.start_date, experience.end_date)}
+                    </h3>
                     <div className="relative p-10">
                         {previewImage(experience.preview_image)}
                     </div>
