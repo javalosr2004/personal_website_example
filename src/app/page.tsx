@@ -61,7 +61,7 @@ export default async function HomePage() {
                 </div>
                 <div className="flex flex-row md:ml-24">
                     <ImageSignIn></ImageSignIn>
-                    <RevalidateCache></RevalidateCache>
+                    {/* <RevalidateCache></RevalidateCache> */}
                 </div>
             </div>
 
