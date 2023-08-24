@@ -31,6 +31,9 @@ export default async function ExperiencePage({
     const DB_URL: string = (process.env.DB_API || '') + '/experiences'
     const res = await fetch(`${DB_URL}/${params.slug}`, {
         method: 'GET',
+        next: {
+            tags: ['experiences'],
+        },
     })
 
     if (!res.ok) {

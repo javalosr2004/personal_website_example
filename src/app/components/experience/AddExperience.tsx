@@ -219,9 +219,19 @@ const SecondDialog = ({
         previousStep(setStep)
     }
 
+    const handleChange = () => {
+        const { description, alt } = form.getValues()
+        store.dispatch(setDetailedDescription(description))
+        store.dispatch(setDetailedAlt(alt))
+    }
+
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5 ">
+            <form
+                onChange={handleChange}
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-5 "
+            >
                 <FormField
                     control={form.control}
                     name="description"
