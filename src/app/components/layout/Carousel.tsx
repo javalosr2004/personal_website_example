@@ -32,7 +32,7 @@ export default function Carousel({
                     : image_url
                 return (
                     <SwiperSlide
-                        className={`${style.swiper_slide}`}
+                        className={`${style.swiper_slide} flex flex-col text-center`}
                         key={image_url}
                     >
                         {/* <Image
@@ -44,12 +44,14 @@ export default function Carousel({
                             // style={{ objectFit: 'scale-down' }}
                             quality={100}
                         ></Image> */}
-                        <SkeletonImage
-                            src={complete_path}
-                            alt={alt[idx] || ''}
-                            width={500}
-                            height={500}
-                        ></SkeletonImage>
+                        <div className="relative w-[500px] h-[350px]">
+                            <SkeletonImage
+                                src={complete_path}
+                                alt={alt[idx] || ''}
+                                fill={true}
+                            ></SkeletonImage>
+                        </div>
+                        <h2 className="absolute bottom-0">{alt[idx] || ''}</h2>
                     </SwiperSlide>
                 )
             })}
