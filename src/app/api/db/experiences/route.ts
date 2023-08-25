@@ -3,7 +3,6 @@ import experienceSchema from '@/models/experienceSchema'
 import startDB from '@/lib/db'
 import { experienceType } from '@/typings/modelTypes'
 
-export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
 export async function GET() {

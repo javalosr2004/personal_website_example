@@ -34,6 +34,7 @@ export default async function ExperiencePage({
         method: 'GET',
         next: {
             tags: ['experiences'],
+            revalidate: 3600,
         },
     })
 
