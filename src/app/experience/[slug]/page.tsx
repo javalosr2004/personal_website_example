@@ -11,6 +11,7 @@ export async function generateStaticParams() {
         method: 'GET',
         next: {
             tags: ['experiences'],
+            revalidate: 3600,
         },
     })
         .then((data) => data.json())

@@ -61,6 +61,7 @@ export default function Navbar({
                                 key={item}
                                 className=" px-5 hover:underline text-teal-700"
                                 href={path[idx]}
+                                prefetch={false}
                             >
                                 {item}
                             </Link>
@@ -71,6 +72,7 @@ export default function Navbar({
                             key={item}
                             className="px-5 hover:underline"
                             href={path[idx]}
+                            prefetch={false}
                         >
                             {item}
                         </Link>
