@@ -97,17 +97,13 @@ export async function PUT(
     { params }: { params: { slug: string } }
 ) {
     const slug = params.slug
-    const { title, description, date, preview_image, detailed } =
-        await req.json()
+    const updated_data = await req.json()
 
     await startDB()
 
     // replace with findOneAndUpdate ()
     try {
-        await experienceSchema.findOneAndUpdate(
-            { slug: slug },
-            { slug, title, description, date, preview_image, detailed }
-        )
+        await experienceSchema.findOneAndUpdate({ slug: slug }, updated_data)
 
         return NextResponse.json('Edited experience!')
     } catch (err) {

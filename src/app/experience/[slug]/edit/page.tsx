@@ -5,17 +5,22 @@
 import { useState, useEffect } from 'react'
 import Carousel from '@/app/components/layout/Carousel'
 import { Input } from '@/components/ui/input'
-import { RootState, store } from '@/store'
+import { RootState } from '@/store'
 import { useSelector } from 'react-redux'
-import {
-    ExperienceState,
-    setDetailedDescription,
-} from '@/store/experienceState'
-import { setTitle } from '@/store/experienceState'
+import { ExperienceState } from '@/store/experienceState'
 import { formatDate } from '@/app/components/helpers/formatDate'
+import { useForm, SubmitHandler } from 'react-hook-form'
+import slugify from 'slugify'
+import { RevalidateCache } from '@/app/components/experience/RevalidateCache'
+import { useRouter } from 'next/navigation'
 
 type ParamProps = {
     slug: string
+}
+
+type Inputs = {
+    title: string
+    description: string
 }
 
 export default function EditPage({ params }: { params: ParamProps }) {
@@ -26,6 +31,16 @@ export default function EditPage({ params }: { params: ParamProps }) {
     )
     const [valid, setValid] = useState(true)
     const [loading, setLoading] = useState(true)
+    const {
+        register,
+        handleSubmit,
+        formState: { dirtyFields },
+    } = useForm({
+        defaultValues: {
+            title: experience.title,
+            description: experience.detailed.description,
+        },
+    })
 
     useEffect(() => {
         if (experience.slug !== params.slug) {
@@ -35,9 +50,42 @@ export default function EditPage({ params }: { params: ParamProps }) {
         setLoading(false)
     })
 
-    useEffect(() => {
-        console.log(experience)
-    }, [experience])
+    const router = useRouter()
+
+    const onSubmit: SubmitHandler<Inputs> = async (data) => {
+        if (dirtyFields.title) {
+            const put_data = {
+                slug: slugify(data.title),
+                title: data.title,
+                start_date: experience.start_date,
+                end_date: experience.end_date,
+                preview_image: experience.preview_image,
+                detailed: {
+                    description: dirtyFields.description
+                        ? data.description
+                        : experience.detailed.description,
+                    images: experience.detailed.images,
+                    alt: experience.detailed.alt,
+                },
+            }
+            await fetch(`/api/db/experiences/${params.slug}`, {
+                body: JSON.stringify(put_data),
+                method: 'PUT',
+            })
+        } else {
+            await fetch(`/api/db/experiences/${params.slug}`, {
+                body: JSON.stringify({
+                    detailed: {
+                        description:
+                            dirtyFields.description && data.description,
+                    },
+                }),
+                method: 'PUT',
+            })
+        }
+
+        await RevalidateCache(router)
+    }
 
     if (loading) {
         return <div>Loading...</div>
@@ -50,13 +98,13 @@ export default function EditPage({ params }: { params: ParamProps }) {
             )
         }
         return (
-            <div className="flex flex-1 flex-col items-center justify-center self-center w-full">
+            <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="flex flex-1 flex-col items-center justify-center self-center w-full"
+            >
                 <Input
                     className="mt-5 md:text-xl font-bold"
-                    value={experience?.title}
-                    onChange={(e) => {
-                        store.dispatch(setTitle(e.currentTarget.value))
-                    }}
+                    {...register('title', { required: true })}
                 ></Input>
                 <h3 className="mt-3">
                     {formatDate(experience.start_date, experience.end_date)}
@@ -70,15 +118,11 @@ export default function EditPage({ params }: { params: ParamProps }) {
                 <div className="w-[50%] text-center mt-10">
                     <Input
                         className="block"
-                        value={experience?.detailed.description}
-                        onChange={(e) => {
-                            store.dispatch(
-                                setDetailedDescription(e.currentTarget.value)
-                            )
-                        }}
+                        {...register('description', { required: true })}
                     ></Input>
                 </div>
-            </div>
+                <button type="submit">Submit</button>
+            </form>
         )
     }
 }
