@@ -119,7 +119,7 @@ const FirstDialog = ({
                     name="title"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Title</FormLabel>
+                            <FormLabel>Company Name</FormLabel>
                             <FormControl>
                                 <Input placeholder="Google" {...field} />
                             </FormControl>
@@ -158,7 +158,7 @@ const FirstDialog = ({
                     name="preview_image"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Preview Image</FormLabel>
+                            <FormLabel>Logo</FormLabel>
                             <FormControl>
                                 <ImageUpload {...field} />
                             </FormControl>
@@ -171,7 +171,7 @@ const FirstDialog = ({
                     name="description"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Description</FormLabel>
+                            <FormLabel>Job Title</FormLabel>
                             <FormControl>
                                 <Input
                                     placeholder="Optimized code."

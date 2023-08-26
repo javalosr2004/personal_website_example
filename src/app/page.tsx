@@ -62,7 +62,7 @@ export default async function HomePage() {
                     <ImageSignIn></ImageSignIn>
                 </div>
             </div>
-            <div className="flex flex-col lg:flex-row justify-around">
+            <div className="flex flex-col lg:flex-row lg:justify-around itesm-center">
                 <div className="w-[40%]"></div>
                 <SimpleBlockLoader></SimpleBlockLoader>
             </div>
