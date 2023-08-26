@@ -13,8 +13,6 @@ export default function SimpleBlock(experience: ExperienceState) {
                     draggable={false}
                     src={image}
                     alt=""
-                    // width={300}
-                    // height={300}
                     fill={true}
                     style={{ objectFit: 'cover' }}
                 ></Image>
@@ -23,24 +21,33 @@ export default function SimpleBlock(experience: ExperienceState) {
     }
 
     const link = (process.env.HOST_URL || '') + '/experience/' + experience.slug
-
     return (
         <div className="relative">
-            <DeleteExperience slug={experience.slug} />
-            <Link draggable={false} href={link} className="z-0">
-                <div className="relative flex flex-1 flex-col items-center justify-center border-slate-200 border-2 rounded-xl p-4 xl:h-[500px] h-[400px]">
-                    <h1 className="md:text-xl font-bold">{experience.title}</h1>
-                    <h3>
-                        {formatDate(experience.start_date, experience.end_date)}
-                    </h3>
-                    <div className="p-10">
-                        <div className="relative p-10 xl:w-[400px] xl:h-[300px] w-[300px] h-[200px]">
-                            {previewImage(experience.preview_image)}
+            <div className="relative flex flex-1 flex-row pl-4 items-center h-[200px]">
+                <div className="relative w-[50px] h-[50px] border-zinc-200 border-4 rounded-full overflow-hidden">
+                    {previewImage(experience.preview_image)}
+                    <div className="absolute w-full h-full flex items-center justify-center">
+                        <DeleteExperience slug={experience.slug} />
+                    </div>
+                </div>
+                <Link draggable={false} href={link} className="z-0 w-[90%]">
+                    <div className="ml-4 w-[90%]">
+                        <h1 className="md:text-lg ">{experience.title}</h1>
+
+                        <div className="flex flex-row w-[90%]">
+                            <p className="font-light text-xs">
+                                {experience.description}
+                            </p>
+                            <p className="font-light text-xs ml-auto">
+                                {formatDate(
+                                    experience.start_date,
+                                    experience.end_date
+                                )}
+                            </p>
                         </div>
                     </div>
-                    <p>{experience.description}</p>
-                </div>
-            </Link>
+                </Link>
+            </div>
         </div>
     )
 }

@@ -13,7 +13,7 @@ export default function TransitionNav({
     return (
         <div
             className={`
-        md:${!navOpen ? 'translate-x-[-100px]' : 'p-[50px]'}
+        lg:${!navOpen ? 'translate-x-[-100px]' : 'p-[50px]'}
          transition-all duration-500 w-[100vw]`}
         >
             {children}

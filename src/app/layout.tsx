@@ -21,7 +21,7 @@ export default function RootLayout({
     return (
         <html className="overflow-x-hidden" lang="en">
             <body
-                className={`${inter.className} flex flex-col md:flex-row content-stretch`}
+                className={`${inter.className} flex flex-col lg:flex-row content-stretch`}
             >
                 <Navbar
                     names={['Home', 'About']}

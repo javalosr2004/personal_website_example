@@ -1,7 +1,7 @@
 import React from 'react'
 import SimpleBlock from './SimpleBlock'
-import { Skeleton } from '@/components/ui/skeleton'
 import { ExperienceState } from '@/store/experienceState'
+import { Briefcase } from 'lucide-react'
 
 async function getExperiences() {
     const DB_URL: string = (process.env.DB_API || '') + '/experiences'
@@ -35,26 +35,16 @@ async function getExperiences() {
 export async function SimpleBlockLoader() {
     const experiences: ExperienceState[] = await getExperiences()
 
-    if (!experiences) {
-        return (
-            <div>
-                <h1 className="mt-10 underline underline-offset-1 mb-[50px]">
-                    Past Work:
-                </h1>
-                <div className="grid lg:grid-cols-2 gap-10 ">
-                    <Skeleton className="w-[560] h-[400px]"></Skeleton>
-                </div>
-            </div>
-        )
-    }
     return (
-        <div>
-            <h1 className="mt-10 underline underline-offset-1 mb-[50px]">
-                Past Work:
-            </h1>
-            <div className="grid lg:grid-cols-2 gap-10 ">
-                {experiences.map((experience) => SimpleBlock(experience))}
+        <div className="relative flex flex-1 flex-col border-slate-200 border-2 rounded-2xl p-4 lg:max-w-[400px] w-[80vw] pb-14">
+            <div className="flex flex-row items-center mb-[50px]">
+                <Briefcase></Briefcase>
+                <h1 className="ml-5 ">Work Experience:</h1>
             </div>
+            {experiences.map((experience) => SimpleBlock(experience))}
         </div>
     )
 }
+
+//  border-zinc-100 p-6 dark:border-zinc-700/40
+// rounded-2xl border border-zinc-700/40
