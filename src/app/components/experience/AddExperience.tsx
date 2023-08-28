@@ -385,8 +385,8 @@ export default function AddExperience() {
                 <DialogTrigger asChild>
                     <Button variant={'outline'}>Add Experience</Button>
                 </DialogTrigger>
-
-                <DialogContent className="sm:max-w-[500px]">
+                {/* sm:max-w-[500px] */}
+                <DialogContent className=" lg:max-w-screen-lg overflow-y-scroll max-h-screen">
                     <DialogHeader>
                         <DialogTitle>Add Experience</DialogTitle>
                         <DialogDescription>
