@@ -5,9 +5,9 @@
 import { useState, useEffect } from 'react'
 import Carousel from '@/app/components/layout/Carousel'
 import { Input } from '@/components/ui/input'
-import { RootState } from '@/store'
-import { useSelector } from 'react-redux'
-import { ExperienceState } from '@/store/experienceState'
+import { store } from '@/store'
+// import { useSelector } from 'react-redux'
+// import { ExperienceState } from '@/store/experienceState'
 import { formatDate } from '@/app/components/helpers/formatDate'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import slugify from 'slugify'
@@ -26,9 +26,7 @@ type Inputs = {
 export default function EditPage({ params }: { params: ParamProps }) {
     // fetch data from api using client component
 
-    const experience = useSelector<RootState, ExperienceState>(
-        (state) => state.experience
-    )
+    const experience = store.getState().experience
     const [valid, setValid] = useState(true)
     const [loading, setLoading] = useState(true)
     const {
@@ -53,9 +51,11 @@ export default function EditPage({ params }: { params: ParamProps }) {
     const router = useRouter()
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
+        let slug = params.slug
         if (dirtyFields.title) {
+            slug = slugify(data.title.toLowerCase(), '_')
             const put_data = {
-                slug: slugify(data.title),
+                slug: slug,
                 title: data.title,
                 start_date: experience.start_date,
                 end_date: experience.end_date,
@@ -78,6 +78,8 @@ export default function EditPage({ params }: { params: ParamProps }) {
                     detailed: {
                         description:
                             dirtyFields.description && data.description,
+                        images: experience.detailed.images,
+                        alt: experience.detailed.alt,
                     },
                 }),
                 method: 'PUT',
@@ -85,6 +87,7 @@ export default function EditPage({ params }: { params: ParamProps }) {
         }
 
         await RevalidateCache(router)
+        router.push(`/experience/${slug}`)
     }
 
     if (loading) {
@@ -109,7 +112,7 @@ export default function EditPage({ params }: { params: ParamProps }) {
                 <h3 className="mt-3">
                     {formatDate(experience.start_date, experience.end_date)}
                 </h3>
-                <div className="relative mt-8 w-full h-auto md:max-w-[67rem] p-4 ">
+                <div className="relative mt-8 w-full h-auto  p-4 ">
                     <Carousel
                         images={experience.detailed.images as string[]}
                         alt={experience.detailed.alt as string[]}

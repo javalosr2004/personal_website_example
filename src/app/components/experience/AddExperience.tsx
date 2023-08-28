@@ -59,7 +59,7 @@ const firstStepSchema = z.object({
 })
 
 const secondStepSchema = z.object({
-    description: z.string(),
+    description: z.string().min(3, 'Too Short!'),
     images: z.array(z.string()),
     alt: z.string(),
 })

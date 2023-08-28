@@ -23,7 +23,7 @@ export default function SimpleBlock(experience: ExperienceState) {
     const link = (process.env.HOST_URL || '') + '/experience/' + experience.slug
     return (
         <div className="relative">
-            <div className="relative flex flex-1 flex-row pl-4 items-center h-[200px]">
+            <div className="relative flex flex-1 flex-row pl-4 items-center ">
                 <div className="relative w-[50px] h-[50px] border-zinc-200 border-4 rounded-full overflow-hidden">
                     {previewImage(experience.preview_image)}
                     <div className="absolute w-full h-full flex items-center justify-center">
