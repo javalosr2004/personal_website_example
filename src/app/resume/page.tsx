@@ -1,15 +1,15 @@
 import React from 'react'
-import ResumeBlockLoader from '../components/resume/ResumeBlockLoader'
-import { ResumeBroadType } from '@/typings/resumeTypes'
+// import ResumeBlockLoader from '../components/resume/ResumeBlockLoader'
+// import { ResumeBroadType } from '@/typings/resumeTypes'
 
-async function getResume() {
-    const res = await fetch('/api/resume')
-    const data: ResumeBroadType[] = await res.json()
-    return data
-}
+// async function getResume() {
+//     const res = await fetch('/api/resume')
+//     const data: ResumeBroadType[] = await res.json()
+//     return data
+// }
 
 export default async function Page() {
-    const resume = await getResume()
+    // const resume = await getResume()
 
     return (
         <div className="flex flex-col text-left">
@@ -42,7 +42,7 @@ export default async function Page() {
                     </a>
                 </p>
             </header>
-            <div>
+            {/* <div>
                 {resume.map((data, index) => {
                     return (
                         <ResumeBlockLoader
@@ -52,7 +52,7 @@ export default async function Page() {
                         ></ResumeBlockLoader>
                     )
                 })}
-            </div>
+            </div> */}
         </div>
     )
 }
