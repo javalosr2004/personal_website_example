@@ -35,7 +35,7 @@ export default async function HomePage() {
     // const experiences = await getExperiences()
 
     return (
-        <div className={`flex flex-col w-[90vw] justify-center`}>
+        <div className={`flex flex-col lg:w-[90vw] justify-center`}>
             <div className="max-w-4xl mb-10 flex flex-row self-center">
                 <div className="mr-10 flex flex-col justify-around my-10">
                     <h1 className="mt-4 text-2xl md:text-4xl">
