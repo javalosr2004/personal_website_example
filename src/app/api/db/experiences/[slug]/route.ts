@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server'
 import experienceSchema from '@/models/experienceSchema'
 import startDB from '@/lib/db'
 import { ExperienceState } from '@/store/experienceState'
-import { parse_string_to_arr } from '../helpers/parse_arr'
 // import { experienceType } from '@/typings/modelTypes'
 
 export async function GET(
@@ -56,7 +55,8 @@ export async function POST(
     req: NextRequest,
     { params }: { params: { slug: string } }
 ) {
-    const { name, job_title, start_date, end_date, detailed } = await req.json()
+    const { name, job_title, start_date, end_date, detailed }: ExperienceState =
+        await req.json()
 
     const slug = params.slug
 
