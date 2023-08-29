@@ -197,6 +197,7 @@ const SecondDialog = ({
     setStep: React.Dispatch<React.SetStateAction<number>>
     handleSubmit: () => void
 }) => {
+    const [uploading, setUpload] = useState(false)
     const form = useForm<z.infer<typeof secondStepSchema>>({
         resolver: zodResolver(secondStepSchema),
         defaultValues: {
@@ -209,6 +210,7 @@ const SecondDialog = ({
     function onSubmit(values: z.infer<typeof secondStepSchema>) {
         store.dispatch(setDetailedDescription(values.description))
         store.dispatch(setDetailedAlt(values.alt))
+        setUpload(true)
         handleSubmit()
     }
 
@@ -282,7 +284,11 @@ const SecondDialog = ({
                     >
                         Prev
                     </Button>
-                    <Button className="w-[150px]" type="submit">
+                    <Button
+                        disabled={uploading}
+                        className="w-[150px]"
+                        type="submit"
+                    >
                         Submit
                     </Button>
                 </div>
@@ -386,7 +392,7 @@ export default function AddExperience() {
                     <Button variant={'outline'}>Add Experience</Button>
                 </DialogTrigger>
                 {/* sm:max-w-[500px] */}
-                <DialogContent className=" lg:max-w-screen-lg overflow-y-scroll max-h-screen">
+                <DialogContent className=" lg:max-w-screen-lg overflow-y-scroll max-h-[90vh]">
                     <DialogHeader>
                         <DialogTitle>Add Experience</DialogTitle>
                         <DialogDescription>

@@ -41,7 +41,10 @@ export async function SimpleBlockLoader() {
                 <Briefcase></Briefcase>
                 <h1 className="ml-5 ">Work Experience:</h1>
             </div>
-            {experiences.map((experience) => SimpleBlock(experience))}
+            {/* give all of these items a gap */}
+            <div className="gap-y-5 flex flex-col">
+                {experiences.map((experience) => SimpleBlock(experience))}
+            </div>
         </div>
     )
 }
