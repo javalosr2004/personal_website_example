@@ -1,14 +1,14 @@
 interface experienceType {
     slug: string
-    title: string
-    description: string
-    date: string
-    preview_image: string
+    name: string
+    job_title?: string
+    start_date: string
+    end_date?: string
+    logo: string
     detailed: {
-        description: string
-        images: string[]
-        rootFolder?: string
-        alt?: string[]
+        topic: 'work' | 'education' | 'projects' | 'skills'
+        logo: string
+        information: string[]
     }
 }
 

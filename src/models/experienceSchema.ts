@@ -2,16 +2,15 @@ import mongoose, { Schema } from 'mongoose'
 
 const experienceSchema = new Schema({
     slug: { type: String, required: true },
-    title: { type: String, required: true },
-    description: { type: String, required: true },
+    name: { type: String, required: true },
+    job_title: { type: String, required: false },
     start_date: { type: String, required: true },
     end_date: { type: String, required: false },
-    preview_image: { type: String, required: true },
     detailed: {
         type: {
-            description: { type: String, required: true },
-            images: { type: [String], required: true },
-            alt: { type: [String], required: false },
+            topic: { type: String, required: true },
+            logo: { type: String, required: true },
+            information: { type: [String], required: true },
         },
         required: true,
     },

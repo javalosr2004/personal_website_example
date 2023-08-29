@@ -4,29 +4,28 @@ import dayjs from 'dayjs'
 
 export interface ExperienceState {
     slug: string
-    title: string
-    description: string
+    name: string
+    job_title: string | undefined
     start_date: string
     end_date: string
-    preview_image: string
+
     detailed: {
-        description: string
-        images: string[]
-        alt: string | string[]
+        topic: 'work' | 'education' | 'projects' | 'skills'
+        logo: string
+        information: string[]
     }
 }
 
 const initialState: ExperienceState = {
     slug: '',
-    title: '',
+    name: '',
     start_date: dayjs().format('YYYY-MM-DD'),
     end_date: '',
-    description: '',
-    preview_image: '',
+    job_title: undefined,
     detailed: {
-        description: '',
-        images: [],
-        alt: '',
+        topic: 'education',
+        logo: '',
+        information: [],
     },
 }
 
@@ -36,22 +35,14 @@ export const experienceSlice = createSlice({
     reducers: {
         setExperience: (state, action: PayloadAction<ExperienceState>) => {
             state.slug = action.payload.slug
-            state.title = action.payload.title
+            state.name = action.payload.name
             state.start_date = action.payload.start_date
             state.end_date = action.payload.end_date
-            state.description = action.payload.description
-            state.preview_image = action.payload.preview_image
+            state.job_title = action.payload.job_title
             state.detailed = action.payload.detailed
         },
-        setFirstStep: (state, action: PayloadAction<ExperienceState>) => {
-            state.title = action.payload.title
-            state.start_date = action.payload.start_date
-            state.end_date = action.payload.end_date
-            state.description = action.payload.description
-            state.preview_image = action.payload.preview_image
-        },
-        setTitle: (state, action: PayloadAction<string>) => {
-            state.title = action.payload
+        setName: (state, action: PayloadAction<string>) => {
+            state.name = action.payload
         },
         setStartDate: (state, action: PayloadAction<string>) => {
             state.start_date = action.payload
@@ -59,27 +50,23 @@ export const experienceSlice = createSlice({
         setEndDate: (state, action: PayloadAction<string>) => {
             state.start_date = action.payload
         },
-        setDescription: (state, action: PayloadAction<string>) => {
-            state.description = action.payload
+        setJobTitle: (state, action: PayloadAction<string | undefined>) => {
+            state.job_title = action.payload
         },
-        setPreviewImage: (state, action: PayloadAction<string>) => {
-            state.preview_image = action.payload
+        setLogo: (state, action: PayloadAction<string>) => {
+            state.detailed.logo = action.payload
         },
-        setDetailedDescription: (state, action: PayloadAction<string>) => {
-            state.detailed.description = action.payload
+        setDetailedTopic: (
+            state,
+            action: PayloadAction<'work' | 'education' | 'skills' | 'projects'>
+        ) => {
+            state.detailed.topic = action.payload
         },
-        setDetailedImages: (state, action: PayloadAction<string[]>) => {
-            state.detailed.images = action.payload
+        setDetailedInformation: (state, action: PayloadAction<string[]>) => {
+            state.detailed.information = action.payload
         },
-        addDetailedImages: (state, action: PayloadAction<string>) => {
-            state.detailed.images.push(action.payload)
-        },
-        addDetailedAlt: (state, action: PayloadAction<string>) => {
-            // TODO: add alt to detailed images with array
-            state.detailed.alt = action.payload
-        },
-        setDetailedAlt: (state, action: PayloadAction<string>) => {
-            state.detailed.alt = action.payload
+        addDetailedInformation: (state, action: PayloadAction<string>) => {
+            state.detailed.information.push(action.payload)
         },
         setSlug: (state, action: PayloadAction<string>) => {
             state.slug = action.payload
@@ -90,17 +77,14 @@ export const experienceSlice = createSlice({
 export const {
     setSlug,
     setExperience,
-    setFirstStep,
-    setTitle,
     setStartDate,
     setEndDate,
-    setDescription,
-    setPreviewImage,
-    addDetailedImages,
-    setDetailedDescription,
-    setDetailedImages,
-    addDetailedAlt,
-    setDetailedAlt,
+    setJobTitle,
+    setName,
+    setLogo,
+    setDetailedTopic,
+    setDetailedInformation,
+    addDetailedInformation,
 } = experienceSlice.actions
 
 export default experienceSlice.reducer

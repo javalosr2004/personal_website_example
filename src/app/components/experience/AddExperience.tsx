@@ -29,14 +29,13 @@ import * as z from 'zod'
 // import all dispath actions from store for experience, setDate, setExperience
 import {
     setSlug,
-    setTitle,
+    setName,
     setStartDate,
     setEndDate,
-    setDescription,
-    setDetailedDescription,
-    ExperienceState,
+    setJobTitle,
+    setDetailedTopic,
     setExperience,
-    setDetailedAlt,
+    ExperienceState,
 } from '@/store/experienceState'
 
 import slugify from 'slugify'
@@ -44,6 +43,8 @@ import { useSelector } from 'react-redux'
 import ImageUpload from '../cloudinary/ImageUpload'
 import { RevalidateCache } from './RevalidateCache'
 import { useRouter } from 'next/navigation'
+import ArrayInput from '../resume/ArrayInput'
+import dayjs from 'dayjs'
 
 /** TODO:
  *
@@ -51,17 +52,15 @@ import { useRouter } from 'next/navigation'
  */
 
 const firstStepSchema = z.object({
-    title: z.string().min(2, 'Too Short!'),
+    company_name: z.string().min(2, 'Too Short!'),
+    job_title: z.string().optional(),
     start_date: z.string().min(7, 'Date missing.'),
     end_date: z.string().optional(),
-    preview_image: z.any(),
-    description: z.string().min(3, 'Too Short!'),
 })
 
 const secondStepSchema = z.object({
-    description: z.string().min(3, 'Too Short!'),
-    images: z.array(z.string()),
-    alt: z.string(),
+    topic: z.string().min(3, 'Pick an option!'),
+    logo: z.string(),
 })
 
 export const previousStep = (
@@ -91,23 +90,22 @@ const FirstDialog = ({
     const form = useForm<z.infer<typeof firstStepSchema>>({
         resolver: zodResolver(firstStepSchema),
         defaultValues: {
-            title: experience.title,
+            company_name: experience.name,
             start_date: experience.start_date,
             end_date: experience.end_date,
-            preview_image: experience.preview_image,
-            description: experience.description,
+            job_title: experience.job_title,
         },
     })
 
     function onSubmit(values: z.infer<typeof firstStepSchema>) {
-        store.dispatch(setTitle(values.title))
+        store.dispatch(setName(values.company_name))
 
         store.dispatch(setStartDate(values.start_date))
         if (values.end_date) {
             store.dispatch(setEndDate(values.end_date))
         }
 
-        store.dispatch(setDescription(values.description))
+        store.dispatch(setJobTitle(values.job_title))
         nextStep(setStep)
     }
 
@@ -116,7 +114,7 @@ const FirstDialog = ({
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5 ">
                 <FormField
                     control={form.control}
-                    name="title"
+                    name="company_name"
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel>Company Name</FormLabel>
@@ -155,28 +153,16 @@ const FirstDialog = ({
                 />
                 <FormField
                     control={form.control}
-                    name="preview_image"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Logo</FormLabel>
-                            <FormControl>
-                                <ImageUpload {...field} />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="description"
+                    name="job_title"
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel>Job Title</FormLabel>
                             <FormControl>
                                 <Input
-                                    placeholder="Optimized code."
+                                    type="text"
                                     {...field}
-                                />
+                                    placeholder="Software Engineer"
+                                ></Input>
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -201,30 +187,28 @@ const SecondDialog = ({
     const form = useForm<z.infer<typeof secondStepSchema>>({
         resolver: zodResolver(secondStepSchema),
         defaultValues: {
-            description: experience.detailed.description,
-            images: experience.detailed.images,
-            alt: experience.detailed.alt as string,
+            topic: experience.detailed.topic,
+            logo: experience.detailed.logo,
         },
     })
 
-    function onSubmit(values: z.infer<typeof secondStepSchema>) {
-        store.dispatch(setDetailedDescription(values.description))
-        store.dispatch(setDetailedAlt(values.alt))
+    function onSubmit() {
         setUpload(true)
         handleSubmit()
     }
 
     const handlePrev = () => {
-        const { description, alt } = form.getValues()
-        store.dispatch(setDetailedDescription(description))
-        store.dispatch(setDetailedAlt(alt))
+        handleChange()
         previousStep(setStep)
     }
 
     const handleChange = () => {
-        const { description, alt } = form.getValues()
-        store.dispatch(setDetailedDescription(description))
-        store.dispatch(setDetailedAlt(alt))
+        const { topic } = form.getValues()
+        store.dispatch(
+            setDetailedTopic(
+                topic as 'work' | 'skills' | 'projects' | 'education'
+            )
+        )
     }
 
     return (
@@ -236,15 +220,21 @@ const SecondDialog = ({
             >
                 <FormField
                     control={form.control}
-                    name="description"
+                    name="topic"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Description</FormLabel>
+                            <FormLabel>Topic</FormLabel>
+                            <br />
                             <FormControl>
-                                <Input
-                                    placeholder="I worked with ..."
+                                <select
+                                    className="border-[1px] rounded-md w-full h-10 px-2 py-1 focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:border-transparent"
                                     {...field}
-                                />
+                                >
+                                    <option value="work">Work</option>
+                                    <option value="education">Education</option>
+                                    <option value="projects">Projects</option>
+                                    <option value="skills">Skills</option>
+                                </select>
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -252,30 +242,26 @@ const SecondDialog = ({
                 />
                 <FormField
                     control={form.control}
-                    name="images"
+                    name="logo"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Slideshow Images</FormLabel>
+                            <FormLabel>Logo</FormLabel>
                             <FormControl>
-                                <ImageUpload multiple={true} {...field} />
+                                <ImageUpload {...field} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
                     )}
                 />
-                <FormField
-                    control={form.control}
-                    name="alt"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Alt Captions</FormLabel>
-                            <FormControl>
-                                <Input {...field} />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
+                <div>
+                    <FormItem>
+                        <FormLabel>Information</FormLabel>
+                        <FormControl>
+                            <ArrayInput></ArrayInput>
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                </div>
                 <div className="flex flex-row text-center w-full justify-around">
                     <Button
                         className="w-[150px]"
@@ -326,15 +312,14 @@ const MultipleStepForm = ({
 
 const initialState: ExperienceState = {
     slug: '',
-    title: '',
-    start_date: '',
+    name: '',
+    start_date: dayjs().format('YYYY-MM-DD'),
     end_date: '',
-    description: '',
-    preview_image: '',
+    job_title: undefined,
     detailed: {
-        description: '',
-        images: [],
-        alt: '',
+        topic: 'education',
+        logo: '',
+        information: [],
     },
 }
 
@@ -358,7 +343,7 @@ export default function AddExperience() {
         console.log('submit')
         if (window) {
             if (experience) {
-                const slug: string = slugify(experience.title, {
+                const slug: string = slugify(experience.name, {
                     replacement: '_',
                     lower: true,
                 })
@@ -392,7 +377,7 @@ export default function AddExperience() {
                     <Button variant={'outline'}>Add Experience</Button>
                 </DialogTrigger>
                 {/* sm:max-w-[500px] */}
-                <DialogContent className=" lg:max-w-screen-lg overflow-y-scroll max-h-[90vh]">
+                <DialogContent className=" lg:max-w-screen-lg overflow-y-auto max-h-[90vh]">
                     <DialogHeader>
                         <DialogTitle>Add Experience</DialogTitle>
                         <DialogDescription>

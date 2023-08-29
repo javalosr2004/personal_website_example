@@ -56,37 +56,25 @@ export async function POST(
     req: NextRequest,
     { params }: { params: { slug: string } }
 ) {
-    const {
-        title,
-        start_date,
-        end_date,
-        preview_image,
-        description,
-        detailed,
-    }: ExperienceState = await req.json()
+    const { name, job_title, start_date, end_date, detailed } = await req.json()
 
     const slug = params.slug
 
     await startDB()
+    console.log(slug, name, job_title, start_date, end_date, detailed)
 
-    // parsing data
-
+    // attempt to create add to db
     try {
-        await experienceSchema.create({
+        experienceSchema.create({
             slug,
-            title,
-            description,
+            name,
+            job_title,
             start_date,
             end_date,
-            preview_image: preview_image,
-            detailed: {
-                description: detailed.description,
-                images: detailed.images,
-                alt: parse_string_to_arr(detailed.alt as string),
-            },
+            detailed,
         })
 
-        return NextResponse.json('Added experience!')
+        return NextResponse.json('Added new experience!')
     } catch (err) {
         return NextResponse.json(JSON.stringify(err), { status: 401 })
     }

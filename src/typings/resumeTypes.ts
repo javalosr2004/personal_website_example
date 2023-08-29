@@ -3,4 +3,9 @@ interface ResumeType {
     information: string[]
 }
 
-export type { ResumeType }
+type ResumeBroadType = {
+    topic: string
+    topic_data: ResumeType[]
+}
+
+export type { ResumeType, ResumeBroadType }

@@ -12,19 +12,20 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
-    const { slug, title, description, date, preview_image, detailed } =
+    const { slug, name, job_title, start_date, end_date, detailed } =
         await req.json()
 
     await startDB()
+    console.log(slug, name, job_title, start_date, end_date, detailed)
 
     // attempt to create add to db
     try {
         experienceSchema.create({
             slug,
-            title,
-            description,
-            date,
-            preview_image,
+            name,
+            job_title,
+            start_date,
+            end_date,
             detailed,
         })
 

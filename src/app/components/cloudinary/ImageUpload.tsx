@@ -4,92 +4,50 @@ import React, { useState } from 'react'
 import axios from 'axios'
 import { Input } from '@/components/ui/input'
 import { RootState, store } from '@/store'
-import { setPreviewImage, addDetailedImages } from '@/store/experienceState'
+import { setLogo } from '@/store/experienceState'
 import { useSelector } from 'react-redux'
 import Image from 'next/image'
 import { Skeleton } from '@/components/ui/skeleton'
 import Link from 'next/link'
 
-type Props = React.InputHTMLAttributes<HTMLInputElement> & {
-    multiple?: boolean
-}
+type Props = React.InputHTMLAttributes<HTMLInputElement>
 
 // TODO: accept value from parent
 // TODO: set value to parent
 // TODO: use redux inside of here???, pass ACTION to this component
 
 const ImageUpload = React.forwardRef<HTMLInputElement, Props>(
-    ({ multiple = false, ...rest }, ref) => {
+    ({ ...rest }, ref) => {
         const [value, setValue] = useState('')
         // different states for uploading and image loading
         const [uploading, setUploading] = useState(false)
         const [imageLoading, setImageLoading] = useState(false)
 
         const preview_image = useSelector<RootState, string>(
-            (state) => state.experience.preview_image
-        )
-        const detailed_images = useSelector<RootState, string[]>(
-            (state) => state.experience.detailed.images
+            (state) => state.experience.detailed.logo
         )
 
         // find a way to cache images, possibly use server component, pass as props
         const displayStoredImages = () => {
-            if (multiple) {
-                if (detailed_images.length > 0) {
-                    return (
-                        <div className="relative flex flex-row overflow-x-auto ml-[150px]">
-                            {detailed_images.map((image) => {
-                                return (
-                                    <div
-                                        className={`relative hover:cursor-pointer rounded-md overflow-hidden w-[60px] h-[60px] ml-2 border-black border-2`}
-                                    >
-                                        <Link href={image} target="__blank">
-                                            <Image
-                                                src={image}
-                                                className={`${
-                                                    imageLoading
-                                                        ? 'animate-pulse bg-slate-300 '
-                                                        : ''
-                                                }`}
-                                                // width={400}
-                                                // height={400}
-                                                alt="preview"
-                                                fill={true}
-                                                style={{ objectFit: 'cover' }}
-                                                onLoadingComplete={() =>
-                                                    setImageLoading(false)
-                                                }
-                                            />
-                                        </Link>
-                                    </div>
-                                )
-                            })}
-                        </div>
-                    )
-                }
-            } else {
-                if (preview_image) {
-                    return (
-                        <div className="absolute hover:cursor-pointer rounded-md overflow-hidden right-[50px] w-[50px]">
-                            <Link href={preview_image} target="__blank">
-                                <Image
-                                    src={preview_image}
-                                    className={`${
-                                        imageLoading
-                                            ? 'animate-pulse bg-slate-300'
-                                            : ''
-                                    }`}
-                                    width={200}
-                                    height={200}
-                                    alt="preview"
-                                    onLoadingComplete={() =>
-                                        setImageLoading(false)
-                                    }
-                                />
-                            </Link>
-                        </div>
-                    )
-                }
+            if (preview_image) {
+                return (
+                    <div className="absolute hover:cursor-pointer rounded-md overflow-hidden right-[50px] w-[50px]">
+                        <Link href={preview_image} target="__blank">
+                            <Image
+                                src={preview_image}
+                                className={`${
+                                    imageLoading
+                                        ? 'animate-pulse bg-slate-300'
+                                        : ''
+                                }`}
+                                width={200}
+                                height={200}
+                                alt="preview"
+                                onLoadingComplete={() => setImageLoading(false)}
+                            />
+                        </Link>
+                    </div>
+                )
             }
         }
 
@@ -109,28 +67,24 @@ const ImageUpload = React.forwardRef<HTMLInputElement, Props>(
             const files = e.currentTarget.files
             if (!files) return
             setUploading(true)
-            if (multiple) {
-                for (let i = 0; i < files.length; i++) {
-                    const url = await toCloudinary(files[i])
-                    store.dispatch(addDetailedImages(url))
-                }
-            } else {
-                const url = await toCloudinary(files[0])
-                store.dispatch(setPreviewImage(url))
+
+            const url = await toCloudinary(files[0])
+            store.dispatch(setLogo(url))
+            if (rest.onChange) {
+                rest.onChange(url)
             }
+
             setUploading(false)
             setImageLoading(true)
         }
 
         return (
-            <>
+            <div {...rest}>
                 <Input
                     ref={ref}
-                    {...rest}
                     value={value}
                     type="file"
                     id="input"
-                    multiple={multiple}
                     accept="image/*"
                     className="hidden"
                     onChange={(e) => uploadImage(e)}
@@ -149,7 +103,7 @@ const ImageUpload = React.forwardRef<HTMLInputElement, Props>(
                     )}
                     {!uploading && displayStoredImages()}
                 </label>
-            </>
+            </div>
         )
     }
 )
