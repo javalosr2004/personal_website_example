@@ -1,4 +1,5 @@
 import { BlogsType } from '@/typings/blogTypes'
+import dayjs from 'dayjs'
 import React from 'react'
 import ReactMarkdown from 'react-markdown'
 
@@ -35,8 +36,13 @@ export default async function Page({ params: { title } }: Props) {
 
     if (blog) {
         return (
-            <div className="flex flex-col text-left ml-10 w-full">
-                <h1 className="text-4xl font-bold">{blog.title}</h1>
+            <div className="flex flex-col text-left w-full">
+                <div className="mb-10 gap-y-5 flex flex-col border-b-2 border-neutral-200 pb-4 md:w-[400px]">
+                    <h1 className="text-4xl font-bold">{blog.title}</h1>
+                    <h3 className="text-md font-light text-neutral-500">
+                        {dayjs(blog.posted).format('MMMM D, YYYY')}
+                    </h3>
+                </div>
                 <ReactMarkdown
                     className="w-[90%] prose"
                     children={blog.markdown}
