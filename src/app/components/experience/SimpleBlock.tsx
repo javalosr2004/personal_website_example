@@ -28,7 +28,10 @@ export default function SimpleBlock(experience: ExperienceState) {
                 <div className="relative w-[50px] h-[50px] border-zinc-200 border-4 rounded-full overflow-hidden">
                     {previewImage(experience.detailed.logo)}
                     <div className="absolute w-full h-full flex items-center justify-center">
-                        <DeleteExperience slug={experience.slug} />
+                        <DeleteExperience
+                            route="experience"
+                            slug={experience.slug}
+                        />
                     </div>
                 </div>
                 <Link draggable={false} href={link} className="z-0 w-[90%]">

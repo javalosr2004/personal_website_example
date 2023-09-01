@@ -359,7 +359,7 @@ export default function AddExperience() {
                 if (!res.ok) {
                     console.log('error')
                 } else {
-                    await RevalidateCache(router)
+                    await RevalidateCache(router, 'experiences')
                 }
             }
         }

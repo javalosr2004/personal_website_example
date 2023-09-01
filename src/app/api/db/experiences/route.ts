@@ -5,10 +5,14 @@ import { experienceType } from '@/typings/modelTypes'
 
 export const revalidate = 0
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+    const topic = req.nextUrl.searchParams.get('topic')
     await startDB()
-    const all_experiences: experienceType[] = await experienceSchema.find()
-    return NextResponse.json(all_experiences)
+    const experiences: experienceType[] = await experienceSchema.find(
+        topic ? { 'detailed.topic': topic } : {}
+    )
+
+    return NextResponse.json(experiences)
 }
 
 export async function POST(req: NextRequest) {

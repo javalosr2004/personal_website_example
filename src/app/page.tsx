@@ -7,8 +7,9 @@ import ImageSignIn from './components/signin/ImageSignIn'
 // import SimpleBlock from './components/experience/SimpleBlock'
 // import { SimpleBlockLoader } from './components/experience/SimpleBlockLoader'
 // import type { ExperienceState } from '@/store/experienceState'
-import AddExperienceLoader from './components/experience/AddExperienceLoader'
+import AdminControls from './components/experience/AdminControls'
 import { SimpleBlockLoader } from './components/experience/SimpleBlockLoader'
+import SimpleBlogLoader from './components/blog/BlogLoader'
 
 // async function getExperiences() {
 //     const DB_URL: string = (process.env.DB_API || '') + '/experiences'
@@ -35,7 +36,7 @@ export default async function HomePage() {
     // const experiences = await getExperiences()
 
     return (
-        <div className={`flex flex-col lg:w-[90vw] justify-center`}>
+        <div className={`flex flex-col lg:w-[90vw] justify-center mb-[10%]`}>
             <div className="max-w-4xl mb-10 flex flex-row self-center">
                 <div className="mr-10 flex flex-col justify-around my-10">
                     <h1 className="mt-4 text-2xl md:text-4xl">
@@ -53,7 +54,9 @@ export default async function HomePage() {
                             <br />
                             {/* <b>Welcome, {session.user?.name}</b>
                                 <br /> */}
-                            <AddExperienceLoader />
+                            <div className="lg:mb-0 mb-10">
+                                <AdminControls />
+                            </div>
                         </div>
                         {/* )} */}
                     </h2>
@@ -62,11 +65,18 @@ export default async function HomePage() {
                     <ImageSignIn></ImageSignIn>
                 </div>
             </div>
-            <div className="flex flex-col lg:flex-row lg:justify-around itesm-center lg:mr-10 justify-center items-center">
-                <div className="w-[40%]"></div>
-                <SimpleBlockLoader></SimpleBlockLoader>
+            <div className="sm:px-8 mt-10  md:mt-20">
+                <div className="mx-auto max-w-7xl lg:px-8">
+                    <div className="relative px-4 sm:px-8 lg:px-12">
+                        <div className="mx-auto max-w-2xl lg:max-w-5xl">
+                            <div className="mx-auto grid max-w-xl grid-cols-1 gap-y-20 lg:max-w-none lg:grid-cols-2">
+                                <SimpleBlogLoader></SimpleBlogLoader>
+                                <SimpleBlockLoader></SimpleBlockLoader>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div className="h-[1000px]"></div>
         </div>
     )
 }

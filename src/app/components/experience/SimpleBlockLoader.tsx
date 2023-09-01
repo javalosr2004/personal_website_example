@@ -4,9 +4,11 @@ import { ExperienceState } from '@/store/experienceState'
 import { Briefcase } from 'lucide-react'
 
 async function getExperiences() {
-    const DB_URL: string = (process.env.DB_API || '') + '/experiences'
+    const DB_URL: string =
+        process.env.HOST_URL + '/api/db/experiences?topic=work'
     const res = await fetch(DB_URL, {
         method: 'GET',
+
         // cache: 'no-store'
         next: {
             tags: ['experiences'],
@@ -36,14 +38,16 @@ export async function SimpleBlockLoader() {
     const experiences: ExperienceState[] = await getExperiences()
 
     return (
-        <div className="relative flex flex-1 flex-col border-slate-200 border-2 rounded-2xl p-4 lg:max-w-[400px] w-[80vw] pb-14">
-            <div className="flex flex-row items-center mb-[50px]">
-                <Briefcase></Briefcase>
-                <h1 className="ml-5 ">Work Experience:</h1>
-            </div>
-            {/* give all of these items a gap */}
-            <div className="gap-y-5 flex flex-col">
-                {experiences.map((experience) => SimpleBlock(experience))}
+        <div className="space-y-10 lg:pl-16 xl:pl-24">
+            <div className="rounded-2xl border border-zinc-200 p-6 dark:border-zinc-700/40 pb-10">
+                <div className="flex flex-row items-center mb-[50px]">
+                    <Briefcase></Briefcase>
+                    <h1 className="ml-5 ">Work:</h1>
+                </div>
+                {/* give all of these items a gap */}
+                <div className="gap-y-5 flex flex-col">
+                    {experiences.map((experience) => SimpleBlock(experience))}
+                </div>
             </div>
         </div>
     )
