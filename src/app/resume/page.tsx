@@ -17,6 +17,9 @@ async function getResume() {
         return null
     }
     const data: { [key: string]: ResumeType[] } = await res.json()
+    if (typeof data != 'object' || typeof data == 'string') {
+        return null
+    }
     return data
 }
 
