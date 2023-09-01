@@ -14,10 +14,9 @@ async function getResume() {
 
     if (!res.ok) {
         console.log('error fetching experiences')
-        return
+        return null
     }
     const data: { [key: string]: ResumeType[] } = await res.json()
-
     return data
 }
 
@@ -69,5 +68,37 @@ export default async function Page() {
             </div>
         )
     }
-    return <div></div>
+    return (
+        <div className="flex flex-col text-left">
+            <header>
+                <h1 className="md:text-4xl text-2xl font-extrabold">
+                    Jesus Angel Avalos-Regalado
+                </h1>
+                <p className="mt-5 md:text-sm text-xs">
+                    Santa Cruz, CA •
+                    <a
+                        type="email"
+                        className="ml-2 mt-2 hover:underline"
+                        href="jesusavalosr2004@gmail.com"
+                    >
+                        jesusavalosr2004@gmail.com
+                    </a>{' '}
+                    •
+                    <a
+                        className="ml-2 mt-2 hover:underline"
+                        href="https://www.github.com/javalosr"
+                    >
+                        github.com/jesusavalosr
+                    </a>{' '}
+                    •
+                    <a
+                        className="ml-2 mt-2 hover:underline"
+                        href="https://www.linkedin.com/javalosr"
+                    >
+                        linkedin.com/javalosr
+                    </a>
+                </p>
+            </header>
+        </div>
+    )
 }
