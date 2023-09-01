@@ -23,6 +23,7 @@ async function getResume() {
 export default async function Page() {
     const resume = await getResume()
     if (resume) {
+        console.log(resume)
         return (
             <div className="flex flex-col text-left">
                 <header>
