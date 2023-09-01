@@ -7,8 +7,10 @@ import DeleteFromDB from '../experience/DeleteExperience'
 async function getBlogPosts() {
     const res = await fetch(process.env.HOST_URL + '/api/db/blog', {
         method: 'GET',
+
         next: {
             tags: ['blog'],
+            revalidate: 3600,
         },
     })
     if (!res.ok) {

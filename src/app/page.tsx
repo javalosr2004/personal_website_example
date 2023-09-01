@@ -2,7 +2,7 @@ import React from 'react'
 import ImageSignIn from './components/signin/ImageSignIn'
 import AdminControls from './components/experience/AdminControls'
 import { SimpleBlockLoader } from './components/experience/SimpleBlockLoader'
-import SimpleBlogLoader from './components/blog/BlogLoader'
+import SimpleBlogLoader from './components/blog/SimpleBlogLoader'
 
 export default async function HomePage() {
     return (

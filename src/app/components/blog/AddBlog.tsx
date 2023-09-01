@@ -39,7 +39,7 @@ export default function AddBlog() {
         if (res.status === 200) {
             console.log('Successfully added blog!')
         }
-        RevalidateCache(router, 'blog')
+        await RevalidateCache(router, 'blog')
         closeButton.current?.click()
         setIsSubmitting(false)
     }
