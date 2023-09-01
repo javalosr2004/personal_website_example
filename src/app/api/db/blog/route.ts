@@ -6,8 +6,12 @@ import slugify from 'slugify'
 export async function GET() {
     await startDB()
 
-    const blogs = await blogSchema.find().sort({ posted: -1 })
-    return NextResponse.json(blogs)
+    try {
+        const blogs = await blogSchema.find().sort({ posted: -1 }).orFail()
+        return NextResponse.json(blogs)
+    } catch (err) {
+        return NextResponse.json('No blogs found.', { status: 404 })
+    }
 }
 
 export async function POST(req: NextRequest) {

@@ -9,19 +9,21 @@ type Props = {
 // generates from blog api route
 export async function generateStaticParams() {
     const res = await fetch(process.env.HOST_URL + '/api/db/blog')
-    const blogs: BlogsType[] = await res.json()
     if (res.ok) {
+        const blogs: BlogsType[] = await res.json()
         return blogs.map((blog) => ({
             params: { title: blog.slug },
         }))
+    } else {
+        return [{ params: { title: '404' } }]
     }
-    return
 }
 
 async function getBlog(title: string) {
     const res = await fetch(`${process.env.HOST_URL}/api/db/blog/${title}`)
-    const blog: BlogsType = await res.json()
+
     if (res.ok) {
+        const blog: BlogsType = await res.json()
         return blog
     } else {
         return null
