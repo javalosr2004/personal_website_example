@@ -9,6 +9,7 @@ async function getResume() {
         method: 'GET',
         next: {
             tags: ['experiences'],
+            revalidate: 3600,
         },
     })
 
