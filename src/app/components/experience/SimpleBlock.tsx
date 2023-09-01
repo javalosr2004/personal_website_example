@@ -29,7 +29,7 @@ export default function SimpleBlock(experience: ExperienceState) {
                     {previewImage(experience.detailed.logo)}
                     <div className="absolute w-full h-full flex items-center justify-center">
                         <DeleteExperience
-                            route="experience"
+                            route="experiences"
                             slug={experience.slug}
                         />
                     </div>
