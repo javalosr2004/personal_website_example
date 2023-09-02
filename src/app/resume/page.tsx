@@ -2,7 +2,8 @@ import React from 'react'
 import ResumeBlockLoader from '../components/resume/ResumeBlockLoader'
 import { ResumeType } from '@/typings/resumeTypes'
 
-const topics: string[] = ['work', 'education', 'projects', 'skills']
+// the way the elements are presented is based on the order of this array
+const topics: string[] = ['education', 'work', 'projects', 'skills']
 
 async function getResume() {
     const res = await fetch(`${process.env.HOST_URL}/api/db/resume`, {
@@ -59,7 +60,7 @@ export default async function Page() {
                         </a>
                     </p>
                 </header>
-                <div className="space-y-20 md:mt-10">
+                <div className="space-y-20 mt-10">
                     {topics.map((topic, index) => {
                         return (
                             <ResumeBlockLoader
