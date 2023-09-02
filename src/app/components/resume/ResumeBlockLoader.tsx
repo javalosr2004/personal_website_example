@@ -13,8 +13,8 @@ export default function ResumeBlockLoader({
     ) {
         return (
             <div className="md:border-l md:border-zinc-100 md:pl-6 md:dark:border-zinc-700/40">
-                <div className="grid max-w-3xl grid-cols-3 items-baseline gap-y-8 md:grid-cols-4">
-                    <h2 className="text-sm font-semibold text-zinc-800 dark:text-zinc-100 ml-10 max-md:mb-5 w-[20vw] ">
+                <div className="grid max-w-3xl grid-rows-1 items-baseline gap-y-8 lg:grid-cols-3">
+                    <h2 className="text-sm font-semibold text-zinc-800 dark:text-zinc-100 ml-10 md:ml-0 max-md:mb-5 w-[20vw] ">
                         {topic}
                     </h2>
 
