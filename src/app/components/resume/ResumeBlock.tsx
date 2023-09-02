@@ -2,6 +2,7 @@ import { ResumeType } from '@/typings/resumeTypes'
 import dayjs from 'dayjs'
 import React from 'react'
 
+// TODO: add a way to link up homepage to resume
 export default function ResumeBlock({
     title,
     information,
