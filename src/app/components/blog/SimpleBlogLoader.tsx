@@ -55,7 +55,8 @@ export default async function SimpleBlogLoader() {
                                 {post.title}
                             </p>
                             <p className="relative z-10 mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-                                {post.markdown.substring(0, 200) + '...'}
+                                {/* {post.markdown.substring(0, 200) + '...'} */}
+                                {post.description}
                             </p>
                             <div
                                 aria-hidden="true"

@@ -29,7 +29,7 @@ export default async function Page() {
     if (resume) {
         console.log(resume)
         return (
-            <div className="flex flex-col text-left">
+            <div className="flex flex-col">
                 <header>
                     <h1 className="md:text-4xl text-2xl font-extrabold">
                         Jesus Angel Avalos-Regalado
@@ -59,7 +59,7 @@ export default async function Page() {
                         </a>
                     </p>
                 </header>
-                <div>
+                <div className="space-y-20">
                     {topics.map((topic, index) => {
                         return (
                             <ResumeBlockLoader

@@ -2,6 +2,7 @@ import startDB from '@/lib/db'
 import experienceSchema from '@/models/experienceSchema'
 import { experienceType } from '@/typings/modelTypes'
 import { ResumeType } from '@/typings/resumeTypes'
+
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(req: NextRequest) {
@@ -29,12 +30,16 @@ export async function GET(req: NextRequest) {
             parsed[experience.detailed.topic].push({
                 title: generateName(experience),
                 information: experience.detailed.information,
+                start: experience.start_date,
+                end: experience.end_date,
             })
         } else {
             parsed[experience.detailed.topic] = [
                 {
                     title: generateName(experience),
                     information: experience.detailed.information,
+                    start: experience.start_date,
+                    end: experience.end_date,
                 },
             ]
         }

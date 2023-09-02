@@ -1,6 +1,8 @@
 interface ResumeType {
     title: string
     information: string[]
+    start?: string
+    end?: string
 }
 
 type ResumeBroadType = {
