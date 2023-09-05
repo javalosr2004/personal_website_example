@@ -66,8 +66,8 @@ export default function EditArticle({params}: {params: {title: string}}){
     return (
         <div className="flex flex-col text-left w-full">
         <div className="mb-10 gap-y-5 flex flex-col border-b-2 border-neutral-200 pb-4 md:w-[400px]">
-            <h1 className="text-4xl font-bold">{article.title}</h1>
-            <Input value={title} onChange={(e) => setTitle(e.currentTarget.value)}></Input>
+
+            <Input className="text-4xl font-bold md:text-2xl" value={title} onChange={(e) => setTitle(e.currentTarget.value)}></Input>
             <h3 className="text-md font-light text-neutral-500">
                 {dayjs(article.posted).format('MMMM D, YYYY')}
             </h3>
