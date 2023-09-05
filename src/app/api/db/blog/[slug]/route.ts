@@ -16,6 +16,18 @@ export async function GET(req: NextRequest, { params: { slug } }: Params) {
     }
 }
 
+export async function PUT(req: NextRequest, { params: { slug } }: Params) {
+    await startDB()
+    try {
+        const { title, markdown } = await req.json()
+        await blogSchema.updateOne({ slug }, { title, markdown }).orFail()
+
+        return NextResponse.json('Blog updated.', { status: 200 })
+    } catch (err) {
+        return NextResponse.json('Blog not found.', { status: 404 })
+    }
+}
+
 export async function DELETE(req: NextRequest, { params: { slug } }: Params) {
     await startDB()
     try {
