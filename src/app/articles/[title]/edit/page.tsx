@@ -41,8 +41,12 @@ export default function EditArticle({params}: {params: {title: string}}){
             }
         }
         setLoading(false)
+        if (slug === title){
+            router.back()
+            return
+        }
         router.push(`/articles/${slug}`)
-      
+        
     }
 
     useEffect(() => {
