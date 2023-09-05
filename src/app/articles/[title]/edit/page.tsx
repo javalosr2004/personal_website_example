@@ -20,6 +20,7 @@ export default function EditArticle({params}: {params: {title: string}}){
 
     const handleSubmit = async () => {
         setLoading(true)
+        let slug = title
         if (article){
             const res = await fetch(`/api/db/blog/${article.slug}`, {
                 method: 'PUT',
@@ -34,11 +35,13 @@ export default function EditArticle({params}: {params: {title: string}}){
             if (res.ok){
                 const data = await res.json()
                 console.log(data)
+                slug = data.slug
+
                 RevalidateCache(router, 'blog')
             }
         }
         setLoading(false)
-        router.back()
+        router.push(`/articles/${slug}`)
       
     }
 

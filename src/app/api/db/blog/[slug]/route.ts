@@ -30,7 +30,10 @@ export async function PUT(req: NextRequest, { params: { slug } }: Params) {
             .updateOne({ slug }, { slug: new_slug, title, markdown })
             .orFail()
 
-        return NextResponse.json('Blog updated.', { status: 200 })
+        return NextResponse.json(
+            { message: 'Blog updated.', slug: new_slug },
+            { status: 200 }
+        )
     } catch (err) {
         return NextResponse.json('Blog not found.', { status: 404 })
     }
