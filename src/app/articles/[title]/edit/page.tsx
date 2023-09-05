@@ -5,6 +5,7 @@ import dayjs from "dayjs";
 import { Input } from "@/components/ui/input";
 import { RevalidateCache } from "@/app/components/experience/RevalidateCache";
 import { useRouter } from "next/navigation";
+import { Button } from "react-day-picker";
 
 
 // TODO: Server side edit paramater
@@ -73,7 +74,7 @@ export default function EditArticle({params}: {params: {title: string}}){
         </div>
         <textarea className="h-[300px] w-[50%]" value={markdown} onChange={(e) => setMarkdown(e.currentTarget.value)}></textarea>
         <div className="w-full justify-center">
-            <button className="w-[100px] " onClick={handleSubmit} disabled={loading}>Save</button>
+            <Button className="w-[100px] " onClick={handleSubmit} disabled={loading}>Save</Button>
         </div>
     </div>
     )

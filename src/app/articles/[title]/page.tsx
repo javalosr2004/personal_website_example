@@ -3,6 +3,7 @@ import { BlogsType } from '@/typings/blogTypes'
 import dayjs from 'dayjs'
 import React from 'react'
 import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 
 type Props = {
     params: { title: string }
@@ -64,6 +65,7 @@ export default async function Page({ params: { title } }: Props) {
                     </h3>
                 </div>
                 <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
                     className="w-[90%] prose"
                     children={blog.markdown}
                 />
