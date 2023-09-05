@@ -1,6 +1,7 @@
 import startDB from '@/lib/db'
 import blogSchema from '@/models/blogSchema'
 import { NextRequest, NextResponse } from 'next/server'
+import slugify from 'slugify'
 type Params = {
     params: {
         slug: string
@@ -20,7 +21,14 @@ export async function PUT(req: NextRequest, { params: { slug } }: Params) {
     await startDB()
     try {
         const { title, markdown } = await req.json()
-        await blogSchema.updateOne({ slug }, { title, markdown }).orFail()
+        const new_slug = slugify(title, {
+            lower: true,
+            replacement: '_',
+            remove: /[*+~.()'"!:@]/g,
+        })
+        await blogSchema
+            .updateOne({ slug }, { slug: new_slug, title, markdown })
+            .orFail()
 
         return NextResponse.json('Blog updated.', { status: 200 })
     } catch (err) {
